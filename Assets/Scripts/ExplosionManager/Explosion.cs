@@ -1,0 +1,25 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Explosion : MonoBehaviour
+{
+    public float m_duration = 1.0f;
+    private float m_timer = 0.0f;
+
+    void OnEnable()
+    {
+        m_timer = 0.0f;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        m_timer += Time.deltaTime;
+        if(m_timer >= m_duration)
+        {
+            //disable
+            this.gameObject.SetActive(false);
+        }
+    }
+}
