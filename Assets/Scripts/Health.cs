@@ -18,28 +18,11 @@ public class Health : MonoBehaviour
     public Texture m_emptyBarTexture;
     public float m_recentDamageTaken = 0.0f;
 
-    [Header("Elemental effects")]
-    public float m_fireDmgTknPerSec = 5.0f;
-    public float m_fireDuration = 5.0f;
-    private float m_fireTimer = 0.0f;
-    public ParticleSystem m_fireEffect;
-
-    public float m_iceMoveSlowAmount = 0.5f;
-    public float m_slowDuration = 5.0f;
-    private float m_slowTimer = 0.0f;
-    public ParticleSystem m_iceEffect;
-
-
-    public float m_stunDuration = 5.0f;
-    private bool m_isStuned = false;
-    private float m_stunTimeStart = 0.0f;
-    public ParticleSystem m_stunEffect;
-
-
     //Agent
     private NavMeshAgent m_agent;
     //original move speed;
-    private float m_originalMoveSpeed = 0.0f;
+    [HideInInspector]
+    public float m_originalMoveSpeed = 0.0f;
 
     //old health;
     private float m_oldHealth = 0.0f;
@@ -47,15 +30,21 @@ public class Health : MonoBehaviour
 
     private ExpManager m_expManager;
     private DamageNumberManager m_damageNumbersManager;
+    private StatusEffectManager m_statusEffectManager;
+
+
     //public Transform m_RecentAttacker;
 
-
+    [HideInInspector]
+    public bool m_setOnFire = false, m_causeStun = false, m_causeSlow = false;
 
 
     //status effects
     [Header("Status Effects")]
-    public bool isOnFire = false;
-    public bool isFrozen = false;
+    public bool m_onFire = false;
+    public bool m_isSlowed = false;
+    public bool m_isStunned = false;
+
     void Start()
     {
         m_agent = this.GetComponent<NavMeshAgent>();
@@ -66,6 +55,8 @@ public class Health : MonoBehaviour
         }
         m_expManager = GameObject.FindObjectOfType<ExpManager>();
         m_damageNumbersManager = GameObject.FindObjectOfType<DamageNumberManager>();
+        m_statusEffectManager = GameObject.FindObjectOfType<StatusEffectManager>();
+        
 
         m_oldHealth = m_currHealth;
     }
@@ -92,7 +83,8 @@ public class Health : MonoBehaviour
 
             if (!m_godMode)
             {
-                GameObject.Destroy(this.gameObject, Time.deltaTime);
+                this.gameObject.SetActive(false);
+                //GameObject.Destroy(this.gameObject, Time.deltaTime);
             }
             else
             {
@@ -102,118 +94,30 @@ public class Health : MonoBehaviour
             //handle death state
         }
 
-
-        if (isOnFire)
+        ///STATUS EFFECTS
+        //if set on fire and previously not on fire. to avoid effect stacking
+        if (m_setOnFire && !m_onFire)
         {
-            TakeFireDamage();
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.OnFire);
+            m_setOnFire = false;
+
         }
 
-        if (isFrozen)
+        if (m_causeSlow && !m_isSlowed)
         {
-            IceSlow();
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.Slowed);
+            m_causeSlow = false;
         }
 
-        if (m_isStuned)
+        if (m_causeStun && !m_isStunned)
         {
-            stunEffect();
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.Stunned);
+            m_causeStun = false;
         }
 
         m_oldHealth = m_currHealth;
     }
 
-
-
-    void IceSlow()
-    {
-        if (m_iceEffect != null)
-        {
-            m_iceEffect.Play();
-        }
-        if (m_agent != null)
-        {
-            m_agent.speed = m_iceMoveSlowAmount * m_originalMoveSpeed;
-        }
-
-        m_slowTimer += Time.deltaTime;
-
-        if (m_slowTimer >= m_slowDuration)
-        {
-            if (m_iceEffect != null)
-            {
-                m_iceEffect.Stop();
-            }
-
-            if (m_agent != null)
-            {
-                m_agent.speed = m_originalMoveSpeed;
-            }
-            m_slowTimer = 0.0f;
-            isFrozen = false;
-        }
-
-    }
-
-
-    void TakeFireDamage()
-    {
-        if (m_fireEffect != null)
-        {
-            m_fireEffect.Play();
-        }
-
-
-
-        m_fireTimer += Time.deltaTime;
-
-        if (m_fireTimer % 1.0f < 0.01f)
-        {
-            m_currHealth -= m_fireDmgTknPerSec;
-            m_damageNumbersManager.CreateDamageNumber((m_fireDmgTknPerSec).ToString(), this.transform);
-        }
-
-
-        if (m_fireTimer >= m_fireDuration)
-        {
-            if (m_fireEffect != null)
-            {
-                m_fireEffect.Stop();
-            }
-            m_fireTimer = 0.0f;
-            isOnFire = false;
-        }
-
-    }
-
-    private void stunEffect()
-    {
-        //stun finished
-        if (Time.time - m_stunTimeStart > m_stunDuration)
-        {
-            m_isStuned = false;
-            if (m_agent != null)
-            {
-                m_agent.speed = m_originalMoveSpeed;
-            }
-            if (m_stunEffect != null)
-            {
-                m_stunEffect.Stop();
-            }
-            //allow the enemy to attack again
-            EnemyAttack ea = GetComponent<EnemyAttack>();
-            if (ea != null)
-            {
-                ea.m_CanAttack = true;
-            }
-        }
-        else
-        {//stun in effect
-            if (m_agent != null)
-            {
-                m_agent.speed = 0.0f;
-            }
-
-        }
-    }
 
 
 
@@ -230,30 +134,19 @@ public class Health : MonoBehaviour
 
         }
 
-        if (isOnFire)
+        if (m_onFire)
         {
             Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
             GUI.Label(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 80, m_healthBarWidth, 20), "ON FIRE!");
         }
-    }
 
-    internal void stunEnemy()
-    {
-        m_stunTimeStart = Time.time;
-        //only run this if the enemy is not already stunned
-        if (!m_isStuned)
+        if (m_isStunned)
         {
-            m_isStuned = true;
-            if (m_stunEffect != null)
-            {
-                m_stunEffect.Play();
-            }
-            //stop the enemy from attacking
-            EnemyAttack ea = GetComponent<EnemyAttack>();
-            if (ea != null)
-            {
-                ea.m_CanAttack = false;
-            }
+            Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
+            GUI.Label(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 80, m_healthBarWidth, 20), "STUNNED!");
         }
     }
+
+
+    
 }

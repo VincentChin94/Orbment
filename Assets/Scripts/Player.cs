@@ -45,9 +45,8 @@ public class Player : MonoBehaviour
 
     private float m_playerFireTimer = 0.0f;
     private int m_shootPlane;
-    private ParticleSystem m_dashParticle;
+
     private TrailRenderer m_dashTrail;
-    private float m_startingHeight = 0.0f;
     private Mana m_manaPool;
     private Health m_health;
 
@@ -80,7 +79,8 @@ public class Player : MonoBehaviour
     public GameObject m_ringOfFireParticles;
     private bool m_ringOfFireActive = false;
 
-
+    [Header("Stun")]
+    public bool m_hasStunPerk = false;
 
 
     void Start()
@@ -93,11 +93,9 @@ public class Player : MonoBehaviour
 
         m_halo = this.GetComponent("Halo");
 
-        m_startingHeight = this.transform.position.y;
         m_shootPlane = LayerMask.GetMask("ShootPlane");
         //Cursor.visible = false;
 
-        m_dashParticle = this.GetComponent<ParticleSystem>();
         m_dashTrail = this.GetComponent<TrailRenderer>();
     }
 
@@ -131,6 +129,8 @@ public class Player : MonoBehaviour
                     {
                         m_currWeapon.m_hasFireSplash = this.m_hasFireSplash;
                         m_currWeapon.m_hasIceSplit = this.m_hasIceSplit;
+                        m_currWeapon.m_hasStunPerk = this.m_hasStunPerk;
+
                         m_currWeapon.Fire(this.transform.forward, m_currentDamagePerProjectile);
                     }
                     m_manaPool.m_currentMana -= m_shootManaCost;

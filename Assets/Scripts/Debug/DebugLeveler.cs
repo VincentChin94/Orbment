@@ -20,7 +20,7 @@ public class DebugLeveler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.CompareTag("PlayerBullet"))
+        if(collision.collider.CompareTag("Bullet"))
         {
             m_xpManager.m_playerExperience += m_XP_Per_Hit;
         }

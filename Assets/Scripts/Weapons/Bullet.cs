@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
     private Collider m_collider;
     private Light m_light;
     private TrailRenderer m_trail;
-    private DamageNumberManager m_damageNumbersManager;
+
     private ExplosionManager m_explosionManager;
 
     /// <summary>
@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour
     [Header("STUN")]
     [Range(0, 100)]
     public float m_StunChance = 25.0f;
+    public bool m_hasStunPerk = false;
 
     public enum ProjectileType
     {
@@ -58,10 +59,10 @@ public class Bullet : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-        m_trail = this.GetComponent<TrailRenderer>();
-        m_damageNumbersManager = GameObject.FindObjectOfType<DamageNumberManager>();
         m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
+        m_trail = this.GetComponent<TrailRenderer>();
+ 
+
     }
 
     private void OnEnable()
@@ -112,17 +113,6 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    IEnumerator DisableAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        // Code to execute after the delay
-
-        Disable();
-    }
-
-
-
     void CameraCheck()
     {
         //disable when object leaves camera view
@@ -139,7 +129,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(m_id == "")
+
+        if (m_id == "")
         {
             return;
         }
@@ -170,27 +161,23 @@ public class Bullet : MonoBehaviour
                         {
 
                             //ran
-                            if (Random.Range(0.0f, 100.0f) <= m_StunChance)
+                            if (m_hasStunPerk && Random.Range(0.0f, 100.0f) <= m_StunChance)
                             {
-                                enemyHealth.stunEnemy();
+                                enemyHealth.m_causeStun = true;
                             }
 
-                            enemyHealth.isOnFire = true;
+                            enemyHealth.m_setOnFire = true;
                         }
 
 
                         //if AOE toggled on 
                         if (m_fireSplash)
                         {
-                            m_explosionManager.RequestExplosion(this.transform.position, ExplosionManager.ExplosionType.Fire);
+                            m_explosionManager.RequestExplosion(collision.contacts[0].point, ExplosionManager.ExplosionType.Fire);
 
                         }
 
                         Disable();
-
-
-
-
 
 
                         break;
@@ -253,7 +240,7 @@ public class Bullet : MonoBehaviour
                     {
                         if (enemyHealth != null)
                         {
-                            enemyHealth.isFrozen = true;
+                            enemyHealth.m_causeSlow = true;
                         }
 
                         if (m_iceSplit)

@@ -8,12 +8,11 @@ using UnityEngine.AI;
 public class Attack : StateMachineBehaviour
 {
 
-    private NavMeshAgent m_agent;
+
     private FindObjectsInRadius m_foir;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        m_agent = animator.GetComponent<NavMeshAgent>();
         m_foir = animator.GetComponent<FindObjectsInRadius>();
     }
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

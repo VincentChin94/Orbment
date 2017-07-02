@@ -8,7 +8,7 @@ public class ProtectorVision : MonoBehaviour
 {
     
     public float m_sightRadius = 1000.0f;
-    private NavMeshAgent m_agent;
+    //private NavMeshAgent m_agent;
 
     private Collider[] insideSphere;
     public Transform m_leader;
@@ -19,7 +19,7 @@ public class ProtectorVision : MonoBehaviour
     
     void Start()
     {
-        m_agent = this.GetComponent<NavMeshAgent>();
+        //m_agent = this.GetComponent<NavMeshAgent>();
 
     }
 

@@ -8,7 +8,7 @@ public class DropCollectable : MonoBehaviour
     public int m_numberOfOrbsDropped = 1;
     // Use this for initialization
     //private GameObject 
-    private bool isQuitting = false;
+
     private Health m_healthScript;
     private GameObject[] m_collectables;
     private bool doOnce = false;

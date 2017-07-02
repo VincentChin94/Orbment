@@ -9,8 +9,10 @@ public class BaseWeapon : MonoBehaviour
     public GameObject m_projectile;
     public uint m_maxBulletsOnScreen = 50;
 
+    [Header("Perks")]
     public bool m_hasFireSplash = false;
     public bool m_hasIceSplit = false;
+    public bool m_hasStunPerk = false;
 
 
     protected List<GameObject> m_projectilePool = new List<GameObject>();
@@ -65,9 +67,10 @@ public class BaseWeapon : MonoBehaviour
                     m_projectilePool[i].transform.position = this.transform.position;
                     m_projectilePool[i].SetActive(true);
 
-                    //if has AOE
+                   
                     m_projectileScripts[i].m_fireSplash = this.m_hasFireSplash;
                     m_projectileScripts[i].m_iceSplit = this.m_hasIceSplit;
+                    m_projectileScripts[i].m_hasStunPerk = this.m_hasStunPerk;
 
                     m_projectileScripts[i].m_damage = damagePerProjectile;
                     //insert to active pool

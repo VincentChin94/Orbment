@@ -8,7 +8,7 @@ public class DefenderVision : MonoBehaviour
 {
     public string m_targetTag;
     public float m_sightRadius = 20.0f;
-    private NavMeshAgent m_agent;
+    //private NavMeshAgent m_agent;
     public Vector3 m_originalPos;
     private Collider[] insideSphere;
     public Transform m_target;
@@ -16,7 +16,7 @@ public class DefenderVision : MonoBehaviour
     public bool inSight = false;
     void Start()
     {
-        m_agent = this.GetComponent<NavMeshAgent>();
+        //m_agent = this.GetComponent<NavMeshAgent>();
         m_originalPos = this.transform.position;
     }
 
