@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Explosion))]
 public class FireExplosion : MonoBehaviour
 {
-    public float m_damage = 5.0f;
+    public float m_splashRatio = 0.5f;
 
+    private Explosion m_explosionScript;
+
+    private void Start()
+    {
+        m_explosionScript = this.GetComponent<Explosion>();
+    }
 
     void OnTriggerEnter(Collider col)
     {
@@ -16,7 +23,7 @@ public class FireExplosion : MonoBehaviour
             if (healthScript != null)
             {
 
-                healthScript.m_currHealth -= m_damage;
+                healthScript.m_currHealth -= m_explosionScript.m_damage * m_splashRatio;
 
             }
         }

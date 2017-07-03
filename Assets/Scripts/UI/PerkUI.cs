@@ -38,10 +38,10 @@ public class PerkUI : MonoBehaviour {
 
 	public void updatePerkUI(Perk a_Perk) {
 		if(a_Perk == null) {
-			m_Text.text = "NO PERK";
+			//m_Text.text = "NO PERK";
 		}
 		//todo set text/image
 		m_Text.text = a_Perk.m_name;
-		print("perk "+a_Perk.m_name+": setting the image of perk " + m_PerkIndex + " is not implemented");
+		//print("perk "+a_Perk.m_name+": setting the image of perk " + m_PerkIndex + " is not implemented");
 	}
 }

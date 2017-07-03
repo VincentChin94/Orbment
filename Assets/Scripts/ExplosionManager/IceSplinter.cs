@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Explosion))]
 public class IceSplinter : MonoBehaviour
 {
-    public float m_seekRadius = 5;
+
+    public float m_dmgPerProjectileRatio = 0.5f;
+    private Explosion m_explosionScript;
+
     private Bullet[] m_shards;
     
     void Start()
     {
         m_shards = this.GetComponentsInChildren<Bullet>();
-
+        m_explosionScript = this.GetComponent<Explosion>();
     }
     void OnEnable()
     {
@@ -25,11 +29,11 @@ public class IceSplinter : MonoBehaviour
             Vector3 direction = Random.onUnitSphere;
             direction.y = 0;
             m_shards[i].m_direction = direction.normalized;
+            m_shards[i].m_damage = m_explosionScript.m_damage * m_dmgPerProjectileRatio;
             m_shards[i].gameObject.SetActive(true);
         }
 
-        //Collider[] insideSphere = Physics.OverlapSphere(this.transform.position, m_seekRadius);
-
+        
 
     }
 }

@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     [Header("Damage")]
     public float m_damage = 5;
     [Header("Projecile Speed")]
-    public float m_projectileSpeed = 10;
+    public float m_projectileSpeed = 50;
     [HideInInspector]
     public BaseWeapon m_weaponFiredFrom;
     [Header("Culling Offset")]
@@ -25,7 +25,8 @@ public class Bullet : MonoBehaviour
     private Light m_light;
     private TrailRenderer m_trail;
 
-    private ExplosionManager m_explosionManager;
+    protected ExplosionManager m_explosionManager;
+    protected Health m_enemyHealth = null;
 
     /// <summary>
     /// Area of Effect
@@ -57,7 +58,7 @@ public class Bullet : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    protected virtual void Start()
     {
         m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
         m_trail = this.GetComponent<TrailRenderer>();
@@ -65,7 +66,7 @@ public class Bullet : MonoBehaviour
 
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         m_light = this.GetComponent<Light>();
         m_collider = this.GetComponent<Collider>();
@@ -80,7 +81,7 @@ public class Bullet : MonoBehaviour
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
 
         this.transform.position += m_direction * m_projectileSpeed * Time.deltaTime;
@@ -95,10 +96,11 @@ public class Bullet : MonoBehaviour
     }
 
     //is is camera view?
-    private void Disable()
+    protected void Disable()
     {
 
         m_timer = 0.0f;
+        m_enemyHealth = null;
         this.gameObject.SetActive(false);
         if (m_trail != null)
         {
@@ -113,7 +115,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    void CameraCheck()
+    protected void CameraCheck()
     {
         //disable when object leaves camera view
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(this.transform.position);
@@ -127,7 +129,7 @@ public class Bullet : MonoBehaviour
 
 
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
 
         if (m_id == "")
@@ -137,129 +139,18 @@ public class Bullet : MonoBehaviour
 
         if (!collision.collider.CompareTag(m_id))
         {
-            Health enemyHealth = collision.collider.GetComponent<Health>();
-
-            if (enemyHealth != null)
+             m_enemyHealth = collision.collider.GetComponent<Health>();
+            //do base damage
+            if (m_enemyHealth != null)
             {
-                enemyHealth.m_currHealth -= m_damage;
-                enemyHealth.m_recentDamageTaken = m_damage;
+                m_enemyHealth.m_currHealth -= m_damage;
+                m_enemyHealth.m_recentDamageTaken = m_damage;
 
 
             }
-            switch (m_type)
-            {
-                case ProjectileType.Normal:
-                    {
-                        //nothing
-                        Disable();
-                        break;
-                    }
-                case ProjectileType.FireBall:
-                    {
-                        //set on fire
-                        if (enemyHealth != null)
-                        {
-
-                            //ran
-                            if (m_hasStunPerk && Random.Range(0.0f, 100.0f) <= m_StunChance)
-                            {
-                                enemyHealth.m_causeStun = true;
-                            }
-
-                            enemyHealth.m_setOnFire = true;
-                        }
-
-
-                        //if AOE toggled on 
-                        if (m_fireSplash)
-                        {
-                            m_explosionManager.RequestExplosion(collision.contacts[0].point, ExplosionManager.ExplosionType.Fire);
-
-                        }
-
-                        Disable();
-
-
-                        break;
-                    }
-                case ProjectileType.Lightning:
-                    {
-                        //change to create prefab?!
-                        GameObject go = new GameObject("Lightning script");
-                        LightningHandler lh = go.AddComponent<LightningHandler>();
-                        lh.m_BaseDamage = this.m_damage;
-                        if (enemyHealth != null)
-                        {
-                            lh.startAttack(enemyHealth.gameObject);
-                        }
-
-                        Destroy(go, 0.2f);
-
-                        Disable();
-                        break;
-                    }
-
-                case ProjectileType.Bouncing:
-                    {
-
-                        Collider[] nearby = Physics.OverlapSphere(this.transform.position, 10.0f);
-                        float closest = Mathf.Infinity;
-                        Collider closestCollider = null;
-                        foreach (Collider col in nearby)
-                        {
-                            if (!col.CompareTag(m_id) && col != collision.collider)
-                            {
-                                float distance = Vector3.Distance(col.transform.position, this.transform.position);
-                                if (distance < closest)
-                                {
-                                    closestCollider = col;
-                                    closest = distance;
-                                }
-
-                            }
-                        }
-
-                        if (closestCollider != null)
-                        {
-                            Vector3 newDIr = closestCollider.transform.position - this.transform.position;
-                            this.m_direction = newDIr.normalized;
-                            this.m_damage -= this.m_damage * 0.2f;
-                        }
-
-                        if (m_damage <= 1.0f || closestCollider == null)
-                        {
-                            Disable();
-
-                        }
-
-
-                        break;
-                    }
-
-                case ProjectileType.IceShard:
-                    {
-                        if (enemyHealth != null)
-                        {
-                            enemyHealth.m_causeSlow = true;
-                        }
-
-                        if (m_iceSplit)
-                        {
-                            m_explosionManager.RequestExplosion(this.transform.position, ExplosionManager.ExplosionType.Ice);
-
-                        }
-
-
-                        Disable();
-                        break;
-                    }
-            }
-
-
-
-
-
         }
+           
+
 
 
 

@@ -19,6 +19,8 @@ public class ExplosionManager : MonoBehaviour
     public GameObject m_fireExplosionPrefab;
     public GameObject m_lightningExplosionPrefab;
 
+
+
     private List<GameObject> m_fireExplosionPool = new List<GameObject>();
     private List<GameObject> m_IceExplosionPool = new List<GameObject>();
     private List<GameObject> m_lightningExplosionPool = new List<GameObject>();
@@ -63,7 +65,7 @@ public class ExplosionManager : MonoBehaviour
 
     }
 
-    public void RequestExplosion(Vector3 a_position, ExplosionType a_type)
+    public GameObject RequestExplosion(Vector3 a_position, ExplosionType a_type, float a_damage)
     {
         GameObject explosion = null;
 
@@ -90,8 +92,15 @@ public class ExplosionManager : MonoBehaviour
         if (explosion != null)
         {
             explosion.transform.position = a_position;
+            Explosion explosionScript = explosion.GetComponent<Explosion>();
+            if (explosionScript != null)
+            {
+                explosionScript.m_damage = a_damage;
+            }
+
             explosion.SetActive(true);
         }
+        return explosion;
     }
 
     GameObject FindInactive(List<GameObject> a_pool)
