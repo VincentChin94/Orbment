@@ -32,6 +32,7 @@ public class Health : MonoBehaviour
     private DamageNumberManager m_damageNumbersManager;
     private StatusEffectManager m_statusEffectManager;
 
+    private IsoCam m_camera;
 
     //public Transform m_RecentAttacker;
 
@@ -59,6 +60,11 @@ public class Health : MonoBehaviour
         
 
         m_oldHealth = m_currHealth;
+
+        if(isPlayer)
+        {
+            m_camera = GameObject.FindObjectOfType<IsoCam>();
+        }
     }
 
     // Update is called once per frame
@@ -69,6 +75,10 @@ public class Health : MonoBehaviour
         if (m_oldHealth != m_currHealth)
         {
             m_damageNumbersManager.CreateDamageNumber(Mathf.CeilToInt(m_oldHealth - m_currHealth).ToString(), this.transform);
+            if(m_camera != null)
+            {
+                m_camera.Shake(0.5f, 0.1f);
+            }
         }
 
         //if dead

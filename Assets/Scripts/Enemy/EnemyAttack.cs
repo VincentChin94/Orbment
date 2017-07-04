@@ -14,6 +14,7 @@ public class EnemyAttack : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+       
         m_foir = this.GetComponent<FindObjectsInRadius>();
     }
 
@@ -40,7 +41,7 @@ public class EnemyAttack : MonoBehaviour
                     if (playerHealth != null)
                     {
                         playerHealth.m_currHealth -= m_damage;
-                        Debug.DrawLine(this.transform.position, m_foir.m_target.position, Color.black);
+                       
                     }
                 }
             }
