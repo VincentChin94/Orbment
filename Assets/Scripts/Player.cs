@@ -83,8 +83,13 @@ public class Player : MonoBehaviour
     public bool m_hasStunPerk = false;
 
 
+
+
+    private IsoCam m_camera;
+
     void Start()
     {
+        m_camera = GameObject.FindObjectOfType<IsoCam>();
 
         m_weapons = new List<BaseWeapon>();
         m_charCont = this.GetComponent<CharacterController>();
@@ -97,6 +102,11 @@ public class Player : MonoBehaviour
         //Cursor.visible = false;
 
         m_dashTrail = this.GetComponent<TrailRenderer>();
+
+        if(m_dashTrail != null)
+        {
+            m_dashTrail.enabled = false;
+        }
     }
 
 
@@ -132,6 +142,11 @@ public class Player : MonoBehaviour
                         m_currWeapon.m_hasStunPerk = this.m_hasStunPerk;
 
                         m_currWeapon.Fire(this.transform.forward, m_currentDamagePerProjectile);
+
+                        if(m_camera != null)
+                        {
+                            m_camera.Shake(0.1f, m_playerFiringInterval);
+                        }
                     }
                     m_manaPool.m_currentMana -= m_shootManaCost;
                 }
@@ -152,7 +167,12 @@ public class Player : MonoBehaviour
         //dash
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
+            if (m_dashTrail != null)
+            {
+                m_dashTrail.enabled = true;
+               
+            }
+            
             m_dashDirection = m_movement.normalized;
             m_dashing = true;
 
@@ -289,12 +309,20 @@ public class Player : MonoBehaviour
 
         m_dashTimer += Time.deltaTime;
 
+        float ratio = m_dashTimer / m_dashTime;
+
         if (m_dashTimer >= m_dashTime)
         {
             m_dashTimer = 0.0f;
             m_dashing = false;
-        }
 
+            if (m_dashTrail != null)
+            {
+                m_dashTrail.Clear();
+                m_dashTrail.enabled = false;
+            }
+        }
+        
     }
 
     void RegenMana()

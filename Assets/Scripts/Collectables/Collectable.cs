@@ -23,7 +23,10 @@ public class Collectable : MonoBehaviour
         {
             m_playerRef.m_orbsCollected++;
             //destroy collectable
-            GameObject.Destroy(this.gameObject);
+            this.transform.position = collision.collider.transform.position;
+            this.transform.SetParent(collision.collider.transform);
+            this.gameObject.SetActive(false);
+            //GameObject.Destroy(this.gameObject);
         }
     }
 
