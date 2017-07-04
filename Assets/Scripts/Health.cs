@@ -74,9 +74,10 @@ public class Health : MonoBehaviour
 
         if (m_oldHealth != m_currHealth)
         {
-            m_damageNumbersManager.CreateDamageNumber(Mathf.CeilToInt(m_oldHealth - m_currHealth).ToString(), this.transform);
-            if(m_camera != null)
+            m_damageNumbersManager.CreateDamageNumber(Mathf.CeilToInt(m_currHealth - m_oldHealth).ToString(), this.transform);
+            if(m_camera != null && m_currHealth < m_oldHealth)
             {
+                //shake cam if hurt
                 m_camera.Shake(0.5f, 0.1f);
             }
         }
