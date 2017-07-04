@@ -11,11 +11,11 @@ public class IncreaseHealth : PerkUpgrader
 
     public void Start()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Player player = GameObject.FindObjectOfType<Player>();
 
         if (player != null)
         {
-            m_Health = player.GetComponent<Health>();
+            m_Health = player.gameObject.GetComponent<Health>();
         }
     }
 
