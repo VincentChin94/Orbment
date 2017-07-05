@@ -79,6 +79,11 @@ public class Player : MonoBehaviour
     public GameObject m_ringOfFireParticles;
     private bool m_ringOfFireActive = false;
 
+    public bool m_hasLightningFieldPerk = false;
+    public float m_lightningFieldPercentThreshold = 25.0f;
+    public GameObject m_lightningField;
+    private bool m_lightningFieldActive = false;
+
     [Header("Stun")]
     public bool m_hasStunPerk = false;
 
@@ -279,6 +284,7 @@ public class Player : MonoBehaviour
 
     void ElementalRingCheck()
     {
+        //////////////////////////////////////Ring of FIRE
         if (m_ringOfFireParticles == null)
         {
             return;
@@ -298,6 +304,29 @@ public class Player : MonoBehaviour
         }
 
         m_ringOfFireParticles.SetActive(m_ringOfFireActive);
+
+
+        //////////////////////////////////////Lightning Field
+        if (m_lightningField == null)
+        {
+            return;
+        }
+        //if health is below threshold turn on ring of fire
+        if (m_hasLightningFieldPerk && HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
+        {
+
+
+            m_lightningFieldActive = true;
+
+        }
+
+        if (m_lightningFieldActive && HealthAbovePercentCheck(m_lightningFieldPercentThreshold))
+        {
+            m_lightningFieldActive = false;
+        }
+
+        m_lightningField.SetActive(m_lightningFieldActive);
+
     }
 
 
