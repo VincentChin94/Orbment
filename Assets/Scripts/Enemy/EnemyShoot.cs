@@ -7,7 +7,7 @@ public class EnemyShoot : MonoBehaviour
 {
     public float m_damagePerProjectile = 10;
     public float m_attackInterval = 1.0f;
-    public bool m_CanAttack = true;
+    public bool m_canAttack = true;
 
     private FindObjectsInRadius m_foir;
     private BaseWeapon m_weapon;
@@ -23,7 +23,7 @@ public class EnemyShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!m_CanAttack)
+        if (!m_canAttack)
         {
             return;
         }

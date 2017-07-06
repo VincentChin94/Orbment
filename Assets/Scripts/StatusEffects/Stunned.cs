@@ -9,6 +9,9 @@ public class Stunned : StatusEffect
  
     private float m_timer = 0.0f;
     private NavMeshAgent m_agent;
+    private EnemyAttack m_enemyAttack;
+    private EnemyShoot m_enemyShoot;
+
     // Use this for initialization
     void Start()
     {
@@ -24,6 +27,9 @@ public class Stunned : StatusEffect
         }
 
         m_agent = this.GetComponentInParent<NavMeshAgent>();
+
+        m_enemyAttack = this.GetComponentInParent<EnemyAttack>();
+        m_enemyShoot = this.GetComponentInParent<EnemyShoot>();
     }
     // Update is called once per frame
     protected override void Update()
@@ -34,6 +40,14 @@ public class Stunned : StatusEffect
         if (m_agent != null)
         {
             m_agent.speed = 0.0f;
+            if (m_enemyAttack != null)
+            {
+                m_enemyAttack.m_CanAttack = false;
+            }
+            if(m_enemyShoot != null)
+            {
+                m_enemyShoot.m_canAttack = false;
+            }
         }
 
         if (m_timer >= m_lifetime)
@@ -47,6 +61,18 @@ public class Stunned : StatusEffect
             {
                 m_agent.speed = m_health.m_originalMoveSpeed;
             }
+
+            if (m_enemyAttack != null)
+            {
+                m_enemyAttack.m_CanAttack = true;
+            }
+
+            if (m_enemyShoot != null)
+            {
+                m_enemyShoot.m_canAttack = true;
+            }
+
+
 
             ReturnToSender();
 
