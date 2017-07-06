@@ -50,7 +50,7 @@ public class IsoCam : MonoBehaviour
         m_shakeDuration = a_shakeDuration;
        
         m_shake = true;
-        this.transform.position += Random.onUnitSphere * a_shakeAmount;
+        this.transform.position += Random.onUnitSphere * a_shakeAmount * Time.deltaTime;
     }
 
 

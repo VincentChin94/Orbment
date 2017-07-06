@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
 
                         if(m_camera != null)
                         {
-                            m_camera.Shake(0.1f, m_playerFiringInterval);
+                            m_camera.Shake(5.0f, m_playerFiringInterval);
                         }
                     }
                     m_manaPool.m_currentMana -= m_shootManaCost;

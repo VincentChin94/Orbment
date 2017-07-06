@@ -32,6 +32,7 @@ public class Health : MonoBehaviour
     private DamageNumberManager m_damageNumbersManager;
     private StatusEffectManager m_statusEffectManager;
 
+
     private IsoCam m_camera;
 
     //public Transform m_RecentAttacker;
@@ -57,13 +58,14 @@ public class Health : MonoBehaviour
         m_expManager = GameObject.FindObjectOfType<ExpManager>();
         m_damageNumbersManager = GameObject.FindObjectOfType<DamageNumberManager>();
         m_statusEffectManager = GameObject.FindObjectOfType<StatusEffectManager>();
-        
+       
 
         m_oldHealth = m_currHealth;
 
         if(isPlayer)
         {
             m_camera = GameObject.FindObjectOfType<IsoCam>();
+
         }
     }
 
@@ -77,8 +79,9 @@ public class Health : MonoBehaviour
             m_damageNumbersManager.CreateDamageNumber(Mathf.CeilToInt(m_oldHealth - m_currHealth).ToString(), this.transform);
             if(m_camera != null && m_currHealth < m_oldHealth)
             {
-                //shake cam if hurt
-                m_camera.Shake(0.5f, 0.1f);
+                //shake cam if player hurt
+                m_camera.Shake(10.0f, 0.1f);
+
             }
         }
 

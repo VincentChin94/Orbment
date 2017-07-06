@@ -19,7 +19,7 @@ public class ExplosionManager : MonoBehaviour
     public GameObject m_fireExplosionPrefab;
     public GameObject m_lightningExplosionPrefab;
 
-
+    private Player m_player;
 
     private List<GameObject> m_fireExplosionPool = new List<GameObject>();
     private List<GameObject> m_IceExplosionPool = new List<GameObject>();
@@ -33,6 +33,7 @@ public class ExplosionManager : MonoBehaviour
     void Start()
     {
         //object pooling
+        m_player = GameObject.FindObjectOfType<Player>();
         m_camera = GameObject.FindObjectOfType<IsoCam>();
 
         for (uint i = 0; i < m_poolAmount; ++i)
@@ -104,7 +105,12 @@ public class ExplosionManager : MonoBehaviour
             explosion.SetActive(true);
             if (m_camera != null && a_type != ExplosionType.Lightning)
             {
-                m_camera.Shake(0.5f, 0.2f);
+                float shockWave = 100.0f / Vector3.Distance(explosion.transform.position, m_player.transform.position);
+                if(explosion.transform.position == m_player.transform.position)
+                {
+                    shockWave = 50.0f;
+                }
+                m_camera.Shake(shockWave, 0.2f);
             }
         }
         return explosion;
