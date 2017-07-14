@@ -6,7 +6,7 @@ public class TripleShot : BaseWeapon
 {
     
     
-    public override void Fire(Vector3 a_direction, float damagePerProjectile)
+    public override void Fire(Vector3 a_direction, int damagePerProjectile)
     {
 
         base.PoolToActive(a_direction, damagePerProjectile, 3);

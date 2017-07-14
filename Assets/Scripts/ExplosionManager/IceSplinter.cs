@@ -29,7 +29,7 @@ public class IceSplinter : MonoBehaviour
             Vector3 direction = Random.onUnitSphere;
             direction.y = 0;
             m_shards[i].m_direction = direction.normalized;
-            m_shards[i].m_damage = m_explosionScript.m_damage * m_dmgPerProjectileRatio;
+            m_shards[i].m_damage = Mathf.CeilToInt( m_explosionScript.m_damage * m_dmgPerProjectileRatio);
             m_shards[i].gameObject.SetActive(true);
         }
 

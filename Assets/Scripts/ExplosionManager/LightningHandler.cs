@@ -61,7 +61,7 @@ public class LightningHandler : MonoBehaviour
         Health enemyHealth = a_enemy.GetComponent<Health>();
         if (enemyHealth != null && !m_zapped.Contains(a_enemy))
         {
-            enemyHealth.m_currHealth -= m_currDamage;
+            enemyHealth.m_currHealth -= Mathf.CeilToInt(m_currDamage);
             m_currDamage *= m_damageDecay;
 
             if (a_enemy != null)

@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     [Header("Direction Vector")]
     public Vector3 m_direction;
     [Header("Damage")]
-    public float m_damage = 5;
+    public int m_damage = 5;
     [Header("Projecile Speed")]
     public float m_projectileSpeed = 50;
     [HideInInspector]

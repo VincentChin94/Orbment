@@ -5,7 +5,7 @@ using UnityEngine;
 public class OnFire : StatusEffect
 {
     public float m_lifetime = 3.0f;
-    public float m_fireDmgTknPerSec = 5.0f;
+    public int m_fireDmgTknPerSec = 5;
     private float m_timer = 0.0f;
     private float m_ticker = 0.0f;
 

@@ -11,12 +11,12 @@ public class Health : MonoBehaviour
     public bool m_godMode = false;
     public bool isPlayer = false;
     public int m_healthBarWidth = 100;
-    public float m_maxHealth = 100;
-    public float m_currHealth = 100;
+    public int m_maxHealth = 100;
+    public int m_currHealth = 100;
     public float m_experienceValue = 10;
     public Texture m_healthBarTexture;
     public Texture m_emptyBarTexture;
-    public float m_recentDamageTaken = 0.0f;
+    public int m_recentDamageTaken = 0;
 
     //Agent
     private NavMeshAgent m_agent;
@@ -102,7 +102,7 @@ public class Health : MonoBehaviour
             }
             else
             {
-                m_currHealth = 1.0f;
+                m_currHealth = 1;
             }
 
             //handle death state
@@ -144,7 +144,7 @@ public class Health : MonoBehaviour
             Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
 
             GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 60, m_healthBarWidth, 10), m_emptyBarTexture);
-            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 60, m_healthBarWidth * (m_currHealth / m_maxHealth), 10), m_healthBarTexture);
+            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 60, m_healthBarWidth * ((float)m_currHealth / (float)m_maxHealth), 10), m_healthBarTexture);
 
         }
 

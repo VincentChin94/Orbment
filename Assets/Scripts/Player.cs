@@ -15,12 +15,13 @@ public class Player : MonoBehaviour
 
 
     public float m_playerFiringInterval = 0.1f;
-    public float m_currentDamagePerProjectile = 10.0f;
+    public int m_currentDamagePerProjectile = 10;
     public Transform m_shootPoint;
     public float m_manaRegenRate = 10.0f;
     public float m_shootManaCost = 10.0f;
     public float m_dashSpeed = 10.0f;
     public float m_dashTime = 0.2f;
+    public float m_dashManaCost = 50.0f;
 
     
 
@@ -67,7 +68,7 @@ public class Player : MonoBehaviour
     public bool m_hasRamboPerk = false;
     public float m_ramboModeDmgMult = 2.0f;
     public float m_ramboModePercentageThreshold = 10.0f;
-    private float m_originalDamage = 0.0f;
+    private int m_originalDamage = 0;
     private bool m_ramboActive = false;
     private Component m_halo;
 
@@ -170,7 +171,7 @@ public class Player : MonoBehaviour
 
 
         //dash
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && m_manaPool.m_currentMana >= m_dashManaCost)
         {
             if (m_dashTrail != null)
             {
@@ -179,6 +180,7 @@ public class Player : MonoBehaviour
             }
             
             m_dashDirection = m_movement.normalized;
+            m_manaPool.m_currentMana -= m_dashManaCost;
             m_dashing = true;
 
         }
@@ -266,7 +268,7 @@ public class Player : MonoBehaviour
         if (m_hasRamboPerk && HealthBelowPercentCheck(m_ramboModePercentageThreshold) && !m_ramboActive)
         {
             m_originalDamage = m_currentDamagePerProjectile;
-            m_currentDamagePerProjectile *= m_ramboModeDmgMult;
+            m_currentDamagePerProjectile = Mathf.CeilToInt(m_currentDamagePerProjectile * m_ramboModeDmgMult);
             m_halo.GetType().GetProperty("enabled").SetValue(m_halo, true, null);
 
             m_ramboActive = true;

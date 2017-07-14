@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RingOfFire : MonoBehaviour
 {
-    public float m_ringOfFireDPS = 5.0f;
+    public int m_ringOfFireDPS = 5;
     public float m_tickInterval = 0.5f;
     private float m_elapsed = 0.0f;
     // Use this for initialization

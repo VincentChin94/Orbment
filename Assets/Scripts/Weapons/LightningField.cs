@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LightningField : MonoBehaviour
 {
-    public float m_lightningFieldDPS = 5.0f;
+    public int m_lightningFieldDPS = 5;
     public float m_tickInterval = 0.5f;
     private float m_elapsed = 0.0f;
 

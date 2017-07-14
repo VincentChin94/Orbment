@@ -7,7 +7,7 @@ public class IncreaseHealth : PerkUpgrader
 
     private Health m_Health;
 
-    public float m_healthIncrease = 10.0f;
+    public int m_healthIncrease = 10;
 
     public void Start()
     {

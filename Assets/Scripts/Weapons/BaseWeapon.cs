@@ -46,14 +46,14 @@ public class BaseWeapon : MonoBehaviour
         }
     }
 
-    public virtual void Fire(Vector3 a_direction, float damagePerProjectile)
+    public virtual void Fire(Vector3 a_direction, int damagePerProjectile)
     {
         //set velocities and directions
     }
     
 
     //find inactive and insert into active pool
-    protected void PoolToActive(Vector3 a_direction, float damagePerProjectile, int numOfProjectilesRequested)
+    protected void PoolToActive(Vector3 a_direction, int damagePerProjectile, int numOfProjectilesRequested)
     {
         m_activePool.Clear();
         for (int i = 0; i < m_maxBulletsOnScreen; ++i)

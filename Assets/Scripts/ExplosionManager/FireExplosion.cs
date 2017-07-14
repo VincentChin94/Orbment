@@ -23,7 +23,7 @@ public class FireExplosion : MonoBehaviour
             if (healthScript != null)
             {
 
-                healthScript.m_currHealth -= m_explosionScript.m_damage * m_splashRatio;
+                healthScript.m_currHealth -= Mathf.CeilToInt(m_explosionScript.m_damage * m_splashRatio);
 
             }
         }

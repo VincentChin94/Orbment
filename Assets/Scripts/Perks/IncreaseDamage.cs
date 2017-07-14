@@ -5,7 +5,7 @@ using UnityEngine;
 public class IncreaseDamage : PerkUpgrader
 {
     private Player m_player;
-    public float m_damageIncrease = 10.0f;
+    public int m_damageIncrease = 10;
     // Use this for initialization
     void Start()
     {
