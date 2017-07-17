@@ -7,27 +7,27 @@ public class ExplosionManager : MonoBehaviour
     /// <summary>
     /// Object pooled explosions
     /// </summary>
-    public enum ExplosionType
+
+    public struct ExplosionItem
     {
-        Fire,
-        Ice,
-        Lightning,
+        public Explosion.ExplosionType m_type;
+        public GameObject m_object;
+        public float m_shockWaveStrength;
+
     }
 
+    public GameObject[] m_explosionPrefabs;
 
-    public GameObject m_iceSplinterPrefab;
-    public GameObject m_fireExplosionPrefab;
-    public GameObject m_lightningExplosionPrefab;
 
     private Player m_player;
-
-    private List<GameObject> m_fireExplosionPool = new List<GameObject>();
-    private List<GameObject> m_IceExplosionPool = new List<GameObject>();
-    private List<GameObject> m_lightningExplosionPool = new List<GameObject>();
-
     private IsoCam m_camera;
 
-    public int m_poolAmount = 20;
+
+    private List<List<ExplosionItem>> m_explosionPool = new List<List<ExplosionItem>>();
+
+
+
+    public int m_poolAmount = 20;//amount of each type of explosion
 
     // Use this for initialization
     void Start()
@@ -36,66 +36,53 @@ public class ExplosionManager : MonoBehaviour
         m_player = GameObject.FindObjectOfType<Player>();
         m_camera = GameObject.FindObjectOfType<IsoCam>();
 
-        for (uint i = 0; i < m_poolAmount; ++i)
+        for (int numType = 0; numType < m_explosionPrefabs.Length; ++numType)
         {
 
-            if (m_fireExplosionPrefab != null)
+            List<ExplosionItem> explosionType = new List<ExplosionItem>();
+            for (uint i = 0; i < m_poolAmount; ++i)
             {
-                GameObject fireExplosion = (GameObject)Instantiate(m_fireExplosionPrefab, this.transform);
-                fireExplosion.SetActive(false);
-                fireExplosion.transform.parent = this.transform;
-                m_fireExplosionPool.Add(fireExplosion);
 
+                if (m_explosionPrefabs[numType] != null)
+                {
+                    ExplosionItem newExplosion = new ExplosionItem();
+                    newExplosion.m_object = (GameObject)Instantiate(m_explosionPrefabs[numType], this.transform);
+                    Explosion explosionScript = newExplosion.m_object.GetComponent<Explosion>();
+                    if(explosionScript != null)
+                    {
+                        newExplosion.m_shockWaveStrength = explosionScript.m_shockWaveStrength;
+                        newExplosion.m_type = explosionScript.m_type;
+                    }
+                    newExplosion.m_object.SetActive(false);
+                    explosionType.Add(newExplosion);
+
+                }
             }
 
-            if (m_iceSplinterPrefab != null)
-            {
-                GameObject iceSplinter = (GameObject)Instantiate(m_iceSplinterPrefab, this.transform);
-                iceSplinter.SetActive(false);
-                iceSplinter.transform.parent = this.transform;
-                m_IceExplosionPool.Add(iceSplinter);
 
-            }
-
-            if (m_lightningExplosionPrefab != null)
-            {
-                GameObject lightningBolt = (GameObject)Instantiate(m_lightningExplosionPrefab, this.transform);
-                lightningBolt.SetActive(false);
-                lightningBolt.transform.parent = this.transform;
-                m_lightningExplosionPool.Add(lightningBolt);
-
-            }
+            m_explosionPool.Add(explosionType);
         }
+
 
     }
 
-    public GameObject RequestExplosion(Vector3 a_position, ExplosionType a_type, float a_damage)
+    public GameObject RequestExplosion(Vector3 a_position, Vector3 a_forward, Explosion.ExplosionType a_type, float a_damage)
     {
         GameObject explosion = null;
 
-        switch (a_type)
+        for(int i = 0;  i < m_explosionPool.Count; ++i)
         {
-            case ExplosionType.Fire:
-                {
-                    explosion = FindInactive(m_fireExplosionPool);
-
-                    break;
-                }
-            case ExplosionType.Ice:
-                {
-                    explosion = FindInactive(m_IceExplosionPool);
-                    break;
-                }
-            case ExplosionType.Lightning:
-                {
-                    explosion = FindInactive(m_lightningExplosionPool);
-                    break;
-                }
+            if(m_explosionPool[i][0].m_type == a_type)
+            {
+                explosion = FindInactive(m_explosionPool[i]);
+                break;
+            }
         }
 
         if (explosion != null)
         {
             explosion.transform.position = a_position;
+            explosion.transform.forward = a_forward;
             Explosion explosionScript = explosion.GetComponent<Explosion>();
             if (explosionScript != null)
             {
@@ -103,27 +90,29 @@ public class ExplosionManager : MonoBehaviour
             }
 
             explosion.SetActive(true);
-            if (m_camera != null && a_type != ExplosionType.Lightning)
+
+            if (m_camera != null)
             {
-                float shockWave = 100.0f / Vector3.Distance(explosion.transform.position, m_player.transform.position);
-                if(explosion.transform.position == m_player.transform.position)
+                float shockWave = explosionScript.m_shockWaveStrength / Vector3.Distance(explosion.transform.position, m_player.transform.position);
+                if (explosion.transform.position == m_player.transform.position)
                 {
-                    shockWave = 50.0f;
+                    shockWave = explosionScript.m_shockWaveStrength/ 2.0f;
                 }
                 m_camera.Shake(shockWave, 0.2f);
             }
+
         }
         return explosion;
     }
 
-    GameObject FindInactive(List<GameObject> a_pool)
+    GameObject FindInactive(List<ExplosionItem> a_pool)
     {
         for (int i = 0; i < a_pool.Count; ++i)
         {
-            if(!a_pool[i].activeInHierarchy)
+            if (!a_pool[i].m_object.activeInHierarchy)
             {
-                return a_pool[i];
-                
+                return a_pool[i].m_object;
+
             }
         }
 

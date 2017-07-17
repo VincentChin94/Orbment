@@ -15,7 +15,7 @@ public class IceShard : Bullet
 
         if (m_iceSplit)
         {
-            m_explosionManager.RequestExplosion(this.transform.position, ExplosionManager.ExplosionType.Ice, m_damage);
+            m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.Ice, m_damage);
         }
 
         if (!collision.collider.CompareTag(m_id))

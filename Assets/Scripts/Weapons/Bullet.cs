@@ -139,14 +139,16 @@ public class Bullet : MonoBehaviour
 
         if (!collision.collider.CompareTag(m_id))
         {
-             m_enemyHealth = collision.collider.GetComponent<Health>();
+            m_explosionManager.RequestExplosion(this.transform.position, -m_direction, Explosion.ExplosionType.BulletImpact, 0.0f);
+
+            m_enemyHealth = collision.collider.GetComponent<Health>();
             //do base damage
             if (m_enemyHealth != null)
             {
                 m_enemyHealth.m_currHealth -= m_damage;
                 m_enemyHealth.m_recentDamageTaken = m_damage;
 
-
+                m_explosionManager.RequestExplosion(this.transform.position, -m_direction, Explosion.ExplosionType.SmallBlood, 0.0f);
             }
         }
            

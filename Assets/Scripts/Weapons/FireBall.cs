@@ -26,7 +26,7 @@ public class FireBall : Bullet
         //if AOE toggled on 
         if (m_fireSplash)
         {
-            m_explosionManager.RequestExplosion(collision.contacts[0].point, ExplosionManager.ExplosionType.Fire, m_damage);
+            m_explosionManager.RequestExplosion(collision.contacts[0].point, this.transform.forward, Explosion.ExplosionType.Fire, m_damage);
 
         }
 

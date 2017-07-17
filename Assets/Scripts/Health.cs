@@ -31,7 +31,7 @@ public class Health : MonoBehaviour
     private ExpManager m_expManager;
     private DamageNumberManager m_damageNumbersManager;
     private StatusEffectManager m_statusEffectManager;
-
+    private ExplosionManager m_explosionManager;
 
     private IsoCam m_camera;
 
@@ -58,9 +58,9 @@ public class Health : MonoBehaviour
         m_expManager = GameObject.FindObjectOfType<ExpManager>();
         m_damageNumbersManager = GameObject.FindObjectOfType<DamageNumberManager>();
         m_statusEffectManager = GameObject.FindObjectOfType<StatusEffectManager>();
-       
+        m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
 
-        m_oldHealth = m_currHealth;
+         m_oldHealth = m_currHealth;
 
         if(isPlayer)
         {
@@ -105,6 +105,8 @@ public class Health : MonoBehaviour
 
             if (!m_godMode)
             {
+                m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.BigBlood, 0.0f);
+                m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.Gibs, 0.0f);
                 this.gameObject.SetActive(false);
                 //GameObject.Destroy(this.gameObject, Time.deltaTime);
             }
