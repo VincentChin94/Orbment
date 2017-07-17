@@ -28,12 +28,12 @@ public class DropCollectable : MonoBehaviour
 
     private void OnDisable()
     {
-        if(m_lootManager != null)
+        if (m_lootManager != null)
         {
             m_lootManager.RequestLootsplosion(this.transform.position, m_yellowOrbsMin, m_yellowOrbsMax, Collectable.CollectableType.YellowOrb);
 
 
-            if(Random.Range(0,100) <= m_healDropChance)
+            if (Random.Range(0, 100) <= m_healDropChance)
             {
                 m_lootManager.RequestLootsplosion(this.transform.position, m_greenOrbsMin, m_greenOrbsMax, Collectable.CollectableType.GreenOrb);
             }

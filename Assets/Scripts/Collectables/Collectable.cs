@@ -11,7 +11,7 @@ public class Collectable : MonoBehaviour
     {
         YellowOrb,
         GreenOrb,
-        BlueOrb
+        BlueOrb,
     }
 
     public CollectableType m_type;

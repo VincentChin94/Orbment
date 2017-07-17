@@ -6,6 +6,8 @@ public class OrbGate : MonoBehaviour
 {
     public GUIStyle m_textStyle;
     public GameObject m_visualLock;
+
+
     private float m_origScale = 1.0f;
     private float m_lockScale = 1.0f;
 
@@ -15,17 +17,20 @@ public class OrbGate : MonoBehaviour
 
     public int m_numOfOrbsForOpen = 10;
 
+
     public int m_currNumOrbsInvested = 0;
 
 
     private float m_holdTimer = 0.0f;
     private float m_holdDuration = 0.1f;
-    private float m_orbSpendRate = 0.01f;
+    private float m_orbSpendRate = 0.02f;
     private float m_orbSpendTimer = 0.0f;
 
     private bool m_isOpen = false;
 
     private bool m_playerIsNear = false;
+
+
 
     public void Awake()
     {
@@ -127,11 +132,13 @@ public class OrbGate : MonoBehaviour
         {
             m_currNumOrbsInvested++;
             m_Player.m_orbsCollected--;
-
+            m_Player.EmitSpentOrb();
             m_lockScale = 1.0f - ((float)m_currNumOrbsInvested / (float)m_numOfOrbsForOpen);
             Vector3 m_targetScale = new Vector3(m_lockScale * m_origScale, m_lockScale * m_origScale, m_visualLock.transform.localScale.z);
             m_visualLock.transform.localScale = m_targetScale;
         }
 
     }
+
+
 }

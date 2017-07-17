@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public float m_playerMoveSpeed = 10;
     public float m_playerRotSpeed = 10;
 
+   
 
     public float m_playerFiringInterval = 0.1f;
     public int m_currentDamagePerProjectile = 10;
@@ -31,11 +32,13 @@ public class Player : MonoBehaviour
 
     //projectiles
     public GameObject m_currentProjectile;
-    //public GameObject[] m_projectiles;
+
 
     //orb count
     public int m_orbsCollected = 0;
-
+    public GameObject m_spentOrbPrefab;
+    public int m_poolAmountSpentOrbs = 15;
+    private List<GameObject> m_spentOrbs = new List<GameObject>();
 
     private CharacterController m_charCont;
     private Vector3 m_movement;
@@ -95,6 +98,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        PoolSpentOrbs();
+
         m_camera = GameObject.FindObjectOfType<IsoCam>();
 
         m_weapons = new List<BaseWeapon>();
@@ -115,6 +120,30 @@ public class Player : MonoBehaviour
         }
     }
 
+    void PoolSpentOrbs()
+    {
+        for (int i = 0; i < m_poolAmountSpentOrbs; ++i)
+        {
+            GameObject obj = GameObject.Instantiate(m_spentOrbPrefab);
+            obj.SetActive(false);
+            m_spentOrbs.Add(obj);
+
+        }
+    }
+
+    public void EmitSpentOrb()
+    {
+        for(int i = 0; i < m_spentOrbs.Count; ++i)
+        {
+            if(!m_spentOrbs[i].activeInHierarchy)
+            {
+                m_spentOrbs[i].transform.position = this.transform.position + Random.onUnitSphere;
+
+                m_spentOrbs[i].SetActive(true);
+                return;
+            }
+        }
+    }
 
     void Update()
     {
@@ -369,6 +398,8 @@ public class Player : MonoBehaviour
         }
 
     }
+
+
 
 
 
