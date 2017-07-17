@@ -32,6 +32,7 @@ public class Health : MonoBehaviour
     private DamageNumberManager m_damageNumbersManager;
     private StatusEffectManager m_statusEffectManager;
     private ExplosionManager m_explosionManager;
+    private KillStreakManager m_killStreakManager;
 
     private IsoCam m_camera;
 
@@ -59,6 +60,7 @@ public class Health : MonoBehaviour
         m_damageNumbersManager = GameObject.FindObjectOfType<DamageNumberManager>();
         m_statusEffectManager = GameObject.FindObjectOfType<StatusEffectManager>();
         m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
+        m_killStreakManager = GameObject.FindObjectOfType<KillStreakManager>();
 
          m_oldHealth = m_currHealth;
 
@@ -101,6 +103,11 @@ public class Health : MonoBehaviour
             if (!isPlayer)
             {
                 m_expManager.m_playerExperience += m_experienceValue;
+                if(m_killStreakManager != null)
+                {
+                        m_killStreakManager.AddKill();
+
+                }
             }
 
             if (!m_godMode)

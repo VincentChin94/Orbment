@@ -13,6 +13,7 @@ public class Explosion : MonoBehaviour
         BigBlood,
         Gibs,
         BulletImpact,
+        AfterImage,
 
     }
 

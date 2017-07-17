@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     private float m_dashTimer = 0.0f;
     private Vector3 m_dashDirection;
 
-
+    private ExplosionManager m_explosionManager;
 
 
     [Header("AOE")]
@@ -118,6 +118,8 @@ public class Player : MonoBehaviour
         {
             m_dashTrail.enabled = false;
         }
+
+        m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
     }
 
     void PoolSpentOrbs()
@@ -200,7 +202,7 @@ public class Player : MonoBehaviour
 
 
         //dash
-        if (Input.GetKeyDown(KeyCode.Space) && m_manaPool.m_currentMana >= m_dashManaCost)
+        if (Input.GetKeyDown(KeyCode.Space) && m_manaPool.m_currentMana >= m_dashManaCost && m_movement != Vector3.zero)
         {
             if (m_dashTrail != null)
             {
@@ -368,6 +370,11 @@ public class Player : MonoBehaviour
         m_charCont.Move(dir * m_dashSpeed);
 
         m_dashTimer += Time.deltaTime;
+
+        if (m_explosionManager != null)
+        {
+            m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.AfterImage, 0.0f);
+        }
 
         //float ratio = m_dashTimer / m_dashTime;
 
