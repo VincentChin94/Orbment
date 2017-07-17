@@ -72,7 +72,7 @@ public class PerkManager : MonoBehaviour
         }
         if (m_ShowingUI)
         {
-            KeyCode code = KeyCode.E;
+            KeyCode code = KeyCode.Tab;
             if (Input.GetKey(code))
             {
                 m_levelUpUI.showUI();

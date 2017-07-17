@@ -18,6 +18,7 @@ public class Magnet : MonoBehaviour
 
     }
 
+    
 
     private void OnTriggerStay(Collider other)
     {
