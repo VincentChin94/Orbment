@@ -73,14 +73,14 @@ public class EnemyLootManager : MonoBehaviour
 
                     if(loot != null)
                     {
-                        loot.transform.position = a_position;
+                        loot.transform.position = a_position + forceVector.normalized;
                         loot.SetActive(true);
 
                         Rigidbody rb = loot.GetComponent<Rigidbody>();
 
                         if (rb != null)
                         {
-                            rb.AddForce(forceVector * m_lootsplosionForce, ForceMode.Impulse);
+                            rb.AddForce(forceVector.normalized * m_lootsplosionForce, ForceMode.Impulse);
                         }
                     }
 

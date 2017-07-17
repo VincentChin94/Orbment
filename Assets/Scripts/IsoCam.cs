@@ -72,6 +72,13 @@ public class IsoCam : MonoBehaviour
             }
             
         }
+        else
+        {
+            if (m_flashRed != null)
+            {
+                m_flashRed.SetFloat("_Intensity", 0.0f);
+            }
+        }
     }
 
     public void Shake(float a_shakeAmount, float a_shakeDuration)
