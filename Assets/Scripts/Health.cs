@@ -80,6 +80,7 @@ public class Health : MonoBehaviour
             if(m_camera != null && m_currHealth < m_oldHealth)
             {
                 //shake cam if player hurt
+                m_camera.FlashRed(0.5f);
                 m_camera.Shake(10.0f, 0.1f);
 
             }
