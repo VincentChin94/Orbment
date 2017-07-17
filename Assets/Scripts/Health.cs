@@ -86,6 +86,13 @@ public class Health : MonoBehaviour
             }
         }
 
+        //cant go above max
+        if(m_currHealth > m_maxHealth)
+        {
+            m_currHealth = m_maxHealth;
+        }
+
+
         //if dead
 
         if (m_currHealth <= 0)

@@ -340,7 +340,7 @@ public class Player : MonoBehaviour
 
         m_dashTimer += Time.deltaTime;
 
-        float ratio = m_dashTimer / m_dashTime;
+        //float ratio = m_dashTimer / m_dashTime;
 
         if (m_dashTimer >= m_dashTime)
         {

@@ -4,40 +4,47 @@ using UnityEngine;
 
 public class DropCollectable : MonoBehaviour
 {
-    public GameObject m_collectable;
-    public int m_numberOfOrbsDropped = 1;
-    // Use this for initialization
-    //private GameObject 
+    [Range(0, 100)]
+    public int m_healDropChance = 0;
+    [Range(0, 100)]
+    public int m_manaDropChance = 0;
 
-    private Health m_healthScript;
-    private GameObject[] m_collectables;
-    private bool doOnce = false;
 
+    public int m_yellowOrbsMin = 1;
+    public int m_yellowOrbsMax = 3;
+
+    public int m_greenOrbsMin = 0;
+    public int m_greenOrbsMax = 3;
+
+    public int m_blueOrbsMin = 0;
+    public int m_blueOrbsMax = 3;
+
+    private EnemyLootManager m_lootManager;
     private void Start()
     {
-        m_collectables = new GameObject[m_numberOfOrbsDropped];
-        m_healthScript = this.GetComponent<Health>();
-        for (int i = 0; i < m_numberOfOrbsDropped; ++i)
-        {
+        m_lootManager = GameObject.FindObjectOfType<EnemyLootManager>();
 
-            m_collectables[i] = GameObject.Instantiate(m_collectable, this.transform.position, Quaternion.identity);
-            m_collectables[i].transform.parent = this.transform;
-            m_collectables[i].SetActive(false);
-        }
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (m_healthScript != null && m_healthScript.m_currHealth <= 0 && !doOnce)
+        if(m_lootManager != null)
         {
-            for (int i = 0; i < m_collectables.Length; ++i)
+            m_lootManager.RequestLootsplosion(this.transform.position, m_yellowOrbsMin, m_yellowOrbsMax, Collectable.CollectableType.YellowOrb);
+
+
+            if(Random.Range(0,100) <= m_healDropChance)
             {
-                m_collectables[i].transform.parent = null;
-                m_collectables[i].SetActive(true);
+                m_lootManager.RequestLootsplosion(this.transform.position, m_greenOrbsMin, m_greenOrbsMax, Collectable.CollectableType.GreenOrb);
             }
-            doOnce = true;
+
+            if (Random.Range(0, 100) <= m_manaDropChance)
+            {
+                m_lootManager.RequestLootsplosion(this.transform.position, m_blueOrbsMin, m_blueOrbsMax, Collectable.CollectableType.BlueOrb);
+            }
         }
     }
+
 
 
 }

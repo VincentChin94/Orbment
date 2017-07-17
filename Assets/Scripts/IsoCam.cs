@@ -21,7 +21,7 @@ public class IsoCam : MonoBehaviour
     private bool m_flashingRed = false;
     private float m_flashTimer = 0.0f;
     private float m_flashDuration = 0.0f;
-    private float m_intensity = 1.0f;
+    private float m_intensity = 0.0f;
 
     // Use this for initialization
     void Start()
@@ -66,6 +66,7 @@ public class IsoCam : MonoBehaviour
             
             if(m_flashTimer >= m_flashDuration)
             {
+                m_intensity = 0.0f;
                 m_flashTimer = 0.0f;
                 m_flashingRed = false;
             }

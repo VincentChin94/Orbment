@@ -5,10 +5,30 @@ using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     Player m_playerRef;
+    Health m_playerHealth;
+    Mana m_playerMana;
+    public enum CollectableType
+    {
+        YellowOrb,
+        GreenOrb,
+        BlueOrb
+    }
+
+    public CollectableType m_type;
+
+    public int m_healAmount = 10;
+    public int m_manaAmount = 100;
+
+
     // Use this for initialization
     void Start()
     {
         m_playerRef = GameObject.FindObjectOfType<Player>();
+        if(m_playerRef != null)
+        {
+            m_playerHealth = m_playerRef.GetComponent<Health>();
+            m_playerMana = m_playerRef.GetComponent<Mana>();
+        }
     }
 
     // Update is called once per frame
@@ -21,12 +41,41 @@ public class Collectable : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            m_playerRef.m_orbsCollected++;
-            //destroy collectable
-            this.transform.position = collision.collider.transform.position;
-            this.transform.SetParent(collision.collider.transform);
+            switch (m_type)
+            {
+                case CollectableType.YellowOrb:
+                    {
+                        if(m_playerRef)
+                        {
+                            m_playerRef.m_orbsCollected++;
+                        }
+                        
+
+                        break;
+                    }
+
+                case CollectableType.GreenOrb:
+                    {
+                        if(m_playerHealth != null)
+                        {
+                            m_playerHealth.m_currHealth += m_healAmount;
+                        }
+                        break;
+                    }
+
+                case CollectableType.BlueOrb:
+                    {
+                        m_playerMana.m_currentMana += m_manaAmount;
+                        break;
+                    }
+
+                default:
+                    {
+                        break;
+                    }
+            }
+
             this.gameObject.SetActive(false);
-            //GameObject.Destroy(this.gameObject);
         }
     }
 
