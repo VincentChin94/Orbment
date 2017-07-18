@@ -61,7 +61,10 @@ public class Player : MonoBehaviour
 
     private ExplosionManager m_explosionManager;
 
-
+    //Perks
+    /// <summary>
+    /// /////////////////////////////////////////////////////////////
+    /// </summary>
     [Header("AOE")]
     public bool m_hasFireSplash = false;
     public bool m_hasIceSplit = false;
@@ -91,8 +94,11 @@ public class Player : MonoBehaviour
     [Header("Stun")]
     public bool m_hasStunPerk = false;
 
-
-
+    [Header("GodLightningPerk")]
+    public bool m_hasGodLightning = false;
+    /// <summary>
+    /// ////////////////////////////////////////////////////////
+    /// </summary>
 
     private IsoCam m_camera;
 
