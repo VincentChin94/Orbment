@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningFieldPerk : PerkUpgrader
+public class LightningFieldPerk : Perk
 {
 
     private Player m_player;
@@ -14,8 +14,8 @@ public class LightningFieldPerk : PerkUpgrader
     }
 
 
-    public override void upgrade()
+    public override void Activate()
     {
-        m_player.m_hasLightningFieldPerk = true;
+        m_player.m_perks.Add(PerkID.LightningField);
     }
 }

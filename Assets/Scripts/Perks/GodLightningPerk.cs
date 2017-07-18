@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GodLightningPerk : PerkUpgrader
+public class GodLightningPerk : Perk
 {
     private Player m_player;
 
@@ -13,8 +13,8 @@ public class GodLightningPerk : PerkUpgrader
     }
 
 
-    public override void upgrade()
+    public override void Activate()
     {
-        m_player.m_hasGodLightning = true;
+        m_player.m_perks.Add(PerkID.GodBolt);
     }
 }

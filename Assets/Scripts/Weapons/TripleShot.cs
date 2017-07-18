@@ -6,7 +6,7 @@ public class TripleShot : BaseWeapon
 {
     
     
-    public override void Fire(Vector3 a_direction, int damagePerProjectile)
+    public override void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit)
     {
 
         base.PoolToActive(a_direction, damagePerProjectile, 3);
@@ -20,12 +20,14 @@ public class TripleShot : BaseWeapon
                     m_activePool[i].m_direction = a_direction;
                     break;
                 case 1:
-                    m_activePool[i].m_direction = Quaternion.Euler(0, 5, 0) * a_direction;
+                    m_activePool[i].m_direction = Quaternion.Euler(0, 0.1f, 0) * a_direction;
                     break;
                 case 2:
-                    m_activePool[i].m_direction = Quaternion.Euler(0, -5, 0) * a_direction;
+                    m_activePool[i].m_direction = Quaternion.Euler(0, -0.1f, 0) * a_direction;
                     break;
             }
+
+            m_activePool[i].m_isCrit = a_hasCrit;
         }
 
     }

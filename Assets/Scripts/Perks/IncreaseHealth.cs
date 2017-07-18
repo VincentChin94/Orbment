@@ -2,32 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncreaseHealth : PerkUpgrader
+public class IncreaseHealth : Perk
 {
 
-    private Health m_Health;
-
-    public int m_healthIncrease = 10;
-
+    private Player m_player;
+    private Health m_playerHealth;
     public void Start()
     {
-        Player player = GameObject.FindObjectOfType<Player>();
+        m_player = GameObject.FindObjectOfType<Player>();
 
-        if (player != null)
+        if(m_player != null)
         {
-            m_Health = player.gameObject.GetComponent<Health>();
+            m_playerHealth = m_player.GetComponent<Health>();
+
         }
+
     }
 
-    public override void upgrade()
+    public override void Activate()
     {
-        if(m_Health != null)
+        m_player.m_currHealthPoints++;
+        if(m_playerHealth != null)
         {
-            m_Health.m_maxHealth += m_healthIncrease;
-
-            //temporary
-            m_Health.m_currHealth = m_Health.m_maxHealth;
+            m_playerHealth.m_maxHealth += m_player.m_HealthIncrement;
         }
-
     }
+
 }

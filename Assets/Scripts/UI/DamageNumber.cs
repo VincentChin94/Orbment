@@ -13,7 +13,7 @@ public class DamageNumber : MonoBehaviour
     private bool m_enabled;
     private float m_timer = 0.0f;
     private Vector2 m_translation;
-    private Color m_color;
+    public Color m_color;
     // Use this for initialization
     void Start()
     {

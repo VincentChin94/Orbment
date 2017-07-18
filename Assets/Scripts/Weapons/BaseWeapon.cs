@@ -9,11 +9,12 @@ public class BaseWeapon : MonoBehaviour
     public GameObject m_projectile;
     public uint m_maxBulletsOnScreen = 50;
 
-    [Header("Perks")]
-    public bool m_hasFireSplash = false;
-    public bool m_hasIceSplit = false;
-    public bool m_hasStunPerk = false;
-
+    public Player m_playerRef = null;
+    //[Header("Perk Effects")]
+    //public bool m_hasFireSplash = false;
+    //public bool m_hasIceSplit = false;
+    //public bool m_hasStunPerk = false;
+    //public bool m_hasGodLightning = false;
 
     protected List<GameObject> m_projectilePool = new List<GameObject>();
     protected List<Bullet> m_projectileScripts = new List<Bullet>();
@@ -46,7 +47,7 @@ public class BaseWeapon : MonoBehaviour
         }
     }
 
-    public virtual void Fire(Vector3 a_direction, int damagePerProjectile)
+    public virtual void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit)
     {
         //set velocities and directions
     }
@@ -67,11 +68,11 @@ public class BaseWeapon : MonoBehaviour
                     m_projectilePool[i].transform.position = this.transform.position;
                     m_projectilePool[i].SetActive(true);
 
-                   
-                    m_projectileScripts[i].m_fireSplash = this.m_hasFireSplash;
-                    m_projectileScripts[i].m_iceSplit = this.m_hasIceSplit;
-                    m_projectileScripts[i].m_hasStunPerk = this.m_hasStunPerk;
-
+                   if(m_playerRef != null)
+                    {
+                        //pass the player reference through to let bullet know of perks on player
+                        m_projectileScripts[i].m_playerRef = this.m_playerRef;
+                    }
                     m_projectileScripts[i].m_damage = damagePerProjectile;
                     //insert to active pool
 

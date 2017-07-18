@@ -41,7 +41,7 @@ public class DamageNumberManager : MonoBehaviour
 
     }
 
-    public void CreateDamageNumber(string number, Transform location)
+    public void CreateDamageNumber(string number, Transform location, Color a_color)
     {
         Vector2 screenPos = Camera.main.WorldToScreenPoint(location.position);
         for (int i = 0; i < m_poolAmount; ++i)
@@ -54,6 +54,7 @@ public class DamageNumberManager : MonoBehaviour
                     m_dmgNums[i].SetActive(true);
                     m_dmgNums[i].transform.position = screenPos;
                     m_dmgTexts[i].m_text.text = number;
+                    m_dmgTexts[i].m_color = a_color;
                     m_dmgTexts[i].parent = location;
                     break;
                 }

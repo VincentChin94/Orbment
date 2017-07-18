@@ -40,8 +40,8 @@ public class PerkUI : MonoBehaviour {
 		if(a_Perk == null) {
 			//m_Text.text = "NO PERK";
 		}
-		//todo set text/image
-		m_Text.text = a_Perk.m_name;
+        //todo set text/image
+        m_Text.text = a_Perk.m_name;
 		//print("perk "+a_Perk.m_name+": setting the image of perk " + m_PerkIndex + " is not implemented");
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StunPerk : PerkUpgrader
+public class StunPerk : Perk
 {
     private Player m_player;
 
@@ -12,11 +12,11 @@ public class StunPerk : PerkUpgrader
 
     }
 
-    public override void upgrade()
+    public override void Activate()
     {
         if (m_player != null)
         {
-            m_player.m_hasStunPerk = true;
+            m_player.m_perks.Add(PerkID.StunChance);
         }
 
     }

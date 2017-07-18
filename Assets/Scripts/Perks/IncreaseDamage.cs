@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncreaseDamage : PerkUpgrader
+public class IncreaseDamage : Perk
 {
     private Player m_player;
-    public int m_damageIncrease = 10;
     // Use this for initialization
     void Start()
     {
+        this.m_id = PerkID.IncreaseDamage;
+        
         m_player = GameObject.FindObjectOfType<Player>();
     }
 
 
-    public override void upgrade()
+    public override void Activate()
     {
-        m_player.m_currentDamagePerProjectile += m_damageIncrease;
+        m_player.m_currDamagePoints++;
     }
 }

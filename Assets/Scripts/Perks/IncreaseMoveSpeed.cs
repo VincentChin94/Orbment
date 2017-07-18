@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IncreaseMoveSpeed : PerkUpgrader
+public class IncreaseMoveSpeed : Perk
 {
     private Player m_player;
-    public int m_speedIncrease = 10;
+
     // Use this for initialization
     void Start()
     {
         m_player = GameObject.FindObjectOfType<Player>();
     }
 
-    public override void upgrade()
+    public override void Activate()
     {
-        m_player.m_playerMoveSpeed += m_speedIncrease;
+        m_player.m_currSpeedPoints++;
     }
 
 }

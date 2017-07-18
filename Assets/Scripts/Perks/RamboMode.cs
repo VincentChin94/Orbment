@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RamboMode : PerkUpgrader
+public class RamboMode : Perk
 {
 
     private Player m_player;
@@ -14,8 +14,8 @@ public class RamboMode : PerkUpgrader
     }
 
 
-    public override void upgrade()
+    public override void Activate()
     {
-        m_player.m_hasRamboPerk = true;
+        m_player.m_perks.Add(PerkID.RamboMode);
     }
 }

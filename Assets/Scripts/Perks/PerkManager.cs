@@ -180,14 +180,9 @@ public class PerkManager : MonoBehaviour
             m_PerkTypeSelection = m_StartingPerks[a_PerkIndex].m_type;
             m_SelectingStartingPerks = false;
         }
-        if (m_ShownPerks[a_PerkIndex].m_UpgradeScript == null)
-        {
-            Debug.LogError("Perk " + m_ShownPerks[a_PerkIndex].m_name + "Does not have a Perk Upgrader(Upgrade Script) script on it");
-        }
-        else
-        {
-            m_ShownPerks[a_PerkIndex].m_UpgradeScript.upgrade();
-        }
+
+        m_ShownPerks[a_PerkIndex].Activate();
+
         m_ShownPerks[a_PerkIndex].m_TimesUpgraded++;
 
         m_AmtPerkUpgrades++;

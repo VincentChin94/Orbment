@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IceShard : Bullet
 {
+    private bool m_hasIceSplinter = false;
+
     protected override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
@@ -13,7 +15,13 @@ public class IceShard : Bullet
             m_enemyHealth.m_causeSlow = true;
         }
 
-        if (m_iceSplit)
+        if(!m_hasIceSplinter && m_playerRef != null && m_playerRef.m_perks.Contains(PerkID.IceSplinter))
+        {
+            //do only once
+            m_hasIceSplinter = true;
+        }
+
+        if (m_hasIceSplinter)
         {
             m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.Ice, m_damage);
         }

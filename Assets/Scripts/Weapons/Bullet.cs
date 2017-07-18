@@ -28,18 +28,26 @@ public class Bullet : MonoBehaviour
     protected ExplosionManager m_explosionManager;
     protected Health m_enemyHealth = null;
 
-    /// <summary>
-    /// Area of Effect
-    /// </summary>
-    /// 
-    [Header("Area Of Effect")]
-    public bool m_fireSplash = false;
-    public bool m_iceSplit = false;
 
-    [Header("STUN")]
-    [Range(0, 100)]
-    public float m_StunChance = 25.0f;
-    public bool m_hasStunPerk = false;
+    public Player m_playerRef = null;
+
+    public bool m_isCrit = false;
+
+    ///// <summary>
+    ///// Area of Effect
+    ///// </summary>
+    ///// 
+    //[Header("Area Of Effect")]
+    //public bool m_fireSplash = false;
+    //public bool m_iceSplit = false;
+
+    //[Header("STUN")]
+    //[Range(0, 100)]
+    //public float m_StunChance = 25.0f;
+    //public bool m_hasStunPerk = false;
+
+    //[Header("God lightning Perk")]
+    //public bool m_hasGodLightning = false;
 
     public enum ProjectileType
     {
@@ -47,7 +55,6 @@ public class Bullet : MonoBehaviour
         FireBall,
         IceShard,
         Lightning,
-        Bouncing,
     }
 
     public ProjectileType m_type;
@@ -145,6 +152,7 @@ public class Bullet : MonoBehaviour
             //do base damage
             if (m_enemyHealth != null)
             {
+                m_enemyHealth.m_beenCrit = this.m_isCrit;
                 m_enemyHealth.m_currHealth -= m_damage;
                 m_enemyHealth.m_recentDamageTaken = m_damage;
 

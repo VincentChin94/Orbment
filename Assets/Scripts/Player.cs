@@ -9,14 +9,29 @@ using UnityEngine;
 [RequireComponent(typeof(Mana))]
 public class Player : MonoBehaviour
 {
+    [Header("Skill Points")]
+    public int m_currDamagePoints = 0;
+    public int m_currHealthPoints = 0;
+    public int m_currSpeedPoints = 0;
 
-    public float m_playerMoveSpeed = 10;
-    public float m_playerRotSpeed = 10;
+    public int m_HealthIncrement = 10;
+    public int m_DamageIncrement = 1;
+    public int m_SpeedIncrement = 1;
 
-   
+    public int m_currDamageMult = 1;
+    public int m_currSpeedMult = 1;
+
+
+
+    public int m_baseHealth = 100;
+    public int m_baseDamage = 10;
+    public int m_baseSpeed = 10;
+
+    private int m_currDamage;
+    private int m_currSpeed;
 
     public float m_playerFiringInterval = 0.1f;
-    public int m_currentDamagePerProjectile = 10;
+
     public Transform m_shootPoint;
     public float m_manaRegenRate = 10.0f;
     public float m_shootManaCost = 10.0f;
@@ -24,10 +39,19 @@ public class Player : MonoBehaviour
     public float m_dashTime = 0.2f;
     public float m_dashManaCost = 50.0f;
 
-    
+
 
     public List<BaseWeapon> m_weapons;
     public BaseWeapon m_currWeapon;
+
+    //critical hits and damage deviation
+    public int m_critPercentChance = 10;
+    public float m_critDmgMult = 2.0f;
+    public int m_damageDeviation = 3;
+    public bool m_hasCrit = false;
+
+
+
 
 
     //projectiles
@@ -65,37 +89,30 @@ public class Player : MonoBehaviour
     /// <summary>
     /// /////////////////////////////////////////////////////////////
     /// </summary>
-    [Header("AOE")]
-    public bool m_hasFireSplash = false;
-    public bool m_hasIceSplit = false;
+    /// 
+
+    public List<PerkID> m_perks = new List<PerkID>();
+
 
     //RamboMode
     [Header("Rambo Mode")]
-    public bool m_hasRamboPerk = false;
-    public float m_ramboModeDmgMult = 2.0f;
+    public int m_ramboModeDmgMult = 2;
     public float m_ramboModePercentageThreshold = 10.0f;
-    private int m_originalDamage = 0;
     private bool m_ramboActive = false;
     private Component m_halo;
 
 
     //Elemental Rings
     [Header("Elemental Rings")]
-    public bool m_hasRingOfFirePerk = false;
+
     public float m_ringOfFirePercentThreshold = 25.0f;
     public GameObject m_ringOfFireParticles;
     private bool m_ringOfFireActive = false;
 
-    public bool m_hasLightningFieldPerk = false;
     public float m_lightningFieldPercentThreshold = 25.0f;
     public GameObject m_lightningField;
     private bool m_lightningFieldActive = false;
 
-    [Header("Stun")]
-    public bool m_hasStunPerk = false;
-
-    [Header("GodLightningPerk")]
-    public bool m_hasGodLightning = false;
     /// <summary>
     /// ////////////////////////////////////////////////////////
     /// </summary>
@@ -120,7 +137,7 @@ public class Player : MonoBehaviour
 
         m_dashTrail = this.GetComponent<TrailRenderer>();
 
-        if(m_dashTrail != null)
+        if (m_dashTrail != null)
         {
             m_dashTrail.enabled = false;
         }
@@ -128,30 +145,8 @@ public class Player : MonoBehaviour
         m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
     }
 
-    void PoolSpentOrbs()
-    {
-        for (int i = 0; i < m_poolAmountSpentOrbs; ++i)
-        {
-            GameObject obj = GameObject.Instantiate(m_spentOrbPrefab);
-            obj.SetActive(false);
-            m_spentOrbs.Add(obj);
 
-        }
-    }
 
-    public void EmitSpentOrb()
-    {
-        for(int i = 0; i < m_spentOrbs.Count; ++i)
-        {
-            if(!m_spentOrbs[i].activeInHierarchy)
-            {
-                m_spentOrbs[i].transform.position = this.transform.position + Random.onUnitSphere;
-
-                m_spentOrbs[i].SetActive(true);
-                return;
-            }
-        }
-    }
 
     void Update()
     {
@@ -161,6 +156,14 @@ public class Player : MonoBehaviour
         //    Vector3 heightDifference =  Vector3.up * (m_startingHeight - this.transform.position.y);
         //    this.transform.position += heightDifference;
         //}
+
+        //update damage and speed
+
+        m_currDamage = m_baseDamage + (m_currDamagePoints * m_DamageIncrement) + Random.Range(-m_damageDeviation, m_damageDeviation);
+        m_currSpeed = m_baseSpeed + (m_currSpeedPoints * m_SpeedIncrement);
+
+        
+        
 
         //Check for RamboMode
         RamboModeCheck();
@@ -180,13 +183,18 @@ public class Player : MonoBehaviour
                 {
                     if (m_currWeapon != null)
                     {
-                        m_currWeapon.m_hasFireSplash = this.m_hasFireSplash;
-                        m_currWeapon.m_hasIceSplit = this.m_hasIceSplit;
-                        m_currWeapon.m_hasStunPerk = this.m_hasStunPerk;
 
-                        m_currWeapon.Fire(this.transform.forward, m_currentDamagePerProjectile);
+                        m_currWeapon.m_playerRef = this;
+                        m_hasCrit = false;
+                        if (Random.Range(0, 100) <= m_critPercentChance)
+                        {
+                            //crit
+                            m_currDamage = Mathf.CeilToInt((float)m_currDamage * m_critDmgMult);
+                            m_hasCrit = true;
+                        }
+                        m_currWeapon.Fire(this.transform.forward, m_currDamage * m_currDamageMult, m_hasCrit);
 
-                        if(m_camera != null)
+                        if (m_camera != null)
                         {
                             m_camera.Shake(5.0f, m_playerFiringInterval);
                         }
@@ -213,9 +221,9 @@ public class Player : MonoBehaviour
             if (m_dashTrail != null)
             {
                 m_dashTrail.enabled = true;
-               
+
             }
-            
+
             m_dashDirection = m_movement.normalized;
             m_manaPool.m_currentMana -= m_dashManaCost;
             m_dashing = true;
@@ -260,7 +268,7 @@ public class Player : MonoBehaviour
         else
         {
             //movement
-            m_charCont.Move(m_movement * m_playerMoveSpeed * Time.deltaTime);
+            m_charCont.Move(m_movement * m_currSpeed * m_currSpeedMult * Time.deltaTime);
         }
 
     }
@@ -302,19 +310,18 @@ public class Player : MonoBehaviour
     void RamboModeCheck()
     {
         //if rambo perk is true and health is below threshold
-        if (m_hasRamboPerk && HealthBelowPercentCheck(m_ramboModePercentageThreshold) && !m_ramboActive)
+        if (m_perks.Contains(PerkID.RamboMode) && HealthBelowPercentCheck(m_ramboModePercentageThreshold) && !m_ramboActive)
         {
-            m_originalDamage = m_currentDamagePerProjectile;
-            m_currentDamagePerProjectile = Mathf.CeilToInt(m_currentDamagePerProjectile * m_ramboModeDmgMult);
+            m_currDamageMult = m_ramboModeDmgMult;
             m_halo.GetType().GetProperty("enabled").SetValue(m_halo, true, null);
 
             m_ramboActive = true;
 
         }
-        
-        if(m_ramboActive && HealthAbovePercentCheck(m_ramboModePercentageThreshold))
+
+        if (m_ramboActive && HealthAbovePercentCheck(m_ramboModePercentageThreshold))
         {
-            m_currentDamagePerProjectile = m_originalDamage;
+            m_currDamageMult = 1;
             m_halo.GetType().GetProperty("enabled").SetValue(m_halo, false, null);
             m_ramboActive = false;
         }
@@ -329,15 +336,15 @@ public class Player : MonoBehaviour
             return;
         }
         //if health is below threshold turn on ring of fire
-        if (m_hasRingOfFirePerk && HealthBelowPercentCheck(m_ringOfFirePercentThreshold) && !m_ringOfFireActive)
+        if (m_perks.Contains(PerkID.RingOfFire) && HealthBelowPercentCheck(m_ringOfFirePercentThreshold) && !m_ringOfFireActive)
         {
 
-            
+
             m_ringOfFireActive = true;
 
         }
-        
-        if(m_ringOfFireActive && HealthAbovePercentCheck(m_ringOfFirePercentThreshold))
+
+        if (m_ringOfFireActive && HealthAbovePercentCheck(m_ringOfFirePercentThreshold))
         {
             m_ringOfFireActive = false;
         }
@@ -351,7 +358,7 @@ public class Player : MonoBehaviour
             return;
         }
         //if health is below threshold turn on ring of fire
-        if (m_hasLightningFieldPerk && HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
+        if (m_perks.Contains(PerkID.LightningField) && HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
         {
 
 
@@ -395,7 +402,7 @@ public class Player : MonoBehaviour
                 m_dashTrail.enabled = false;
             }
         }
-        
+
     }
 
     void RegenMana()
@@ -414,7 +421,30 @@ public class Player : MonoBehaviour
 
 
 
+    void PoolSpentOrbs()
+    {
+        for (int i = 0; i < m_poolAmountSpentOrbs; ++i)
+        {
+            GameObject obj = GameObject.Instantiate(m_spentOrbPrefab);
+            obj.SetActive(false);
+            m_spentOrbs.Add(obj);
 
+        }
+    }
+
+    public void EmitSpentOrb()
+    {
+        for (int i = 0; i < m_spentOrbs.Count; ++i)
+        {
+            if (!m_spentOrbs[i].activeInHierarchy)
+            {
+                m_spentOrbs[i].transform.position = this.transform.position + Random.onUnitSphere;
+
+                m_spentOrbs[i].SetActive(true);
+                return;
+            }
+        }
+    }
 
 
 

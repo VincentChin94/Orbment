@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SplashDamage : PerkUpgrader
+public class SplashDamage : Perk
 {
 
     private Player m_player;
@@ -13,8 +13,8 @@ public class SplashDamage : PerkUpgrader
     }
 
     // Update is called once per frame
-    public override void upgrade()
+    public override void Activate()
     {
-        m_player.m_hasFireSplash = true;
+        m_player.m_perks.Add(PerkID.SplashDamage);
     }
 }

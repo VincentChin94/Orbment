@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class LightningBall : Bullet
 {
-    private Player m_player;
-
-    protected override void Start()
-    {
-        base.Start();
-        m_player = GameObject.FindObjectOfType<Player>();
-        
-    }
+    public int m_godBoltChance = 10;
+    private bool m_hasGodBolt = false;
 
     protected override void OnCollisionEnter(Collision collision)
     {
@@ -21,13 +15,20 @@ public class LightningBall : Bullet
         {
             m_explosionManager.RequestExplosion(collision.collider.transform.position, this.transform.forward, Explosion.ExplosionType.Lightning, m_damage);
 
-            if(m_player != null && m_player.m_hasGodLightning)
+
+            if(!m_hasGodBolt && m_playerRef != null && m_playerRef.m_perks.Contains(PerkID.GodBolt))
             {
-                if(Random.Range(0,100) <= 10)
+                //do once
+                m_hasGodBolt = true;
+            }
+
+            if(m_hasGodBolt)
+            {
+                if (Random.Range(0, 100) <= m_godBoltChance)
                 {
                     m_explosionManager.RequestExplosion(collision.collider.transform.position, this.transform.forward, Explosion.ExplosionType.GodLightning, m_damage);
                 }
-               
+
             }
             
         }

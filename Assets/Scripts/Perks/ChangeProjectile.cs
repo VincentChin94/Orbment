@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeProjectile: PerkUpgrader
+public class ChangeProjectile: Perk
 {
     public GameObject m_projectile;
     private Player m_player;
@@ -19,7 +19,7 @@ public class ChangeProjectile: PerkUpgrader
         
     }
 
-    public override void upgrade()
+    public override void Activate()
     {
        if(m_playerWeapon != null && m_projectile != null)
         {

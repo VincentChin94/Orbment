@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireRingPerk : PerkUpgrader
+public class FireRingPerk : Perk
 {
 
     private Player m_player;
@@ -14,8 +14,8 @@ public class FireRingPerk : PerkUpgrader
     }
 
 
-    public override void upgrade()
+    public override void Activate()
     {
-        m_player.m_hasRingOfFirePerk = true;
+        m_player.m_perks.Add(PerkID.RingOfFire);
     }
 }

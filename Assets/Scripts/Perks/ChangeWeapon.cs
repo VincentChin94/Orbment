@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeWeapon : PerkUpgrader
+public class ChangeWeapon : Perk
 {
 
     // Use this for initialization
@@ -18,7 +18,7 @@ public class ChangeWeapon : PerkUpgrader
 
     }
 
-    public override void upgrade()
+    public override void Activate()
     {
 
         if (m_player != null)

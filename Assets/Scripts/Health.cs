@@ -41,6 +41,8 @@ public class Health : MonoBehaviour
     [HideInInspector]
     public bool m_setOnFire = false, m_causeStun = false, m_causeSlow = false;
 
+    [HideInInspector]
+    public bool m_beenCrit = false;
 
     //status effects
     [Header("Status Effects")]
@@ -78,9 +80,25 @@ public class Health : MonoBehaviour
 
         if (m_oldHealth != m_currHealth)
         {
-            m_damageNumbersManager.CreateDamageNumber(Mathf.CeilToInt(m_oldHealth - m_currHealth).ToString(), this.transform);
-            if(m_camera != null && m_currHealth < m_oldHealth)
+            Color textColor = Color.white;
+
+            if(m_beenCrit)
             {
+                textColor = Color.red;
+                m_beenCrit = false;
+            }
+
+            if(m_currHealth > m_oldHealth)
+            {
+                textColor = Color.green;
+            }
+
+
+            m_damageNumbersManager.CreateDamageNumber(Mathf.Abs(m_oldHealth - m_currHealth).ToString(), this.transform, textColor);
+
+            if (m_camera != null && m_currHealth < m_oldHealth)
+            {
+                
                 //shake cam if player hurt
                 m_camera.FlashRed(0.5f);
                 m_camera.Shake(10.0f, 0.1f);
