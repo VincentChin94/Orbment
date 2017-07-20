@@ -96,11 +96,7 @@ public class Player : MonoBehaviour
 
     //RamboMode
     [Header("Rambo Mode")]
-    public int m_ramboModeDmgMult = 2;
-    public float m_ramboModePercentageThreshold = 10.0f;
-    private bool m_ramboActive = false;
-    private Component m_halo;
-
+    public bool m_hasRamboPerk = false;
 
     //Elemental Rings
     [Header("Elemental Rings")]
@@ -130,7 +126,6 @@ public class Player : MonoBehaviour
         m_manaPool = this.GetComponent<Mana>();
         m_health = this.GetComponent<Health>();
 
-        m_halo = this.GetComponent("Halo");
 
         m_shootPlane = LayerMask.GetMask("ShootPlane");
         //Cursor.visible = false;
@@ -165,8 +160,12 @@ public class Player : MonoBehaviour
         
         
 
-        //Check for RamboMode
-        RamboModeCheck();
+        ////Check for RamboMode
+        if(!m_hasRamboPerk && m_perks.Contains(PerkID.RamboMode))
+        {
+            m_hasRamboPerk = true;
+        }
+
         ElementalRingCheck();
 
         //mouse hold fire
@@ -273,70 +272,16 @@ public class Player : MonoBehaviour
 
     }
 
-    bool HealthBelowPercentCheck(float m_threshold)
-    {
-        if (m_health == null)
-        {
-            return false;
-        }
-
-        if (m_health.m_currHealth <= m_health.m_maxHealth * (m_threshold / 100.0f))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    bool HealthAbovePercentCheck(float m_threshold)
-    {
-        if (m_health == null)
-        {
-            return false;
-        }
-
-        if (m_health.m_currHealth > m_health.m_maxHealth * (m_threshold / 100.0f))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    void RamboModeCheck()
-    {
-        //if rambo perk is true and health is below threshold
-        if (m_perks.Contains(PerkID.RamboMode) && HealthBelowPercentCheck(m_ramboModePercentageThreshold) && !m_ramboActive)
-        {
-            m_currDamageMult = m_ramboModeDmgMult;
-            m_halo.GetType().GetProperty("enabled").SetValue(m_halo, true, null);
-
-            m_ramboActive = true;
-
-        }
-
-        if (m_ramboActive && HealthAbovePercentCheck(m_ramboModePercentageThreshold))
-        {
-            m_currDamageMult = 1;
-            m_halo.GetType().GetProperty("enabled").SetValue(m_halo, false, null);
-            m_ramboActive = false;
-        }
-
-    }
 
     void ElementalRingCheck()
     {
-        //////////////////////////////////////Ring of FIRE
+        ////////////////////////////////////Ring of FIRE
         if (m_ringOfFireParticles == null)
         {
             return;
         }
         //if health is below threshold turn on ring of fire
-        if (m_perks.Contains(PerkID.RingOfFire) && HealthBelowPercentCheck(m_ringOfFirePercentThreshold) && !m_ringOfFireActive)
+        if (m_perks.Contains(PerkID.RingOfFire) && m_health.HealthBelowPercentCheck(m_ringOfFirePercentThreshold) && !m_ringOfFireActive)
         {
 
 
@@ -344,7 +289,7 @@ public class Player : MonoBehaviour
 
         }
 
-        if (m_ringOfFireActive && HealthAbovePercentCheck(m_ringOfFirePercentThreshold))
+        if (m_ringOfFireActive && m_health.HealthAbovePercentCheck(m_ringOfFirePercentThreshold))
         {
             m_ringOfFireActive = false;
         }
@@ -352,13 +297,13 @@ public class Player : MonoBehaviour
         m_ringOfFireParticles.SetActive(m_ringOfFireActive);
 
 
-        //////////////////////////////////////Lightning Field
+        ////////////////////////////////////Lightning Field
         if (m_lightningField == null)
         {
             return;
         }
-        //if health is below threshold turn on ring of fire
-        if (m_perks.Contains(PerkID.LightningField) && HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
+        //if health is below threshold turn on ring of lightning
+        if (m_perks.Contains(PerkID.LightningField) && m_health.HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
         {
 
 
@@ -366,7 +311,7 @@ public class Player : MonoBehaviour
 
         }
 
-        if (m_lightningFieldActive && HealthAbovePercentCheck(m_lightningFieldPercentThreshold))
+        if (m_lightningFieldActive && m_health.HealthAbovePercentCheck(m_lightningFieldPercentThreshold))
         {
             m_lightningFieldActive = false;
         }

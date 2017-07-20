@@ -9,7 +9,8 @@ public class StatusEffect : MonoBehaviour
     {
         OnFire,
         Stunned,
-        Slowed
+        Slowed,
+        Buffed,
     }
     protected Health m_health;
     public Status m_type;

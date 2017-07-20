@@ -27,6 +27,7 @@ public class Health : MonoBehaviour
     //old health;
     private float m_oldHealth = 0.0f;
 
+    private Player m_playerRef = null;
 
     private ExpManager m_expManager;
     private DamageNumberManager m_damageNumbersManager;
@@ -39,7 +40,7 @@ public class Health : MonoBehaviour
     //public Transform m_RecentAttacker;
 
     [HideInInspector]
-    public bool m_setOnFire = false, m_causeStun = false, m_causeSlow = false;
+    public bool m_setOnFire = false, m_causeStun = false, m_causeSlow = false, m_giveBuff = false;
 
     [HideInInspector]
     public bool m_beenCrit = false;
@@ -49,6 +50,7 @@ public class Health : MonoBehaviour
     public bool m_onFire = false;
     public bool m_isSlowed = false;
     public bool m_isStunned = false;
+    public bool m_isBuffed = false;
 
     void Start()
     {
@@ -64,12 +66,12 @@ public class Health : MonoBehaviour
         m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
         m_killStreakManager = GameObject.FindObjectOfType<KillStreakManager>();
 
-         m_oldHealth = m_currHealth;
+        m_oldHealth = m_currHealth;
 
-        if(isPlayer)
+        if (isPlayer)
         {
             m_camera = GameObject.FindObjectOfType<IsoCam>();
-
+            m_playerRef = this.GetComponent<Player>();
         }
     }
 
@@ -82,13 +84,13 @@ public class Health : MonoBehaviour
         {
             Color textColor = Color.white;
 
-            if(m_beenCrit)
+            if (m_beenCrit)
             {
                 textColor = Color.red;
                 m_beenCrit = false;
             }
 
-            if(m_currHealth > m_oldHealth)
+            if (m_currHealth > m_oldHealth)
             {
                 textColor = Color.green;
             }
@@ -98,7 +100,7 @@ public class Health : MonoBehaviour
 
             if (m_camera != null && m_currHealth < m_oldHealth)
             {
-                
+
                 //shake cam if player hurt
                 m_camera.FlashRed(0.5f);
                 m_camera.Shake(10.0f, 0.1f);
@@ -107,7 +109,7 @@ public class Health : MonoBehaviour
         }
 
         //cant go above max
-        if(m_currHealth > m_maxHealth)
+        if (m_currHealth > m_maxHealth)
         {
             m_currHealth = m_maxHealth;
         }
@@ -121,9 +123,9 @@ public class Health : MonoBehaviour
             if (!isPlayer)
             {
                 m_expManager.m_playerExperience += m_experienceValue;
-                if(m_killStreakManager != null)
+                if (m_killStreakManager != null)
                 {
-                        m_killStreakManager.AddKill();
+                    m_killStreakManager.AddKill();
 
                 }
             }
@@ -164,10 +166,39 @@ public class Health : MonoBehaviour
             m_causeStun = false;
         }
 
+        if (isPlayer && !m_isBuffed && HealthBelowPercentCheck(10) && m_playerRef.m_hasRamboPerk)
+        {
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.Buffed);
+        }
+
         m_oldHealth = m_currHealth;
     }
 
+    public bool HealthBelowPercentCheck(float m_threshold)
+    {
 
+        if (m_currHealth <= m_maxHealth * (m_threshold / 100.0f))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool HealthAbovePercentCheck(float m_threshold)
+    {
+
+        if (m_currHealth > m_maxHealth * (m_threshold / 100.0f))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
     void OnGUI()
@@ -197,5 +228,5 @@ public class Health : MonoBehaviour
     }
 
 
-    
+
 }

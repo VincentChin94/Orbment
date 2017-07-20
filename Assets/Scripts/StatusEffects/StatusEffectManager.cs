@@ -4,41 +4,72 @@ using UnityEngine;
 
 public class StatusEffectManager : MonoBehaviour
 {
+    public struct StatusEffectItem
+    {
+        public StatusEffect.Status m_type;
+        public StatusEffect m_script;
+        public GameObject m_object;
+        
+    }
+
    
     public int m_poolAmount = 50;
     //originals
     public GameObject[] m_statusEffects;
 
-    private List<GameObject> m_pool = new List<GameObject>();
-    private List<StatusEffect> m_scriptPool = new List<StatusEffect>();
+    private List<List<StatusEffectItem>> m_pool = new List<List<StatusEffectItem>>();
     // Use this for initialization
     void Start()
     {
-        foreach(GameObject obj in m_statusEffects)
+        for (int numType = 0; numType < m_statusEffects.Length; ++numType)
         {
+            List<StatusEffectItem> itemList = new List<StatusEffectItem>();
             for(int i = 0; i < m_poolAmount; ++i)
             {
-                GameObject effectObj = Instantiate(obj, this.transform);
-                effectObj.SetActive(false);
-                effectObj.transform.parent = this.transform;
+                StatusEffectItem newStatusEffect = new StatusEffectItem();
 
-                m_pool.Add(effectObj);
+                newStatusEffect.m_object = Instantiate(m_statusEffects[numType], this.transform);
 
-                StatusEffect effectScript = effectObj.GetComponent<StatusEffect>();
-                if(effectScript != null)
+
+
+                StatusEffect effectScript = newStatusEffect.m_object.GetComponent<StatusEffect>();
+
+                if (effectScript != null)
                 {
                     effectScript.m_manager = this.transform;
-                    m_scriptPool.Add(effectScript);
+                    newStatusEffect.m_type = effectScript.m_type;
+                    newStatusEffect.m_script = effectScript;
+
                 }
+
+
                 
+                newStatusEffect.m_object.SetActive(false);
+                newStatusEffect.m_object.transform.parent = this.transform;
+
+
+                itemList.Add(newStatusEffect);
+
             }
+
+            m_pool.Add(itemList);
+
         }
 
     }
 
     public void RequestEffect(Transform obj, StatusEffect.Status a_type)
     {
-        GameObject effect = FindInactive(a_type);
+        GameObject effect = null;
+
+        for(int i = 0; i< m_pool.Count; ++i)
+        {
+            if(m_pool[i][0].m_type == a_type)
+            {
+                effect = FindInactive(m_pool[i]);
+                break;
+            }
+        }
 
         if(effect != null)
         {
@@ -48,13 +79,13 @@ public class StatusEffectManager : MonoBehaviour
         }
     }
 
-    GameObject FindInactive( StatusEffect.Status a_type)
+    GameObject FindInactive( List<StatusEffectItem> a_list)
     {
-        for (int i = 0; i < m_pool.Count; ++i)
+        for (int i = 0; i < a_list.Count; ++i)
         {
-            if (!m_pool[i].activeInHierarchy && m_scriptPool[i].m_type == a_type)
+            if (!a_list[i].m_object.activeInHierarchy)
             {
-                return m_pool[i];
+                return a_list[i].m_object;
 
             }
         }
