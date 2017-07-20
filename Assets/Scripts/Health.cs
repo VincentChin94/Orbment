@@ -187,18 +187,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    public bool HealthAbovePercentCheck(float m_threshold)
-    {
 
-        if (m_currHealth > m_maxHealth * (m_threshold / 100.0f))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
 
     void OnGUI()

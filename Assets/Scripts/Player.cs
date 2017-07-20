@@ -289,7 +289,7 @@ public class Player : MonoBehaviour
 
         }
 
-        if (m_ringOfFireActive && m_health.HealthAbovePercentCheck(m_ringOfFirePercentThreshold))
+        if (m_ringOfFireActive && !m_health.HealthBelowPercentCheck(m_ringOfFirePercentThreshold))
         {
             m_ringOfFireActive = false;
         }
@@ -311,7 +311,7 @@ public class Player : MonoBehaviour
 
         }
 
-        if (m_lightningFieldActive && m_health.HealthAbovePercentCheck(m_lightningFieldPercentThreshold))
+        if (m_lightningFieldActive && !m_health.HealthBelowPercentCheck(m_lightningFieldPercentThreshold))
         {
             m_lightningFieldActive = false;
         }
