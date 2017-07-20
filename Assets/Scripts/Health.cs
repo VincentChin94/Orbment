@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
     //public Transform m_RecentAttacker;
 
     [HideInInspector]
-    public bool m_setOnFire = false, m_causeStun = false, m_causeSlow = false, m_giveBuff = false;
+    public bool m_setOnFire = false, m_causeStun = false, m_causeSlow = false;
 
     [HideInInspector]
     public bool m_beenCrit = false;
@@ -51,6 +51,7 @@ public class Health : MonoBehaviour
     public bool m_isSlowed = false;
     public bool m_isStunned = false;
     public bool m_isBuffed = false;
+    public bool m_hasLightningField = false;
 
     void Start()
     {
@@ -120,6 +121,7 @@ public class Health : MonoBehaviour
         if (m_currHealth <= 0)
         {
 
+            //handle death state
             if (!isPlayer)
             {
                 m_expManager.m_playerExperience += m_experienceValue;
@@ -142,7 +144,6 @@ public class Health : MonoBehaviour
                 m_currHealth = 1;
             }
 
-            //handle death state
         }
 
         ///STATUS EFFECTS

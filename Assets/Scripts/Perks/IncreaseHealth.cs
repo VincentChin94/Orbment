@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IncreaseHealth : Perk
 {
+    public int m_healthIncrease = 10;
 
     private Player m_player;
     private Health m_playerHealth;
@@ -21,10 +22,9 @@ public class IncreaseHealth : Perk
 
     public override void Activate()
     {
-        m_player.m_currHealthPoints++;
         if(m_playerHealth != null)
         {
-            m_playerHealth.m_maxHealth += m_player.m_HealthIncrement;
+            m_playerHealth.m_maxHealth += m_healthIncrease;
         }
     }
 

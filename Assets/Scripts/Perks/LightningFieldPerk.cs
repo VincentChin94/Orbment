@@ -10,6 +10,7 @@ public class LightningFieldPerk : Perk
     // Use this for initialization
     void Start()
     {
+        
         m_player = GameObject.FindObjectOfType<Player>();
     }
 
@@ -17,5 +18,6 @@ public class LightningFieldPerk : Perk
     public override void Activate()
     {
         m_player.m_perks.Add(PerkID.LightningField);
+       
     }
 }

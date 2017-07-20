@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IncreaseMoveSpeed : Perk
 {
+    public int m_speedIncrease = 1;
     private Player m_player;
 
     // Use this for initialization
@@ -14,7 +15,11 @@ public class IncreaseMoveSpeed : Perk
 
     public override void Activate()
     {
-        m_player.m_currSpeedPoints++;
+        if(m_player != null)
+        {
+            m_player.m_currSpeed += m_speedIncrease;
+        }
+        
     }
 
 }

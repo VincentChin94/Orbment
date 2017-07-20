@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IncreaseDamage : Perk
 {
+    public int m_damageIncrease = 1;
     private Player m_player;
     // Use this for initialization
     void Start()
@@ -16,6 +17,10 @@ public class IncreaseDamage : Perk
 
     public override void Activate()
     {
-        m_player.m_currDamagePoints++;
+        if(m_player != null)
+        {
+            m_player.m_currDamage += m_damageIncrease;
+        }
+        
     }
 }

@@ -11,6 +11,9 @@ public class StatusEffect : MonoBehaviour
         Stunned,
         Slowed,
         Buffed,
+        LightningRing,
+        FireRing,
+
     }
     protected Health m_health;
     public Status m_type;

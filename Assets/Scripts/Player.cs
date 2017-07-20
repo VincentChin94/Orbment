@@ -9,60 +9,59 @@ using UnityEngine;
 [RequireComponent(typeof(Mana))]
 public class Player : MonoBehaviour
 {
-    [Header("Skill Points")]
-    public int m_currDamagePoints = 0;
-    public int m_currHealthPoints = 0;
-    public int m_currSpeedPoints = 0;
+    [Header("Current Damage and Speed")]
+    public int m_currDamage = 10;
+    public int m_currSpeed = 10;
+    private int m_damage = 10;
 
-    public int m_HealthIncrement = 10;
-    public int m_DamageIncrement = 1;
-    public int m_SpeedIncrement = 1;
 
+
+    [Header("Current Damage and Speed Multipliers")]
     public int m_currDamageMult = 1;
     public int m_currSpeedMult = 1;
 
+    [Header("Damage Deviation Range")]
+    public int m_damageDeviation = 3;
 
+    //critical hits
+    [Header("Criticals")]
+    public int m_critPercentChance = 10;
+    public float m_critDmgMult = 2.0f;
+    [HideInInspector]
+    public bool m_hasCrit = false;
 
-    public int m_baseHealth = 100;
-    public int m_baseDamage = 10;
-    public int m_baseSpeed = 10;
-
-    private int m_currDamage;
-    private int m_currSpeed;
-
+    [Header("Firing interval")]
     public float m_playerFiringInterval = 0.1f;
 
+    [Header("Point of projectile spawn")]
     public Transform m_shootPoint;
+
+    [Header("Mana")]
+    [Tooltip("Mana regen rate per second")]
     public float m_manaRegenRate = 10.0f;
+    [Tooltip("Mana cost per projectile")]
     public float m_shootManaCost = 10.0f;
+
+    [Header("Dash")]
     public float m_dashSpeed = 10.0f;
     public float m_dashTime = 0.2f;
     public float m_dashManaCost = 50.0f;
 
-
-
-    public List<BaseWeapon> m_weapons;
+    [Header("Current Weapon")]
     public BaseWeapon m_currWeapon;
 
-    //critical hits and damage deviation
-    public int m_critPercentChance = 10;
-    public float m_critDmgMult = 2.0f;
-    public int m_damageDeviation = 3;
-    public bool m_hasCrit = false;
-
-
-
-
-
+    [Header("Current Projectile")]
     //projectiles
     public GameObject m_currentProjectile;
 
 
     //orb count
+    [Header("Orbs Collected")]
     public int m_orbsCollected = 0;
-    public GameObject m_spentOrbPrefab;
-    public int m_poolAmountSpentOrbs = 15;
-    private List<GameObject> m_spentOrbs = new List<GameObject>();
+
+
+
+
 
     private CharacterController m_charCont;
     private Vector3 m_movement;
@@ -85,17 +84,23 @@ public class Player : MonoBehaviour
 
     private ExplosionManager m_explosionManager;
 
+    public GameObject m_spentOrbPrefab;
+    public int m_poolAmountSpentOrbs = 15;
+    private List<GameObject> m_spentOrbs = new List<GameObject>();
+
     //Perks
     /// <summary>
     /// /////////////////////////////////////////////////////////////
     /// </summary>
     /// 
-
+    [Header("Perks")]
     public List<PerkID> m_perks = new List<PerkID>();
+
 
 
     //RamboMode
     [Header("Rambo Mode")]
+    [HideInInspector]
     public bool m_hasRamboPerk = false;
 
     //Elemental Rings
@@ -121,7 +126,7 @@ public class Player : MonoBehaviour
 
         m_camera = GameObject.FindObjectOfType<IsoCam>();
 
-        m_weapons = new List<BaseWeapon>();
+
         m_charCont = this.GetComponent<CharacterController>();
         m_manaPool = this.GetComponent<Mana>();
         m_health = this.GetComponent<Health>();
@@ -151,17 +156,10 @@ public class Player : MonoBehaviour
         //    Vector3 heightDifference =  Vector3.up * (m_startingHeight - this.transform.position.y);
         //    this.transform.position += heightDifference;
         //}
-
-        //update damage and speed
-
-        m_currDamage = m_baseDamage + (m_currDamagePoints * m_DamageIncrement) + Random.Range(-m_damageDeviation, m_damageDeviation);
-        m_currSpeed = m_baseSpeed + (m_currSpeedPoints * m_SpeedIncrement);
-
-        
-        
+        m_damage = m_currDamage + Random.Range(-m_damageDeviation, m_damageDeviation);
 
         ////Check for RamboMode
-        if(!m_hasRamboPerk && m_perks.Contains(PerkID.RamboMode))
+        if (!m_hasRamboPerk && m_perks.Contains(PerkID.RamboMode))
         {
             m_hasRamboPerk = true;
         }
@@ -188,10 +186,11 @@ public class Player : MonoBehaviour
                         if (Random.Range(0, 100) <= m_critPercentChance)
                         {
                             //crit
-                            m_currDamage = Mathf.CeilToInt((float)m_currDamage * m_critDmgMult);
+                            m_damage = Mathf.CeilToInt((float)m_currDamage * m_critDmgMult);
                             m_hasCrit = true;
                         }
-                        m_currWeapon.Fire(this.transform.forward, m_currDamage * m_currDamageMult, m_hasCrit);
+                        //fire
+                        m_currWeapon.Fire(this.transform.forward, m_damage * m_currDamageMult, m_hasCrit);
 
                         if (m_camera != null)
                         {
