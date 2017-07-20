@@ -11,7 +11,7 @@ public class IceSplinter : MonoBehaviour
 
     private Bullet[] m_shards;
     
-    void Start()
+    void Awake()
     {
         m_shards = this.GetComponentsInChildren<Bullet>();
         m_explosionScript = this.GetComponent<Explosion>();
