@@ -15,7 +15,7 @@ public class ProtectorVision : MonoBehaviour
     //public Transform m_target;
     // Use this for initialization
     public bool leaderInSight = false;
-    //public bool inSight = false;
+    public float m_orbitRange = 2.0f;
     
     void Start()
     {
