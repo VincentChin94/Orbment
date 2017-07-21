@@ -18,12 +18,12 @@ public class FireExplosion : MonoBehaviour
     {
         if (col.CompareTag("Enemy"))
         {
-            Health healthScript = col.GetComponent<Health>();
+            Entity entity = col.GetComponent<Entity>();
 
-            if (healthScript != null)
+            if (entity != null)
             {
 
-                healthScript.m_currHealth -= Mathf.CeilToInt(m_explosionScript.m_damage * m_splashRatio);
+                entity.m_currHealth -= Mathf.CeilToInt(m_explosionScript.m_damage * m_splashRatio);
 
             }
         }

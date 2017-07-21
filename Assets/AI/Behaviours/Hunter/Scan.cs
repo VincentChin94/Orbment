@@ -8,6 +8,7 @@ public class Scan : StateMachineBehaviour
 {
     private NavMeshAgent m_agent;
     private FindObjectsInRadius m_foir;
+    public float m_scanRotateSpeed = 10.0f;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -21,7 +22,7 @@ public class Scan : StateMachineBehaviour
         if(m_foir.m_target == null)
         {
 
-            m_agent.transform.Rotate(Vector3.up * m_agent.angularSpeed * Time.deltaTime);
+            m_agent.transform.Rotate(Vector3.up * m_scanRotateSpeed * Time.deltaTime);
         }
         else
         {

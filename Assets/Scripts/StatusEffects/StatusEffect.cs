@@ -15,19 +15,19 @@ public class StatusEffect : MonoBehaviour
         FireRing,
 
     }
-    protected Health m_health;
+    protected Entity m_entity;
     public Status m_type;
     public Transform m_manager;
 
     protected virtual void OnEnable()
     {
-        m_health = this.GetComponentInParent<Health>();
+        m_entity = this.GetComponentInParent<Entity>();
     }
 
     protected virtual void Update()
     {
 
-        if (m_health != null && m_health.m_currHealth <= 0.0f)
+        if (m_entity != null && m_entity.m_currHealth <= 0.0f)
         {
             ReturnToSender();
         }

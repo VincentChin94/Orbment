@@ -11,7 +11,7 @@ public class LightningBall : Bullet
     {
         base.OnCollisionEnter(collision);
         //set on fire
-        if (m_enemyHealth != null)
+        if (m_enemy != null)
         {
             m_explosionManager.RequestExplosion(collision.collider.transform.position, this.transform.forward, Explosion.ExplosionType.Lightning, m_damage);
 
