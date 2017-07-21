@@ -26,21 +26,17 @@ public class FindClosestAlly : StateMachineBehaviour
         if(m_protectorVision.leaderInSight && m_protectorVision.m_leader != null)
         {
             Vector3 distVect =  m_protectorVision.m_leader.transform.position - this.m_agent.transform.position;
-            float distance = distVect.sqrMagnitude;
+
             distVect.Normalize();
 
-            if (distance <= m_orbitRange * m_orbitRange)
-            {
-                m_agent.transform.Rotate(Vector3.up * m_scanRotateSpeed * Time.deltaTime);
-            }
-            else
-            {
-                m_agent.SetDestination(m_protectorVision.m_leader.position - distVect * m_orbitRange);
-            }
-            
 
             
+
+            m_agent.SetDestination(m_protectorVision.m_leader.position - distVect * m_orbitRange);
+
         }
+
+        m_agent.transform.Rotate(Vector3.up * m_scanRotateSpeed * Time.deltaTime);
         animator.SetBool("hasLeader", m_protectorVision.leaderInSight);
 
         animator.SetBool("inRange", m_foir.inRange);
