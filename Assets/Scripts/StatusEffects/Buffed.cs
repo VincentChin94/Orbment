@@ -18,11 +18,11 @@ public class Buffed : StatusEffect
     protected override void OnEnable()
     {
         base.OnEnable();
-        if (m_health != null)
+        if (m_entity != null)
         {
-            m_health.m_isBuffed = true;
+            m_entity.m_isBuffed = true;
 
-            m_player = m_health.GetComponent<Player>();
+            m_player = m_entity.GetComponent<Player>();
 
             if (m_player != null)
             {
@@ -36,9 +36,9 @@ public class Buffed : StatusEffect
 
     void OnDisable()
     {
-        if(m_health != null)
+        if(m_entity != null)
         {
-            m_health.m_isBuffed = false;
+            m_entity.m_isBuffed = false;
         }
         
         if (m_player != null)
@@ -52,11 +52,11 @@ public class Buffed : StatusEffect
 
         base.Update();
 
-        if(m_health != null)
+        if(m_entity != null)
         {
-            if(!m_health.HealthBelowPercentCheck(10))
+            if(!m_entity.HealthBelowPercentCheck(10))
             {
-                m_health.m_isBuffed = false;
+                m_entity.m_isBuffed = false;
                 ReturnToSender();
             }
         }

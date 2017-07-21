@@ -7,22 +7,22 @@ public class RingOfFire : MonoBehaviour
     //public int m_ringOfFireDPS = 5;
     //public float m_tickInterval = 0.5f;
     //private float m_elapsed = 0.0f;
-    private StatusEffectManager m_statusEffectManager;
+    //private StatusEffectManager m_statusEffectManager;
     // Use this for initialization
     void Start()
     {
-        m_statusEffectManager = GameObject.FindObjectOfType<StatusEffectManager>();
+        //m_statusEffectManager = GameObject.FindObjectOfType<StatusEffectManager>();
     }
     void OnTriggerStay(Collider col)
     {
         if(col.CompareTag("Enemy"))
         {
 
-            Health healthScript = col.GetComponent<Health>();
+            Entity entity = col.GetComponent<Entity>();
 
-            if (healthScript != null)
+            if (entity != null)
             {
-                healthScript.m_setOnFire = true;
+                entity.m_setOnFire = true;
             }
 
         }

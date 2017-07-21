@@ -36,11 +36,11 @@ public class EnemyAttack : MonoBehaviour
             {
                 if (m_foir.m_target != null)
                 {
-                    Health playerHealth = m_foir.m_target.GetComponent<Health>();
+                    Entity player = m_foir.m_target.GetComponent<Entity>();
 
-                    if (playerHealth != null)
+                    if (player != null)
                     {
-                        playerHealth.m_currHealth -= m_damage;
+                        player.m_currHealth -= m_damage;
                        
                     }
                 }

@@ -19,9 +19,9 @@ public class Slowed : StatusEffect
     protected override void OnEnable()
     {
         base.OnEnable();
-        if (m_health != null)
+        if (m_entity != null)
         {
-            m_health.m_isSlowed = true;
+            m_entity.m_isSlowed = true;
         }
 
         m_agent = this.GetComponentInParent<NavMeshAgent>();
@@ -34,19 +34,19 @@ public class Slowed : StatusEffect
 
         if (m_agent != null)
         {
-            m_agent.speed = m_health.m_originalMoveSpeed * m_slowMult;
+            m_agent.speed = m_entity.m_originalMoveSpeed * m_slowMult;
         }
 
         if (m_timer >= m_lifetime)
         {
-            if (m_health != null)
+            if (m_entity != null)
             {
-                m_health.m_isSlowed = false;
+                m_entity.m_isSlowed = false;
             }
 
-            if (m_agent != null && m_health != null)
+            if (m_agent != null && m_entity != null)
             {
-                m_agent.speed = m_health.m_originalMoveSpeed;
+                m_agent.speed = m_entity.m_originalMoveSpeed;
             }
 
             ReturnToSender();

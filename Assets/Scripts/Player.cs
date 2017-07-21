@@ -5,9 +5,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 
-[RequireComponent(typeof(Health))]
+//[RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Mana))]
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     [Header("Current Damage and Speed")]
     public int m_currDamage = 10;
@@ -75,26 +75,18 @@ public class Player : MonoBehaviour
 
     private TrailRenderer m_dashTrail;
     private Mana m_manaPool;
-    private Health m_health;
 
     //dash
     private bool m_dashing = false;
     private float m_dashTimer = 0.0f;
     private Vector3 m_dashDirection;
 
-    private ExplosionManager m_explosionManager;
+ 
 
     public GameObject m_spentOrbPrefab;
     public int m_poolAmountSpentOrbs = 15;
     private List<GameObject> m_spentOrbs = new List<GameObject>();
 
-    //Perks
-    /// <summary>
-    /// /////////////////////////////////////////////////////////////
-    /// </summary>
-    /// 
-    [Header("Perks")]
-    public List<PerkID> m_perks = new List<PerkID>();
 
 
 
@@ -114,22 +106,17 @@ public class Player : MonoBehaviour
     public GameObject m_lightningField;
     private bool m_lightningFieldActive = false;
 
-    /// <summary>
-    /// ////////////////////////////////////////////////////////
-    /// </summary>
 
-    private IsoCam m_camera;
-
-    void Start()
+    new void Start()
     {
-        PoolSpentOrbs();
 
-        m_camera = GameObject.FindObjectOfType<IsoCam>();
+        base.Start();
+        PoolSpentOrbs();
 
 
         m_charCont = this.GetComponent<CharacterController>();
         m_manaPool = this.GetComponent<Mana>();
-        m_health = this.GetComponent<Health>();
+
 
 
         m_shootPlane = LayerMask.GetMask("ShootPlane");
@@ -142,14 +129,14 @@ public class Player : MonoBehaviour
             m_dashTrail.enabled = false;
         }
 
-        m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
     }
 
 
 
 
-    void Update()
+    protected new void Update()
     {
+        base.Update();
         //stick to ground helper
         //if(this.transform.position.y != m_startingHeight)
         //{
@@ -280,7 +267,7 @@ public class Player : MonoBehaviour
             return;
         }
         //if health is below threshold turn on ring of fire
-        if (m_perks.Contains(PerkID.RingOfFire) && m_health.HealthBelowPercentCheck(m_ringOfFirePercentThreshold) && !m_ringOfFireActive)
+        if (m_perks.Contains(PerkID.RingOfFire) && HealthBelowPercentCheck(m_ringOfFirePercentThreshold) && !m_ringOfFireActive)
         {
 
 
@@ -288,7 +275,7 @@ public class Player : MonoBehaviour
 
         }
 
-        if (m_ringOfFireActive && !m_health.HealthBelowPercentCheck(m_ringOfFirePercentThreshold))
+        if (m_ringOfFireActive && !HealthBelowPercentCheck(m_ringOfFirePercentThreshold))
         {
             m_ringOfFireActive = false;
         }
@@ -302,7 +289,7 @@ public class Player : MonoBehaviour
             return;
         }
         //if health is below threshold turn on ring of lightning
-        if (m_perks.Contains(PerkID.LightningField) && m_health.HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
+        if (m_perks.Contains(PerkID.LightningField) && HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
         {
 
 
@@ -310,7 +297,7 @@ public class Player : MonoBehaviour
 
         }
 
-        if (m_lightningFieldActive && !m_health.HealthBelowPercentCheck(m_lightningFieldPercentThreshold))
+        if (m_lightningFieldActive && !HealthBelowPercentCheck(m_lightningFieldPercentThreshold))
         {
             m_lightningFieldActive = false;
         }

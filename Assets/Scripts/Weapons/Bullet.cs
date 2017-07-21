@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
     private TrailRenderer m_trail;
 
     protected ExplosionManager m_explosionManager;
-    protected Health m_enemyHealth = null;
+    protected Entity m_enemy = null;
 
 
     public Player m_playerRef = null;
@@ -107,7 +107,7 @@ public class Bullet : MonoBehaviour
     {
 
         m_timer = 0.0f;
-        m_enemyHealth = null;
+        m_enemy = null;
         this.gameObject.SetActive(false);
         if (m_trail != null)
         {
@@ -148,13 +148,13 @@ public class Bullet : MonoBehaviour
         {
             m_explosionManager.RequestExplosion(this.transform.position, -m_direction, Explosion.ExplosionType.BulletImpact, 0.0f);
 
-            m_enemyHealth = collision.collider.GetComponent<Health>();
+            m_enemy = collision.collider.GetComponent<Entity>();
             //do base damage
-            if (m_enemyHealth != null)
+            if (m_enemy != null)
             {
-                m_enemyHealth.m_beenCrit = this.m_isCrit;
-                m_enemyHealth.m_currHealth -= m_damage;
-                m_enemyHealth.m_recentDamageTaken = m_damage;
+                m_enemy.m_beenCrit = this.m_isCrit;
+                m_enemy.m_currHealth -= m_damage;
+                m_enemy.m_recentDamageTaken = m_damage;
 
                 m_explosionManager.RequestExplosion(this.transform.position, -m_direction, Explosion.ExplosionType.SmallBlood, 0.0f);
             }

@@ -47,15 +47,15 @@ public class LightningField : MonoBehaviour
     {
         if (col.CompareTag("Enemy"))
         {
-            Health healthScript = col.GetComponent<Health>();
+            Enemy entity = col.GetComponent<Enemy>();
 
-            if (healthScript != null)
+            if (entity != null)
             {
                 m_elapsed += Time.deltaTime;
                 if (m_elapsed >= m_tickInterval)
                 {
                     m_elapsed = m_elapsed % m_tickInterval;
-                    healthScript.m_currHealth -= m_lightningFieldDPS;
+                    entity.m_currHealth -= m_lightningFieldDPS;
                 }
 
 

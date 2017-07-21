@@ -21,9 +21,9 @@ public class Stunned : StatusEffect
     protected override void OnEnable()
     {
         base.OnEnable();
-        if (m_health != null)
+        if (m_entity != null)
         {
-            m_health.m_isStunned = true;
+            m_entity.m_isStunned = true;
         }
 
         m_agent = this.GetComponentInParent<NavMeshAgent>();
@@ -52,14 +52,14 @@ public class Stunned : StatusEffect
 
         if (m_timer >= m_lifetime)
         {
-            if (m_health != null)
+            if (m_entity != null)
             {
-                m_health.m_isStunned = false;
+                m_entity.m_isStunned = false;
             }
 
-            if (m_agent != null && m_health != null)
+            if (m_agent != null && m_entity != null)
             {
-                m_agent.speed = m_health.m_originalMoveSpeed;
+                m_agent.speed = m_entity.m_originalMoveSpeed;
             }
 
             if (m_enemyAttack != null)
