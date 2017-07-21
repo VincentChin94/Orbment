@@ -38,7 +38,8 @@ public class Player : Entity
 
     [Header("Mana")]
     [Tooltip("Mana regen rate per second")]
-    public float m_manaRegenRate = 10.0f;
+    public float m_manaRegenAcceleration = 0.6f;
+    private float m_currRegenRate = 0.0f;
     [Tooltip("Mana cost per projectile")]
     public float m_shootManaCost = 10.0f;
 
@@ -156,6 +157,7 @@ public class Player : Entity
         //mouse hold fire
         if (Input.GetMouseButton(0))
         {
+            m_currRegenRate = 0.0f;
             if (m_playerFireTimer >= m_playerFiringInterval)
             {
                 m_playerFireTimer = 0.0f;
@@ -310,7 +312,7 @@ public class Player : Entity
 
     void Dash(Vector3 dir)
     {
-
+        m_currRegenRate = 0.0f;
         m_charCont.Move(dir * m_dashSpeed);
 
         m_dashTimer += Time.deltaTime;
@@ -341,11 +343,13 @@ public class Player : Entity
         if (m_manaPool.m_currentMana >= m_manaPool.m_maxMana)
         {
             m_manaPool.m_currentMana = m_manaPool.m_maxMana;
+            m_currRegenRate = 0.0f;
         }
 
         if (m_manaPool.m_currentMana < m_manaPool.m_maxMana)
         {
-            m_manaPool.m_currentMana += m_manaRegenRate * Time.deltaTime;
+            m_currRegenRate += m_manaRegenAcceleration * Time.deltaTime;
+            m_manaPool.m_currentMana += m_currRegenRate * Time.deltaTime;
         }
 
     }
