@@ -55,8 +55,7 @@ public class OrbGate : MonoBehaviour
         {
             m_playerIsNear = true;
             //hold e to spend orbs
-            if (Input.GetKey(KeyCode.E))
-            {
+
                 m_holdTimer += Time.deltaTime;
                 if (m_holdTimer >= m_holdDuration)
                 {
@@ -70,12 +69,6 @@ public class OrbGate : MonoBehaviour
                         m_orbSpendTimer = 0.0f;
                     }
                 }
-            }
-
-            if (Input.GetKeyUp(KeyCode.E))
-            {
-                m_holdTimer = 0.0f;
-            }
 
             checkIfShouldOpen();
         }
@@ -91,27 +84,7 @@ public class OrbGate : MonoBehaviour
     }
 
 
-    private void OnGUI()
-    {
-        Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
 
-        if (m_playerIsNear && m_Player.m_orbsCollected > 0 && !m_isOpen)
-        {
-
-            GUI.Label(new Rect(screenPoint.x - 0.5f * 100, Screen.height - screenPoint.y - 80, 100, 20), "Hold E", m_textStyle);
-
-        }
-
-        if (m_playerIsNear && m_Player.m_orbsCollected == 0 && !m_isOpen)
-        {
-            GUI.Label(new Rect(screenPoint.x - 0.5f * 100, Screen.height - screenPoint.y - 80, 100, 20), "No Orbs", m_textStyle);
-        }
-
-        if (m_playerIsNear && !m_isOpen)
-        {
-            GUI.Label(new Rect(screenPoint.x - 0.5f * 100, Screen.height - screenPoint.y - 50, 100, 20),"Cost: " + (m_numOfOrbsForOpen - m_currNumOrbsInvested).ToString(), m_textStyle);
-        }
-    }
 
     private void checkIfShouldOpen()
     {
