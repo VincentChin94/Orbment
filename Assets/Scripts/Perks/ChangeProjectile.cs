@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChangeProjectile: Perk
 {
     public GameObject m_projectile;
+    public float m_firingInterval = 0.1f;
     private Player m_player;
     private BaseWeapon m_playerWeapon;
     // Use this for initialization
@@ -24,6 +25,7 @@ public class ChangeProjectile: Perk
        if(m_playerWeapon != null && m_projectile != null)
         {
             m_player.m_currentProjectile = m_projectile;
+            m_player.m_playerFiringInterval = m_firingInterval;
             m_playerWeapon.SetProjectile(m_projectile);
         }
     }
