@@ -22,6 +22,7 @@ public enum PerkID
     //Normal
     IncreaseDamage,
     IncreaseMaxHealth,
+    IncreaseMaxMana,
     IncreaseAgility,
     TripleShot,
     //Fire
