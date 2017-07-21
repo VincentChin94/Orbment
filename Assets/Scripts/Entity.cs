@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Entity : MonoBehaviour
 {
     public bool m_godMode = false;
-    public bool isPlayer = false;
+
     public int m_healthBarWidth = 100;
     public int m_maxHealth = 100;
     public int m_currHealth = 100;
@@ -17,22 +17,22 @@ public class Entity : MonoBehaviour
     public int m_recentDamageTaken = 0;
 
     //Agent
-    private NavMeshAgent m_agent;
+    protected NavMeshAgent m_agent;
     //original move speed;
     [HideInInspector]
     public float m_originalMoveSpeed = 0.0f;
 
     //old health;
-    private float m_oldHealth = 0.0f;
+    protected float m_oldHealth = 0.0f;
 
 
-    private ExpManager m_expManager;
-    private DamageNumberManager m_damageNumbersManager;
-    private StatusEffectManager m_statusEffectManager;
-    private ExplosionManager m_explosionManager;
-    private KillStreakManager m_killStreakManager;
+    protected ExpManager m_expManager;
+    protected DamageNumberManager m_damageNumbersManager;
+    protected StatusEffectManager m_statusEffectManager;
+    protected ExplosionManager m_explosionManager;
+    protected KillStreakManager m_killStreakManager;
 
-    private IsoCam m_camera;
+    protected IsoCam m_camera;
 
     //public Transform m_RecentAttacker;
 
@@ -48,10 +48,11 @@ public class Entity : MonoBehaviour
     public bool m_isSlowed = false;
     public bool m_isStunned = false;
     public bool m_isBuffed = false;
-    // Use this for initialization
+
 
     public List<PerkID> m_perks = new List<PerkID>();
 
+    // Use this for initialization
     protected void Start()
     {
         m_agent = this.GetComponent<NavMeshAgent>();
@@ -117,15 +118,15 @@ public class Entity : MonoBehaviour
         if (m_currHealth <= 0)
         {
 
-            if (!isPlayer)
-            {
-                m_expManager.m_playerExperience += m_experienceValue;
-                if (m_killStreakManager != null)
-                {
-                    m_killStreakManager.AddKill();
+            //if (!isPlayer)
+            //{
+            //    m_expManager.m_playerExperience += m_experienceValue;
+            //    if (m_killStreakManager != null)
+            //    {
+            //        m_killStreakManager.AddKill();
 
-                }
-            }
+            //    }
+            //}
 
             if (!m_godMode)
             {
@@ -199,16 +200,6 @@ public class Entity : MonoBehaviour
 
         }
 
-        //if (m_onFire)
-        //{
-        //    Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
-        //    GUI.Label(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 80, m_healthBarWidth, 20), "ON FIRE!");
-        //}
 
-        //if (m_isStunned)
-        //{
-        //    Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
-        //    GUI.Label(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 80, m_healthBarWidth, 20), "STUNNED!");
-        //}
     }
 }

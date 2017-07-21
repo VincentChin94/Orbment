@@ -5,7 +5,6 @@ using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     Player m_playerRef;
-    Health m_playerHealth;
     Mana m_playerMana;
     public enum CollectableType
     {
@@ -26,7 +25,7 @@ public class Collectable : MonoBehaviour
         m_playerRef = GameObject.FindObjectOfType<Player>();
         if(m_playerRef != null)
         {
-            m_playerHealth = m_playerRef.GetComponent<Health>();
+      
             m_playerMana = m_playerRef.GetComponent<Mana>();
         }
     }
@@ -56,9 +55,9 @@ public class Collectable : MonoBehaviour
 
                 case CollectableType.GreenOrb:
                     {
-                        if(m_playerHealth != null)
+                        if (m_playerRef)
                         {
-                            m_playerHealth.m_currHealth += m_healAmount;
+                            m_playerRef.m_currHealth += m_healAmount;
                         }
                         break;
                     }

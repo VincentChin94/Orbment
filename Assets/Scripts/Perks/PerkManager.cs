@@ -6,7 +6,6 @@ using UnityEngine;
 public class PerkManager : MonoBehaviour
 {
     public Player m_player;
-    public Health m_playerHealth;
     public Mana m_playerMana;
     private ExpManager m_XpManager;
 
@@ -51,7 +50,6 @@ public class PerkManager : MonoBehaviour
 
         if (m_player != null)
         {
-            m_playerHealth = m_player.gameObject.GetComponent<Health>();
             m_playerMana = m_player.gameObject.GetComponent<Mana>();
         }
 

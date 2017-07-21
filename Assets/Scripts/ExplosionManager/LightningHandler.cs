@@ -58,10 +58,10 @@ public class LightningHandler : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        Health enemyHealth = a_enemy.GetComponent<Health>();
-        if (enemyHealth != null && !m_zapped.Contains(a_enemy))
+        Entity enemy = a_enemy.GetComponent<Entity>();
+        if (enemy != null && !m_zapped.Contains(a_enemy))
         {
-            enemyHealth.m_currHealth -= Mathf.CeilToInt(m_currDamage);
+            enemy.m_currHealth -= Mathf.CeilToInt(m_currDamage);
             m_currDamage *= m_damageDecay;
 
             if (a_enemy != null)

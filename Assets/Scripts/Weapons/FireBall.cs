@@ -12,7 +12,7 @@ public class FireBall : Bullet
     {
         base.OnCollisionEnter(collision);
         //set on fire
-        if (m_enemyHealth != null)
+        if (m_enemy != null)
         {
             if(!m_hasStunPerk && m_playerRef != null && m_playerRef.m_perks.Contains(PerkID.StunChance))
             {
@@ -23,10 +23,10 @@ public class FireBall : Bullet
             //stun
             if (m_hasStunPerk && Random.Range(0.0f, 100.0f) <= m_stunChance)
             {
-                m_enemyHealth.m_causeStun = true;
+                m_enemy.m_causeStun = true;
             }
 
-            m_enemyHealth.m_setOnFire = true;
+            m_enemy.m_setOnFire = true;
         }
 
 

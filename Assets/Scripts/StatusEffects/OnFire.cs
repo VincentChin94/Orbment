@@ -19,9 +19,9 @@ public class OnFire : StatusEffect
     protected override void OnEnable()
     {
         base.OnEnable();
-        if (m_health != null)
+        if (m_entity != null)
         {
-            m_health.m_onFire = true;
+            m_entity.m_onFire = true;
         }
     }
     // Update is called once per frame
@@ -35,10 +35,10 @@ public class OnFire : StatusEffect
 
         if (m_ticker >= 1.0f)
         {
-            if (m_health != null)
+            if (m_entity != null)
             {
 
-                m_health.m_currHealth -= m_fireDmgTknPerSec;
+                m_entity.m_currHealth -= m_fireDmgTknPerSec;
             }
             m_ticker = 0.0f;
 
@@ -46,9 +46,9 @@ public class OnFire : StatusEffect
 
         if (m_timer >= m_lifetime)
         {
-            if (m_health != null)
+            if (m_entity != null)
             {
-                m_health.m_onFire = false;
+                m_entity.m_onFire = false;
             }
 
             ReturnToSender();

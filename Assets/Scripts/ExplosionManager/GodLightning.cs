@@ -52,12 +52,12 @@ public class GodLightning : MonoBehaviour
     {
         if (col.CompareTag("Enemy"))
         {
-            Health healthScript = col.GetComponent<Health>();
+            Entity enemy = col.GetComponent<Entity>();
 
-            if (healthScript != null)
+            if (enemy != null)
             {
 
-                healthScript.m_currHealth -= m_damage;
+                enemy.m_currHealth -= m_damage;
 
             }
         }
