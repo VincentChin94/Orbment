@@ -15,7 +15,7 @@ public class ProtectorVision : MonoBehaviour
     //public Transform m_target;
     // Use this for initialization
     public bool leaderInSight = false;
-    //public bool inSight = false;
+ 
     
     void Start()
     {

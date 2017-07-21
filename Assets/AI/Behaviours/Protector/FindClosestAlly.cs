@@ -9,6 +9,7 @@ public class FindClosestAlly : StateMachineBehaviour
     private NavMeshAgent m_agent;
     private ProtectorVision m_protectorVision;
     private FindObjectsInRadius m_foir;
+    public float m_orbitRange = 2.0f;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -20,9 +21,13 @@ public class FindClosestAlly : StateMachineBehaviour
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
         if(m_protectorVision.leaderInSight && m_protectorVision.m_leader != null)
         {
-            m_agent.SetDestination(m_protectorVision.m_leader.position);
+            Vector3 distVect =  m_protectorVision.m_leader.transform.position - this.m_agent.transform.position;
+            distVect.Normalize();
+
+            m_agent.SetDestination(m_protectorVision.m_leader.position - distVect * m_orbitRange);
         }
         animator.SetBool("hasLeader", m_protectorVision.leaderInSight);
 
