@@ -118,16 +118,6 @@ public class Entity : MonoBehaviour
         if (m_currHealth <= 0)
         {
 
-            //if (!isPlayer)
-            //{
-            //    m_expManager.m_playerExperience += m_experienceValue;
-            //    if (m_killStreakManager != null)
-            //    {
-            //        m_killStreakManager.AddKill();
-
-            //    }
-            //}
-
             if (!m_godMode)
             {
                 m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.BigBlood, 0.0f);
@@ -164,10 +154,6 @@ public class Entity : MonoBehaviour
             m_causeStun = false;
         }
 
-        //if (isPlayer && !m_isBuffed && HealthBelowPercentCheck(10) && m_playerRef.m_hasRamboPerk)
-        //{
-        //    m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.Buffed);
-        //}
 
         m_oldHealth = m_currHealth;
     }

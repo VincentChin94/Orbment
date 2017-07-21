@@ -138,6 +138,12 @@ public class Player : Entity
     protected new void Update()
     {
         base.Update();
+
+
+        if (!m_isBuffed && HealthBelowPercentCheck(10) && m_hasRamboPerk)
+        {
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.Buffed);
+        }
         //stick to ground helper
         //if(this.transform.position.y != m_startingHeight)
         //{

@@ -5,8 +5,9 @@ using UnityEngine;
 public class Buffed : StatusEffect
 {
     public int m_damageMultplier = 2;
-
+    public float m_firingIntervalDivider = 2.0f;
     private int m_originalMult = 1;
+    private float m_origFireRate;
     private Player m_player;
 
     // Use this for initialization
@@ -27,6 +28,9 @@ public class Buffed : StatusEffect
             if (m_player != null)
             {
                 m_originalMult = m_player.m_currDamageMult;
+                m_origFireRate = m_player.m_playerFiringInterval;
+
+                m_player.m_playerFiringInterval = m_player.m_playerFiringInterval / m_firingIntervalDivider;
                 m_player.m_currDamageMult = m_damageMultplier;
             }
         }
@@ -43,6 +47,7 @@ public class Buffed : StatusEffect
         
         if (m_player != null)
         {
+            m_player.m_playerFiringInterval = m_origFireRate;
             m_player.m_currDamageMult = m_originalMult;
         }
     }
