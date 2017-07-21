@@ -33,7 +33,7 @@ public class FindClosestAlly : StateMachineBehaviour
 
             m_agent.SetDestination(m_protectorVision.m_leader.position - distVect * m_orbitRange + m_agent.transform.right * m_orbitSpeed);
             
-            m_agent.transform.forward = -distVect;
+            //m_agent.transform.forward = -distVect;
         }
 
         //m_agent.transform.Rotate(Vector3.up * m_scanRotateSpeed * Time.deltaTime);
