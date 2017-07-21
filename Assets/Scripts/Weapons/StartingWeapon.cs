@@ -5,9 +5,8 @@ using UnityEngine;
 public class StartingWeapon : BaseWeapon
 {
 
-    public override void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit)
+    public override void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit, float a_critMult)
     {
-
         base.PoolToActive(a_direction, damagePerProjectile, 1);
 
 
@@ -15,7 +14,13 @@ public class StartingWeapon : BaseWeapon
         {
             m_activePool[i].m_isCrit = a_hasCrit;
             m_activePool[i].m_direction = a_direction;
-            m_activePool[i].m_damage = damagePerProjectile;
+            m_activePool[i].m_damage = m_activePool[i].m_baseDamage + damagePerProjectile;
+
+            if(a_hasCrit)
+            {
+                m_activePool[i].m_damage = (int) (m_activePool[i].m_damage * a_critMult);
+            }
+
         }
 
 

@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
     [Header("Direction Vector")]
     public Vector3 m_direction;
     [Header("Damage")]
+    public int m_baseDamage = 5;
+    [HideInInspector]
     public int m_damage = 5;
     [Header("Projecile Speed")]
     public float m_projectileSpeed = 50;
@@ -25,6 +27,8 @@ public class Bullet : MonoBehaviour
     private Light m_light;
     private TrailRenderer m_trail;
 
+    
+
     protected ExplosionManager m_explosionManager;
     protected Entity m_enemy = null;
 
@@ -33,21 +37,6 @@ public class Bullet : MonoBehaviour
 
     public bool m_isCrit = false;
 
-    ///// <summary>
-    ///// Area of Effect
-    ///// </summary>
-    ///// 
-    //[Header("Area Of Effect")]
-    //public bool m_fireSplash = false;
-    //public bool m_iceSplit = false;
-
-    //[Header("STUN")]
-    //[Range(0, 100)]
-    //public float m_StunChance = 25.0f;
-    //public bool m_hasStunPerk = false;
-
-    //[Header("God lightning Perk")]
-    //public bool m_hasGodLightning = false;
 
     public enum ProjectileType
     {

@@ -41,7 +41,7 @@ public class EnemyShoot : MonoBehaviour
                 {
                     //shoot
                     m_shootDir = m_foir.m_target.position - this.transform.position;
-                    m_weapon.Fire(m_shootDir.normalized, m_damagePerProjectile, false);
+                    m_weapon.Fire(m_shootDir.normalized, m_damagePerProjectile, false, 1);
                 }
             }
 

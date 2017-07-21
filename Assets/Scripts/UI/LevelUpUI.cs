@@ -86,4 +86,9 @@ public class LevelUpUI : MonoBehaviour {
 	public void setPerkInfo(Perk a_Perk,int a_Index) {
 		m_PerkUIElements[a_Index].updatePerkUI(a_Perk);
 	}
+
+    void OnGUI()
+    {
+        GUI.depth = 1;
+    }
 }

@@ -16,13 +16,13 @@ public class LightningBall : Bullet
             m_explosionManager.RequestExplosion(collision.collider.transform.position, this.transform.forward, Explosion.ExplosionType.Lightning, m_damage);
 
 
-            if(!m_hasGodBolt && m_playerRef != null && m_playerRef.m_perks.Contains(PerkID.GodBolt))
+            if(!m_hasGodBolt && m_playerRef != null && m_playerRef.m_perks.Contains(PerkID.GodBolt) && !collision.collider.CompareTag(m_id))
             {
                 //do once
                 m_hasGodBolt = true;
             }
 
-            if(m_hasGodBolt)
+            if(m_hasGodBolt && !collision.collider.CompareTag(m_id))
             {
                 if (Random.Range(0, 100) <= m_godBoltChance)
                 {

@@ -44,4 +44,8 @@ public class PerkUI : MonoBehaviour {
         m_Text.text = a_Perk.m_name;
 		//print("perk "+a_Perk.m_name+": setting the image of perk " + m_PerkIndex + " is not implemented");
 	}
+    void OnGUI()
+    {
+        GUI.depth = 0;
+    }
 }

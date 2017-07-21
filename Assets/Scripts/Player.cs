@@ -175,11 +175,10 @@ public class Player : Entity
                         if (Random.Range(0, 100) <= m_critPercentChance)
                         {
                             //crit
-                            m_damage = Mathf.CeilToInt((float)m_currDamage * m_critDmgMult);
                             m_hasCrit = true;
                         }
                         //fire
-                        m_currWeapon.Fire(this.transform.forward, m_damage * m_currDamageMult, m_hasCrit);
+                        m_currWeapon.Fire(this.transform.forward, m_damage * m_currDamageMult, m_hasCrit, m_critDmgMult);
 
                         if (m_camera != null)
                         {

@@ -6,7 +6,7 @@ public class TripleShot : BaseWeapon
 {
     
     
-    public override void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit)
+    public override void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit, float a_critMult)
     {
 
         base.PoolToActive(a_direction, damagePerProjectile, 3);
@@ -28,6 +28,12 @@ public class TripleShot : BaseWeapon
             }
 
             m_activePool[i].m_isCrit = a_hasCrit;
+            m_activePool[i].m_damage = m_activePool[i].m_baseDamage + damagePerProjectile;
+
+            if (a_hasCrit)
+            {
+                m_activePool[i].m_damage = (int)(m_activePool[i].m_damage * a_critMult);
+            }
         }
 
     }

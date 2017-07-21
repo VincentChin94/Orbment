@@ -47,7 +47,7 @@ public class BaseWeapon : MonoBehaviour
         }
     }
 
-    public virtual void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit)
+    public virtual void Fire(Vector3 a_direction, int damagePerProjectile, bool a_hasCrit, float a_critMult)
     {
         //set velocities and directions
     }
@@ -73,7 +73,7 @@ public class BaseWeapon : MonoBehaviour
                         //pass the player reference through to let bullet know of perks on player
                         m_projectileScripts[i].m_playerRef = this.m_playerRef;
                     }
-                    m_projectileScripts[i].m_damage = damagePerProjectile;
+                    m_projectileScripts[i].m_damage = m_projectileScripts[i].m_baseDamage + damagePerProjectile;
                     //insert to active pool
 
                     m_activePool.Add(m_projectileScripts[i]);
