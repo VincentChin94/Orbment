@@ -10,6 +10,7 @@ public class FindClosestAlly : StateMachineBehaviour
     private ProtectorVision m_protectorVision;
     private FindObjectsInRadius m_foir;
     public float m_orbitRange = 2.0f;
+    public float m_orbitSpeed = 0.1f;
     public float m_scanRotateSpeed = 100.0f;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -26,17 +27,16 @@ public class FindClosestAlly : StateMachineBehaviour
         if(m_protectorVision.leaderInSight && m_protectorVision.m_leader != null)
         {
             Vector3 distVect =  m_protectorVision.m_leader.transform.position - this.m_agent.transform.position;
-
+            distVect.y = 0;
             distVect.Normalize();
-
-
             
 
-            m_agent.SetDestination(m_protectorVision.m_leader.position - distVect * m_orbitRange);
-
+            m_agent.SetDestination(m_protectorVision.m_leader.position - distVect * m_orbitRange + m_agent.transform.right * m_orbitSpeed);
+            
+            m_agent.transform.forward = -distVect;
         }
 
-        m_agent.transform.Rotate(Vector3.up * m_scanRotateSpeed * Time.deltaTime);
+        //m_agent.transform.Rotate(Vector3.up * m_scanRotateSpeed * Time.deltaTime);
         animator.SetBool("hasLeader", m_protectorVision.leaderInSight);
 
         animator.SetBool("inRange", m_foir.inRange);
