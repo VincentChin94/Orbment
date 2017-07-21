@@ -29,4 +29,17 @@ public class Enemy : Entity
         base.Update();
 
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("Bullet"))
+        {
+            Bullet m_bulletScript = collision.collider.GetComponent<Bullet>();
+
+            if (m_bulletScript != null && m_bulletScript.m_id == "Player")
+            {
+                m_agent.SetDestination(collision.collider.transform.position-m_bulletScript.m_direction);
+            }
+        }
+    }
 }
