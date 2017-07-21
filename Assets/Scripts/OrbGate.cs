@@ -56,20 +56,6 @@ public class OrbGate : MonoBehaviour
             m_playerIsNear = true;
             //hold e to spend orbs
 
-                m_holdTimer += Time.deltaTime;
-                if (m_holdTimer >= m_holdDuration)
-                {
-                    if (m_orbSpendTimer == 0.0f)
-                    {
-                        SpendOrb();
-                    }
-                    m_orbSpendTimer += Time.deltaTime;
-                    if (m_orbSpendTimer >= m_orbSpendRate)
-                    {
-                        m_orbSpendTimer = 0.0f;
-                    }
-                }
-
             checkIfShouldOpen();
         }
     }
@@ -88,8 +74,27 @@ public class OrbGate : MonoBehaviour
 
     private void checkIfShouldOpen()
     {
-        if (m_currNumOrbsInvested >= m_numOfOrbsForOpen)
+        //if(m_isOpen)
+        //{
+        //    m_holdTimer += Time.deltaTime;
+        //    if (m_holdTimer >= m_holdDuration)
+        //    {
+        //        if (m_orbSpendTimer == 0.0f)
+        //        {
+                    
+        //        }
+        //        m_orbSpendTimer += Time.deltaTime;
+        //        if (m_orbSpendTimer >= m_orbSpendRate)
+        //        {
+        //            m_orbSpendTimer = 0.0f;
+        //        }
+        //    }
+        //}
+        if (m_Player.m_orbsCollected >= m_numOfOrbsForOpen)
         {
+
+            SpendOrb(m_numOfOrbsForOpen);
+
             m_Animator.SetTrigger("OpenGate");
             if (m_visualLock != null)
             {
@@ -99,13 +104,14 @@ public class OrbGate : MonoBehaviour
         }
     }
 
-    private void SpendOrb()
+    private void SpendOrb( int a_num)
     {
+        
         if (m_Player.m_orbsCollected > 0)
         {
-            m_currNumOrbsInvested++;
-            m_Player.m_orbsCollected--;
-            m_Player.EmitSpentOrb();
+     
+            m_Player.m_orbsCollected -= a_num;
+            m_Player.EmitSpentOrb(a_num);
             m_lockScale = 1.0f - ((float)m_currNumOrbsInvested / (float)m_numOfOrbsForOpen);
             Vector3 m_targetScale = new Vector3(m_lockScale * m_origScale, m_lockScale * m_origScale, m_visualLock.transform.localScale.z);
             m_visualLock.transform.localScale = m_targetScale;

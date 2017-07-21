@@ -366,16 +366,23 @@ public class Player : Entity
         }
     }
 
-    public void EmitSpentOrb()
+    public void EmitSpentOrb(int a_num)
     {
+        int count = 0;
         for (int i = 0; i < m_spentOrbs.Count; ++i)
         {
+            if(count == a_num)
+            {
+                return;
+            }
+
             if (!m_spentOrbs[i].activeInHierarchy)
             {
                 m_spentOrbs[i].transform.position = this.transform.position + Random.onUnitSphere;
 
                 m_spentOrbs[i].SetActive(true);
-                return;
+                count++;
+                
             }
         }
     }
