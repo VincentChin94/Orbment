@@ -371,7 +371,7 @@ public class Player : Entity
         int count = 0;
         for (int i = 0; i < m_spentOrbs.Count; ++i)
         {
-            if(count == a_num)
+            if(count == a_num - 1)
             {
                 return;
             }
