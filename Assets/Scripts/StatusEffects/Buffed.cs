@@ -6,6 +6,7 @@ public class Buffed : StatusEffect
 {
     public int m_damageMultplier = 2;
     public float m_firingIntervalDivider = 2.0f;
+    public float m_healthPercentThreshold = 10.0f;
     private int m_originalMult = 1;
     private float m_origFireRate;
     private Player m_player;
@@ -59,7 +60,7 @@ public class Buffed : StatusEffect
 
         if(m_entity != null)
         {
-            if(!m_entity.HealthBelowPercentCheck(10))
+            if(!m_entity.HealthBelowPercentCheck(m_healthPercentThreshold))
             {
                 m_entity.m_isBuffed = false;
                 ReturnToSender();

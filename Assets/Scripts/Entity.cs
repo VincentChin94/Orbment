@@ -16,6 +16,16 @@ public class Entity : MonoBehaviour
     public Texture m_emptyBarTexture;
     public int m_recentDamageTaken = 0;
 
+    [Header("Current Damage and Speed")]
+    public int m_currDamage = 10;
+    public int m_currSpeed = 10;
+    protected int m_damage = 10;
+
+
+    [Header("Current Damage and Speed Multipliers")]
+    public int m_currDamageMult = 1;
+    public int m_currSpeedMult = 1;
+
     //Agent
     protected NavMeshAgent m_agent;
     //original move speed;
@@ -48,8 +58,14 @@ public class Entity : MonoBehaviour
     public bool m_isSlowed = false;
     public bool m_isStunned = false;
     public bool m_isBuffed = false;
+    public bool m_ringOfFireActive = false;
+    public bool m_lightningFieldActive = false;
 
 
+    [Header("Perks")]
+    public bool m_hasRamboPerk = false;
+    public bool m_hasRingOfFire = false;
+    public bool m_hasLightningField = false;
     public List<PerkID> m_perks = new List<PerkID>();
 
     // Use this for initialization
@@ -74,6 +90,23 @@ public class Entity : MonoBehaviour
     protected void Update()
     {
         HealthUpdate();
+
+        ////Check for RamboMode
+        if (!m_hasRamboPerk && m_perks.Contains(PerkID.RamboMode))
+        {
+            m_hasRamboPerk = true;
+        }
+
+        //Check for ring of fire
+        if (!m_hasRingOfFire && m_perks.Contains(PerkID.RingOfFire))
+        {
+            m_hasRingOfFire = true;
+        }
+
+        if (!m_hasLightningField && m_perks.Contains(PerkID.LightningField))
+        {
+            m_hasLightningField = true;
+        }
     }
 
     protected void HealthUpdate()
@@ -154,6 +187,20 @@ public class Entity : MonoBehaviour
             m_causeStun = false;
         }
 
+        if (!m_isBuffed && HealthBelowPercentCheck(10) && m_hasRamboPerk)
+        {
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.Buffed);
+        }
+
+        if (!m_ringOfFireActive && HealthBelowPercentCheck(25) && m_hasRingOfFire)
+        {
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.FireRing);
+        }
+
+        if (!m_lightningFieldActive && HealthBelowPercentCheck(25) && m_hasLightningField)
+        {
+            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.LightningRing);
+        }
 
         m_oldHealth = m_currHealth;
     }

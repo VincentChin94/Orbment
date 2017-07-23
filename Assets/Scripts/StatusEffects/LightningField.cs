@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
-public class LightningField : MonoBehaviour
+public class LightningField : StatusEffect
 {
+    public float m_healthPercentThreshold = 25.0f;
     public int m_lightningFieldDPS = 5;
     public float m_tickInterval = 0.5f;
     private float m_elapsed = 0.0f;
@@ -13,7 +14,28 @@ public class LightningField : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        this.m_type = Status.LightningRing;
         m_line = this.GetComponent<LineRenderer>();
+    }
+
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        if (m_entity != null)
+        {
+            m_entity.m_lightningFieldActive = true;
+        }
+
+
+    }
+
+    void OnDisable()
+    {
+        if (m_entity != null)
+        {
+            m_entity.m_lightningFieldActive = false;
+        }
     }
 
     private void FixedUpdate()
@@ -40,6 +62,17 @@ public class LightningField : MonoBehaviour
         m_line.numPositions = numEnemies;
         m_line.SetPositions(m_positions.ToArray());
 
+
+        if (m_entity != null)
+        {
+            if (!m_entity.HealthBelowPercentCheck(m_healthPercentThreshold))
+            {
+                m_entity.m_lightningFieldActive = false;
+                ReturnToSender();
+            }
+
+
+        }
 
     }
 

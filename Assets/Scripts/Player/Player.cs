@@ -9,16 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(Mana))]
 public class Player : Entity
 {
-    [Header("Current Damage and Speed")]
-    public int m_currDamage = 10;
-    public int m_currSpeed = 10;
-    private int m_damage = 10;
 
-
-
-    [Header("Current Damage and Speed Multipliers")]
-    public int m_currDamageMult = 1;
-    public int m_currSpeedMult = 1;
 
     [Header("Damage Deviation Range")]
     public int m_damageDeviation = 3;
@@ -91,21 +82,9 @@ public class Player : Entity
 
 
 
-    //RamboMode
-    [Header("Rambo Mode")]
-    [HideInInspector]
-    public bool m_hasRamboPerk = false;
 
-    //Elemental Rings
-    [Header("Elemental Rings")]
 
-    public float m_ringOfFirePercentThreshold = 25.0f;
-    public GameObject m_ringOfFireParticles;
-    private bool m_ringOfFireActive = false;
 
-    public float m_lightningFieldPercentThreshold = 25.0f;
-    public GameObject m_lightningField;
-    private bool m_lightningFieldActive = false;
 
 
     new void Start()
@@ -139,26 +118,7 @@ public class Player : Entity
     {
         base.Update();
 
-
-        if (!m_isBuffed && HealthBelowPercentCheck(10) && m_hasRamboPerk)
-        {
-            m_statusEffectManager.RequestEffect(this.transform, StatusEffect.Status.Buffed);
-        }
-        //stick to ground helper
-        //if(this.transform.position.y != m_startingHeight)
-        //{
-        //    Vector3 heightDifference =  Vector3.up * (m_startingHeight - this.transform.position.y);
-        //    this.transform.position += heightDifference;
-        //}
         m_damage = m_currDamage + Random.Range(-m_damageDeviation, m_damageDeviation);
-
-        ////Check for RamboMode
-        if (!m_hasRamboPerk && m_perks.Contains(PerkID.RamboMode))
-        {
-            m_hasRamboPerk = true;
-        }
-
-        ElementalRingCheck();
 
         //mouse hold fire
         if (Input.GetMouseButton(0))
@@ -266,52 +226,6 @@ public class Player : Entity
     }
 
 
-    void ElementalRingCheck()
-    {
-        ////////////////////////////////////Ring of FIRE
-        if (m_ringOfFireParticles == null)
-        {
-            return;
-        }
-        //if health is below threshold turn on ring of fire
-        if (m_perks.Contains(PerkID.RingOfFire) && HealthBelowPercentCheck(m_ringOfFirePercentThreshold) && !m_ringOfFireActive)
-        {
-
-
-            m_ringOfFireActive = true;
-
-        }
-
-        if (m_ringOfFireActive && !HealthBelowPercentCheck(m_ringOfFirePercentThreshold))
-        {
-            m_ringOfFireActive = false;
-        }
-
-        m_ringOfFireParticles.SetActive(m_ringOfFireActive);
-
-
-        ////////////////////////////////////Lightning Field
-        if (m_lightningField == null)
-        {
-            return;
-        }
-        //if health is below threshold turn on ring of lightning
-        if (m_perks.Contains(PerkID.LightningField) && HealthBelowPercentCheck(m_lightningFieldPercentThreshold) && !m_lightningFieldActive)
-        {
-
-
-            m_lightningFieldActive = true;
-
-        }
-
-        if (m_lightningFieldActive && !HealthBelowPercentCheck(m_lightningFieldPercentThreshold))
-        {
-            m_lightningFieldActive = false;
-        }
-
-        m_lightningField.SetActive(m_lightningFieldActive);
-
-    }
 
 
 
