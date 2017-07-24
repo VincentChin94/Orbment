@@ -10,6 +10,9 @@ public class Entity : MonoBehaviour
 
     [Header("Level")]
     public int m_currLevel = 1;
+    public int m_healthPerLevel = 50;
+    public int m_damagePerLevel = 5;
+    public int m_xpPerLevel = 5;
 
     [Header("Health")]
     public int m_healthBarWidth = 100;
@@ -76,7 +79,7 @@ public class Entity : MonoBehaviour
     protected void Start()
     {
         m_agent = this.GetComponent<NavMeshAgent>();
-
+        
         if (m_agent != null)
         {
             m_originalMoveSpeed = m_agent.speed;
@@ -87,9 +90,35 @@ public class Entity : MonoBehaviour
         m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
         m_killStreakManager = GameObject.FindObjectOfType<KillStreakManager>();
 
-        m_oldHealth = m_currHealth;
-
         
+
+        LevelUpdate();
+        m_oldHealth = m_currHealth;
+    }
+    protected void Awake()
+    {
+        LevelUpdate();
+    }
+    protected void OnEnable()
+    {
+        LevelUpdate();
+    }
+
+    void LevelUpdate()
+    {
+        if (m_expManager != null)
+        {
+            //health scaling
+            //m_currLevel = Random.Range(m_expManager.m_playerLevel, m_expManager.m_playerLevel + 2);
+            m_currHealth = m_currLevel * m_healthPerLevel;
+            m_maxHealth = m_currHealth;
+
+            //damage scaling
+            m_currDamage = m_currLevel * m_damagePerLevel;
+
+            //exp scaling
+            m_experienceValue = m_currLevel * m_xpPerLevel;
+        }
     }
 
     // Update is called once per frame
