@@ -4,23 +4,24 @@ using UnityEngine;
 [RequireComponent(typeof(FindObjectsInRadius))]
 public class EnemyAttack : MonoBehaviour
 {
-    public int m_damage = 20;
+    private int m_damage;
     public float m_attackInterval = 1.0f;
     private FindObjectsInRadius m_foir;
     private float m_attackTimer = 0.0f;
-
+    private Enemy m_enemyScript;
     public bool m_CanAttack = true;
 
     // Use this for initialization
     void Start()
     {
-       
+        m_enemyScript = this.GetComponent<Enemy>();
         m_foir = this.GetComponent<FindObjectsInRadius>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (!m_CanAttack) {
             return;
         }
@@ -38,9 +39,9 @@ public class EnemyAttack : MonoBehaviour
                 {
                     Entity player = m_foir.m_target.GetComponent<Entity>();
 
-                    if (player != null)
+                    if (player != null && m_enemyScript != null)
                     {
-                        player.m_currHealth -= m_damage;
+                        player.m_currHealth -= m_enemyScript.m_currDamage;
                        
                     }
                 }

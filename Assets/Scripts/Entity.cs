@@ -8,6 +8,10 @@ public class Entity : MonoBehaviour
 {
     public bool m_godMode = false;
 
+    [Header("Level")]
+    public int m_currLevel = 1;
+
+    [Header("Health")]
     public int m_healthBarWidth = 100;
     public int m_maxHealth = 100;
     public int m_currHealth = 100;
@@ -84,6 +88,8 @@ public class Entity : MonoBehaviour
         m_killStreakManager = GameObject.FindObjectOfType<KillStreakManager>();
 
         m_oldHealth = m_currHealth;
+
+        
     }
 
     // Update is called once per frame

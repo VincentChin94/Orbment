@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour
 {
-    public int m_damagePerProjectile = 10;
+    private int m_damagePerProjectile;
     public float m_attackInterval = 1.0f;
     public bool m_canAttack = true;
 
@@ -13,9 +13,11 @@ public class EnemyShoot : MonoBehaviour
     private BaseWeapon m_weapon;
     private float m_attackTimer = 0.0f;
     private Vector3 m_shootDir;
+    private Enemy m_enemyScript;
     // Use this for initialization
     void Start()
     {
+        m_enemyScript = this.GetComponent<Enemy>();
         m_weapon = this.GetComponent<BaseWeapon>();
         m_foir = this.GetComponent<FindObjectsInRadius>();
     }
@@ -37,11 +39,11 @@ public class EnemyShoot : MonoBehaviour
 
             if (m_attackTimer == 0.0f)
             {
-                if (m_foir.m_target != null)
+                if (m_foir.m_target != null && m_enemyScript != null)
                 {
                     //shoot
                     m_shootDir = m_foir.m_target.position - this.transform.position;
-                    m_weapon.Fire(m_shootDir.normalized, m_damagePerProjectile, false, 1);
+                    m_weapon.Fire(m_shootDir.normalized, m_enemyScript.m_currDamage, false, 1);
                 }
             }
 

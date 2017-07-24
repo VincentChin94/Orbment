@@ -118,6 +118,9 @@ public class Player : Entity
     {
         base.Update();
 
+        m_currLevel = m_expManager.m_playerLevel;
+
+
         m_damage = m_currDamage + Random.Range(-m_damageDeviation, m_damageDeviation);
 
         //mouse hold fire

@@ -4,11 +4,42 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    public enum EnemyType
+    {
+        Hunter,
+        Defender,
+        Protector
+    }
 
+    public EnemyType m_type;
+
+    public int m_healthPerLevel = 50;
+    public int m_damagePerLevel = 5;
+    public int m_xpPerLevel = 5;
     // Use this for initialization
-    new void Start()
+
+    new private void Start()
     {
         base.Start();
+    }
+
+
+    void OnEnable()
+    {
+        
+        if(m_expManager != null)
+        {
+            //health scaling
+            m_currLevel = Random.Range(m_expManager.m_playerLevel, m_expManager.m_playerLevel + 2);
+            m_currHealth = m_currLevel * m_healthPerLevel;
+            m_maxHealth = m_currHealth;
+
+            //damage scaling
+            m_currDamage = m_currLevel * m_damagePerLevel;
+
+            //exp scaling
+            m_experienceValue = m_currLevel * m_xpPerLevel;
+        }
     }
 
     // Update is called once per frame
