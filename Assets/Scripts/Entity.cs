@@ -90,8 +90,6 @@ public class Entity : MonoBehaviour
         m_explosionManager = GameObject.FindObjectOfType<ExplosionManager>();
         m_killStreakManager = GameObject.FindObjectOfType<KillStreakManager>();
 
-        
-
         LevelUpdate();
         m_oldHealth = m_currHealth;
     }
@@ -262,10 +260,8 @@ public class Entity : MonoBehaviour
         if (m_currHealth != m_maxHealth)
         {
             Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
-            GUI.depth = 2;
-            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 60, m_healthBarWidth, 10), m_emptyBarTexture);
-            GUI.depth = 2;
-            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 60, m_healthBarWidth * ((float)m_currHealth / (float)m_maxHealth), 10), m_healthBarTexture);
+            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 40, m_healthBarWidth, 10), m_emptyBarTexture);
+            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 40, m_healthBarWidth * ((float)m_currHealth / (float)m_maxHealth), 10), m_healthBarTexture);
 
         }
 

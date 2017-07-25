@@ -13,21 +13,7 @@ public class Enemy : Entity
 
     public EnemyType m_type;
 
-    new void Start()
-    {
-        base.Start();
-    }
-    new void Awake()
-    {
-        base.Awake();
-    }
 
-
-    // Use this for initialization
-    new private void OnEnable()
-    {
-        base.OnEnable();
-    }
     // Update is called once per frame
     new void Update()
     {
@@ -58,5 +44,14 @@ public class Enemy : Entity
                 m_agent.SetDestination(collision.collider.transform.position - m_bulletScript.m_direction);
             }
         }
+    }
+
+    new private void OnGUI()
+    {
+        base.OnGUI();
+
+        Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
+
+        GUI.Label(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 60, m_healthBarWidth, 50), "Lvl " + m_currLevel);
     }
 }
