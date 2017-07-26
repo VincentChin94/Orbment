@@ -162,14 +162,7 @@ public class Entity : MonoBehaviour
 
             m_damageNumbersManager.CreateDamageNumber(Mathf.Abs(m_oldHealth - m_currHealth).ToString(), this.transform, textColor);
 
-            if (m_camera != null && m_currHealth < m_oldHealth)
-            {
 
-                //shake cam if player hurt
-                m_camera.FlashRed(0.5f);
-                m_camera.Shake(10.0f, 0.1f);
-
-            }
         }
 
         //cant go above max

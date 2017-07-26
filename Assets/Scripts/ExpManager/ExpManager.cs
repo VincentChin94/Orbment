@@ -11,6 +11,7 @@ public class ExpManager : MonoBehaviour
     public float m_playerExperience = 0.0f;
     public float m_playerMaxXP = 100.0f;
     public int m_playerLevel = 1;
+    public float m_percentageAddedXPPerLvl = 0.25f;
 
 	private PerkManager m_PerkManager;
 
@@ -44,7 +45,7 @@ public class ExpManager : MonoBehaviour
     {
         
         m_playerExperience = m_playerExperience - m_playerMaxXP;
-        m_playerMaxXP += 0.25f*m_playerMaxXP;
+        m_playerMaxXP += m_percentageAddedXPPerLvl*m_playerMaxXP;
         m_playerLevel++;
 		//m_PerkManager.genPerkList();
 		m_PerkManager.leveledUp();

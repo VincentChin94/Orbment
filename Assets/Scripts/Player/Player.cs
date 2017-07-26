@@ -96,7 +96,7 @@ public class Player : Entity
 
         m_charCont = this.GetComponent<CharacterController>();
         m_manaPool = this.GetComponent<Mana>();
-
+        m_camera = GameObject.FindObjectOfType<IsoCam>();
 
 
         m_shootPlane = LayerMask.GetMask("ShootPlane");
@@ -116,6 +116,15 @@ public class Player : Entity
 
     protected new void Update()
     {
+        
+        if (m_camera != null && m_currHealth < m_oldHealth)
+        {
+
+            //shake cam if player hurt
+            m_camera.FlashRed(0.5f);
+            m_camera.Shake(10.0f, 0.1f);
+
+        }
         base.Update();
 
         m_currLevel = m_expManager.m_playerLevel;
