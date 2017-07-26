@@ -69,9 +69,11 @@ public class Player : Entity
     private Mana m_manaPool;
 
     //dash
-    private bool m_dashing = false;
+    [HideInInspector]
+    public bool m_dashing = false;
     private float m_dashTimer = 0.0f;
-    private Vector3 m_dashDirection;
+    [HideInInspector]
+    public Vector3 m_dashDirection;
 
  
 
