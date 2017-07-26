@@ -8,6 +8,7 @@ public class FadeAlpha : MonoBehaviour
     public float m_duration = 0.5f;
     private float m_timer = 0.0f;
     public float m_ratio = 0.0f;
+    public float m_initialAlpha = 0.2f;
     private Material m_material;
     // Use this for initialization
     void Start()
@@ -23,7 +24,7 @@ public class FadeAlpha : MonoBehaviour
     {
         if(m_material != null)
         {
-            m_material.SetColor("_Albedo", new Color(1.0f, 1.0f, 1.0f, 1.0f));
+            m_material.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, m_initialAlpha));
         }
     }
 
@@ -34,7 +35,7 @@ public class FadeAlpha : MonoBehaviour
 
         if (m_material != null)
         {
-            m_material.SetColor("_Albedo", new Color(1.0f, 1.0f, 1.0f,  m_ratio - 1.0f));
+            m_material.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, m_initialAlpha - m_ratio ));
         }
         
         m_timer += Time.deltaTime;

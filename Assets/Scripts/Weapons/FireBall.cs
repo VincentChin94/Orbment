@@ -40,8 +40,8 @@ public class FireBall : Bullet
 
         if (m_hasSplashDamagePerk && !collision.collider.CompareTag(m_id))
         {
-            m_explosionManager.RequestExplosion(collision.contacts[0].point, this.transform.forward, Explosion.ExplosionType.Fire, m_damage);
-
+            m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.Fire, m_damage);
+            m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.Shockwave, 0.0f);
         }
 
         if (!collision.collider.CompareTag(m_id))

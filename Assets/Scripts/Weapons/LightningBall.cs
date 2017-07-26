@@ -26,7 +26,8 @@ public class LightningBall : Bullet
             {
                 if (Random.Range(0, 100) <= m_godBoltChance)
                 {
-                    m_explosionManager.RequestExplosion(collision.collider.transform.position, this.transform.forward, Explosion.ExplosionType.GodLightning, m_damage);
+                    m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.GodLightning, m_damage);
+                    m_explosionManager.RequestExplosion(this.transform.position, this.transform.forward, Explosion.ExplosionType.Shockwave, 0.0f);
                 }
 
             }

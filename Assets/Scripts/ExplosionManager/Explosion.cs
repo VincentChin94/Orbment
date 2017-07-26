@@ -15,6 +15,8 @@ public class Explosion : MonoBehaviour
         BulletImpact,
         AfterImage,
         GodLightning,
+        Shockwave,
+
 
     }
 
