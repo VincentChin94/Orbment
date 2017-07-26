@@ -46,7 +46,10 @@ public class Collectable : MonoBehaviour
                     {
                         if(m_playerRef)
                         {
+							//GameObject.Find ("OrbCollected").GetComponent<Animator> ().SetTrigger ("orbCollected");
                             m_playerRef.m_orbsCollected++;
+							
+
                         }
                         
 
