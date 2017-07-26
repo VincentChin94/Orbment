@@ -133,7 +133,7 @@ public class Player : Entity
         m_damage = m_currDamage + Random.Range(-m_damageDeviation, m_damageDeviation);
 
         //mouse hold fire
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && Time.timeScale != 0.0f)
         {
             m_currRegenRate = 0.0f;
             if (m_playerFireTimer >= m_playerFiringInterval)
@@ -172,7 +172,7 @@ public class Player : Entity
         }
 
         //regen mana when mouse up   
-        if (!Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(0) && Time.timeScale != 0.0f)
         {
             RegenMana();
         }
