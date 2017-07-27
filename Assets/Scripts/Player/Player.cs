@@ -137,7 +137,7 @@ public class Player : Entity
         //mouse hold fire
         if (Input.GetMouseButton(0) && Time.timeScale != 0.0f)
         {
-            m_currRegenRate = 0.0f;
+            
             if (m_playerFireTimer >= m_playerFiringInterval)
             {
                 m_playerFireTimer = 0.0f;
@@ -177,6 +177,10 @@ public class Player : Entity
         if ((!Input.GetMouseButton(0) || m_manaPool.m_currentMana <= m_shootManaCost) && Time.timeScale != 0.0f)
         {
             RegenMana();
+        }
+        else
+        {
+            m_currRegenRate = 0.0f;
         }
 
 
