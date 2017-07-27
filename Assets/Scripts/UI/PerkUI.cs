@@ -19,11 +19,14 @@ public class PerkUI : MonoBehaviour {
 	public UnityEventInt m_PerkClicked = new UnityEventInt();
 
 	private Text m_Text;
+
+    public Image m_image;
 	
 	public void setPerkIndex(int a_Index) {
 
-		//perk -> panel -> text -> text class
-		m_Text = transform.GetChild(0).GetChild(1).GetComponent<Text>();
+        //perk -> panel -> text -> text class
+        m_Text = transform.GetChild(0).GetChild(1).GetComponent<Text>();
+        
 		m_PerkIndex = a_Index;
 		getButton().onClick.AddListener(buttonClickedPressed);
 	} 
@@ -42,6 +45,10 @@ public class PerkUI : MonoBehaviour {
 		}
         //todo set text/image
         m_Text.text = a_Perk.m_name;
+        if(m_image != null)
+        {
+            m_image.sprite = a_Perk.m_PerkImage;
+        }
 		//print("perk "+a_Perk.m_name+": setting the image of perk " + m_PerkIndex + " is not implemented");
 	}
     void OnGUI()
