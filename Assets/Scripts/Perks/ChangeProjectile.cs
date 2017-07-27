@@ -6,6 +6,7 @@ public class ChangeProjectile: Perk
 {
     public GameObject m_projectile;
     public float m_firingInterval = 0.1f;
+    public float m_shootManaCost = 10.0f;
     private Player m_player;
     private BaseWeapon m_playerWeapon;
     // Use this for initialization
@@ -26,6 +27,7 @@ public class ChangeProjectile: Perk
         {
             m_player.m_currentProjectile = m_projectile;
             m_player.m_playerFiringInterval = m_firingInterval;
+            m_player.m_shootManaCost = m_shootManaCost;
             m_playerWeapon.SetProjectile(m_projectile);
         }
     }
