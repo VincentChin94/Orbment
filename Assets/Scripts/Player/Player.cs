@@ -174,7 +174,7 @@ public class Player : Entity
         }
 
         //regen mana when mouse up   
-        if (!Input.GetMouseButton(0) && Time.timeScale != 0.0f)
+        if ((!Input.GetMouseButton(0) || m_manaPool.m_currentMana <= m_shootManaCost) && Time.timeScale != 0.0f)
         {
             RegenMana();
         }
