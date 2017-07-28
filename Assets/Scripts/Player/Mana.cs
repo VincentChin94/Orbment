@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Mana : MonoBehaviour
 {
+	public GameObject manaBar;
     public Texture2D m_manaBarTexture;
     public Texture2D m_emptyBarTexture;
     public int m_manaBarWidth = 500;
@@ -18,13 +19,13 @@ public class Mana : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+		manaBar.GetComponent<Slider> ().value = m_currentMana;
+		manaBar.GetComponent<Slider> ().maxValue = m_maxMana;
     }
 
     private void OnGUI()
     {
-        GUI.DrawTexture(new Rect((Screen.width - m_manaBarWidth) / 2, Screen.height-60, m_manaBarWidth, 10), m_emptyBarTexture);
-        GUI.DrawTexture(new Rect((Screen.width - m_manaBarWidth) / 2, Screen.height-60, m_manaBarWidth * (m_currentMana / m_maxMana), 10), m_manaBarTexture);
+        
     }
 
 
