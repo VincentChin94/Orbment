@@ -75,7 +75,7 @@ public class PerkManager : MonoBehaviour
             {
                 m_levelUpUI.showUI();
                 m_UpgradeAvailableText.SetActive(false);
-                Time.timeScale = 0.0f;
+                Time.timeScale = 0.5f;
             }
             else
             {
