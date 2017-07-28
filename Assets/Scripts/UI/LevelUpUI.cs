@@ -8,84 +8,133 @@ using UnityEngine.UI;
 /// <summary>
 /// this script handles the 3 perks appearing and deals with the user interaction with those perks
 /// </summary>
-public class LevelUpUI : MonoBehaviour {
+public class LevelUpUI : MonoBehaviour
+{
 
-	private const int NUM_OF_PERKS = 3;
-	[Tooltip("Invoked when on of the ui elements were pressed")]
-	public UnityEvent[] m_PerkClicked = new UnityEvent[NUM_OF_PERKS];
-	private PerkUI[] m_PerkUIElements = new PerkUI[NUM_OF_PERKS];
+    private const int NUM_OF_PERKS = 3;
+    [Tooltip("Invoked when on of the ui elements were pressed")]
+    public UnityEvent[] m_PerkClicked = new UnityEvent[NUM_OF_PERKS];
 
-	private PerkManager m_PerkManager;
+    public GameObject[] m_classSelectObjects;
+    private PerkUI[] m_classSelect = new PerkUI[NUM_OF_PERKS];
+    private PerkUI[] m_PerkUIElements = new PerkUI[NUM_OF_PERKS];
 
-	public static LevelUpUI m_Singleton;
+    private PerkManager m_PerkManager;
 
-	// Use this for initialization
-	void Awake() {
-		if(m_Singleton != null) {
-			Debug.LogWarning("There are two separate level up UI's");
-		}
-		m_Singleton = this;
+    public static LevelUpUI m_Singleton;
 
-		m_PerkManager = FindObjectOfType<PerkManager>();
+    // Use this for initialization
+    void Awake()
+    {
+        if (m_Singleton != null)
+        {
+            Debug.LogWarning("There are two separate level up UI's");
+        }
+        m_Singleton = this;
 
-		getPerkUI();
-		addPerkListerners();
-		//hideUI();
-	}
+        m_PerkManager = FindObjectOfType<PerkManager>();
 
-	/// <summary>
-	/// gets buttons from children
-	/// </summary>
-	private void getPerkUI() {
-		Transform buttonParent = transform.GetChild(0);//PerkButtons
-		for (int i = 0; i < NUM_OF_PERKS; i++) {
-			m_PerkUIElements[i] = buttonParent.GetChild(i).GetChild(0).GetComponent<PerkUI>();
-			if (m_PerkUIElements[i] != null) {
-				m_PerkUIElements[i].setPerkIndex(i);
-			}
-		}
-	}
+        getPerkUI();
+        addPerkListerners();
+        //hideUI();
+        setPerkSelectUI(false);
+    }
 
-	/// <summary>
-	/// adds listerners to buttons
-	/// </summary>
-	private void addPerkListerners() {
-		for (int i = 0; i < NUM_OF_PERKS; i++) {
-			if (m_PerkUIElements[i] != null) {
-				m_PerkUIElements[i].m_PerkClicked.AddListener(perkButtonClicked);
-			}
-		}
-	}
+    /// <summary>
+    /// gets buttons from children
+    /// </summary>
+    private void getPerkUI()
+    {
+        Transform buttonParent = transform.GetChild(0);//PerkButtons
+        for (int i = 0; i < NUM_OF_PERKS; i++)
+        {
+            m_PerkUIElements[i] = buttonParent.GetChild(i).GetChild(0).GetComponent<PerkUI>();
+            if (m_PerkUIElements[i] != null)
+            {
+                m_PerkUIElements[i].setPerkIndex(i);
+            }
+        }
+        Transform classParent = transform.GetChild(1);
+        for (int i = 0; i < NUM_OF_PERKS; i++)
+        {
+            m_classSelect[i] = classParent.GetChild(i).GetChild(0).GetComponent<PerkUI>();
+            if (m_classSelect[i] != null)
+            {
+                m_classSelect[i].setPerkIndex(i);
+            }
+        }
+    }
 
-	private void perkButtonClicked(int a_ButtonIndex) {
-		if(a_ButtonIndex == -1 || a_ButtonIndex >= NUM_OF_PERKS) {
-			Debug.LogWarning("Perk is saying it's larger then num of perks");
-			return;
-		}
-		//PERK CLICKED IS PRETTY USELESS
-		m_PerkClicked[a_ButtonIndex].Invoke();
+    /// <summary>
+    /// adds listerners to buttons
+    /// </summary>
+    private void addPerkListerners()
+    {
+        for (int i = 0; i < NUM_OF_PERKS; i++)
+        {
+            if (m_PerkUIElements[i] != null)
+            {
+                m_PerkUIElements[i].m_PerkClicked.AddListener(perkButtonClicked);
+            }
+        }
+        for (int i = 0; i < NUM_OF_PERKS; i++)
+        {
+            if (m_classSelect[i] != null)
+            {
+                m_classSelect[i].m_PerkClicked.AddListener(perkButtonClicked);
+            }
+        }
+    }
 
-		m_PerkManager.perkSelected(a_ButtonIndex);
+    private void perkButtonClicked(int a_ButtonIndex)
+    {
+        if (a_ButtonIndex == -1 || a_ButtonIndex >= NUM_OF_PERKS)
+        {
+            Debug.LogWarning("Perk is saying it's larger then num of perks");
+            return;
+        }
+        //PERK CLICKED IS PRETTY USELESS
+        m_PerkClicked[a_ButtonIndex].Invoke();
 
-		//hideUI();
-	}
+        m_PerkManager.perkSelected(a_ButtonIndex);
 
-	public void showUI() {
-		setUIActive(true);
-		//update perk list? (this is done by PerkManager (call that to update perks))
-	}
+        //hideUI();
+    }
 
-	public void hideUI() {
-		setUIActive(false);
-	}
+    public void showUI()
+    {
+        setUIActive(true);
+        //update perk list? (this is done by PerkManager (call that to update perks))
+    }
 
-	private void setUIActive(bool a_State) {
-		gameObject.SetActive(a_State);
-	}
+    public void setClassSelectUI(bool a_value)
+    {
+        foreach (GameObject go in m_classSelectObjects)
+        {
+            go.SetActive(a_value);
+        }
+    }
 
-	public void setPerkInfo(Perk a_Perk,int a_Index) {
-		m_PerkUIElements[a_Index].updatePerkUI(a_Perk);
-	}
+    public void setPerkSelectUI(bool a_value)
+    {
+        transform.GetChild(0).gameObject.SetActive(a_value);
+    }
+
+
+    public void hideUI()
+    {
+        setUIActive(false);
+    }
+
+    private void setUIActive(bool a_State)
+    {
+        gameObject.SetActive(a_State);
+    }
+
+    public void setPerkInfo(Perk a_Perk, int a_Index)
+    {
+        m_PerkUIElements[a_Index].updatePerkUI(a_Perk);
+    }
 
     void OnGUI()
     {
