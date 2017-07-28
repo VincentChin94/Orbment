@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class ExpManager : MonoBehaviour
 {
-
+	public GameObject XPSlider;
     public Texture2D m_expBarTexture;
     public Texture2D m_emptyBarTexture;
     public int m_expBarWidth = 500;
@@ -26,6 +26,8 @@ public class ExpManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		XPSlider.GetComponent<Slider> ().maxValue = m_playerMaxXP;
+		XPSlider.GetComponent<Slider> ().value = m_playerExperience;
         if(m_playerExperience >= m_playerMaxXP)
         {
             LevelUp();
@@ -36,8 +38,8 @@ public class ExpManager : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.DrawTexture(new Rect((Screen.width - m_expBarWidth)/2, 0, m_expBarWidth, 10), m_emptyBarTexture);
-        GUI.DrawTexture(new Rect((Screen.width - m_expBarWidth)/2, 0, m_expBarWidth * (m_playerExperience/m_playerMaxXP), 10), m_expBarTexture);
+        //GUI.DrawTexture(new Rect((Screen.width - m_expBarWidth)/2, 200, m_expBarWidth, 25), m_emptyBarTexture);
+        //GUI.DrawTexture(new Rect((Screen.width - m_expBarWidth)/2 + 200, 0, m_expBarWidth * (m_playerExperience/m_playerMaxXP), 25), m_expBarTexture);
     }
 
 
