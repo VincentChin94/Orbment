@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PerkManager : MonoBehaviour
 {
@@ -41,6 +42,10 @@ public class PerkManager : MonoBehaviour
     private int m_AmtPerkUpgrades = -1;
     private bool m_ShowingUI = false;
 
+    //public Button m_fireSelect;
+    //public Button m_iceSelect;
+    //public Button m_lightningSelect;
+
     void Awake()
     {
         m_levelUpUI = FindObjectOfType<LevelUpUI>();
@@ -53,11 +58,14 @@ public class PerkManager : MonoBehaviour
             m_playerMana = m_player.gameObject.GetComponent<Mana>();
         }
 
-        showPerk(m_StartingPerks[0], 0);
-        showPerk(m_StartingPerks[1], 1);
-        showPerk(m_StartingPerks[2], 2);
-        m_levelUpUI.showUI();
-        m_ShowingUI = true;
+
+        m_levelUpUI.setClassSelectUI(true);
+        //showPerk(m_StartingPerks[0], 0);
+        //showPerk(m_StartingPerks[1], 1);
+        //showPerk(m_StartingPerks[2], 2);
+        //m_levelUpUI.showUI();
+        //m_ShowingUI = true;
+
         m_UpgradeAvailableText.SetActive(false);
     }
 
@@ -179,6 +187,11 @@ public class PerkManager : MonoBehaviour
         {
             m_PerkTypeSelection = m_StartingPerks[a_PerkIndex].m_type;
             m_SelectingStartingPerks = false;
+            m_levelUpUI.setClassSelectUI(false);
+            m_levelUpUI.setPerkSelectUI(true);
+            m_StartingPerks[a_PerkIndex].Activate();
+            m_levelUpUI.hideUI();
+            return;
         }
 
         m_ShownPerks[a_PerkIndex].Activate();
