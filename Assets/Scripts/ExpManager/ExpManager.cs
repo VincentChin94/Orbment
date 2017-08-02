@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ExpManager : MonoBehaviour
 {
+	public GameObject perkUpgradeUI;
 	public GameObject XPSlider;
     public Texture2D m_expBarTexture;
     public Texture2D m_emptyBarTexture;
@@ -45,6 +46,7 @@ public class ExpManager : MonoBehaviour
 
     void LevelUp()
     {
+		perkUpgradeUI.SetActive (true);
         
         m_playerExperience = m_playerExperience - m_playerMaxXP;
         m_playerMaxXP += m_percentageAddedXPPerLvl*m_playerMaxXP;

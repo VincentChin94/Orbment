@@ -12,6 +12,8 @@ public class Player : Entity
 	//Johns Variables
 
 	public AudioClip fire_shot;
+	public AudioClip ice_shot;
+	public AudioClip lightning_shot;
 	public AudioSource shootingAudioSource;
 
 	//End of Johns Variables
@@ -171,16 +173,16 @@ public class Player : Entity
 						//Shooting Audio
 
 						if (m_currentProjectile.name == "FireBall") {
-
+							shootingAudioSource.pitch = 1 + Random.Range(0f, 0.5f);
 							shootingAudioSource.PlayOneShot (fire_shot, 0.7f);
 						}
 						if (m_currentProjectile.name == "IceShard") {
-
-							shootingAudioSource.PlayOneShot (fire_shot, 0.7f);
+							shootingAudioSource.pitch = 1 + Random.Range(0f, 0.5f);
+							shootingAudioSource.PlayOneShot (ice_shot, 0.7f);
 						}
 						if (m_currentProjectile.name == "LightningBall") {
-
-							shootingAudioSource.PlayOneShot (fire_shot, 0.7f);
+							shootingAudioSource.pitch = 1 + Random.Range(-0.1f, 0.6f);
+							shootingAudioSource.PlayOneShot (lightning_shot, 0.7f);
 						}
 
 						//End of Johns Code
