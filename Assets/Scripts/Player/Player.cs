@@ -9,6 +9,12 @@ using UnityEngine;
 [RequireComponent(typeof(Mana))]
 public class Player : Entity
 {
+	//Johns Variables
+
+	public AudioClip fire_shot;
+	public AudioSource shootingAudioSource;
+
+	//End of Johns Variables
 
 
     [Header("Damage Deviation Range")]
@@ -160,6 +166,24 @@ public class Player : Entity
                         //fire
                         m_currWeapon.Fire(this.transform.forward, m_damage * m_currDamageMult, m_hasCrit, m_critDmgMult);
 
+						//Johns Code [Sorry]
+
+						//Shooting Audio
+
+						if (m_currentProjectile.name == "FireBall") {
+
+							shootingAudioSource.PlayOneShot (fire_shot, 0.7f);
+						}
+						if (m_currentProjectile.name == "IceShard") {
+
+							shootingAudioSource.PlayOneShot (fire_shot, 0.7f);
+						}
+						if (m_currentProjectile.name == "LightningBall") {
+
+							shootingAudioSource.PlayOneShot (fire_shot, 0.7f);
+						}
+
+						//End of Johns Code
                         if (m_camera != null)
                         {
                             m_camera.Shake(5.0f, m_playerFiringInterval);
