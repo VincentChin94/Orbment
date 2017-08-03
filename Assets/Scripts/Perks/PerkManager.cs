@@ -83,15 +83,15 @@ public class PerkManager : MonoBehaviour
             {
                 m_levelUpUI.showUI();
                 m_UpgradeAvailableText.SetActive(false);
-                Time.timeScale = 0.2f;
-                Time.fixedDeltaTime = 0.02f * Time.timeScale;
+                //Time.timeScale = 0.2f;
+              //  Time.fixedDeltaTime = 0.02f * Time.timeScale;
             }
             else
             {
                 m_levelUpUI.hideUI();
                 m_UpgradeAvailableText.SetActive(true);
-                Time.timeScale = 1.0f;
-                Time.fixedDeltaTime = 0.02f;
+              //  Time.timeScale = 1.0f;
+              //  Time.fixedDeltaTime = 0.02f;
             }
 
         }

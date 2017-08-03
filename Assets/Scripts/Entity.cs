@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Entity : MonoBehaviour
 {
+	GameManager gameManager;
     public bool m_godMode = false;
 
     [Header("Level")]
@@ -78,6 +79,7 @@ public class Entity : MonoBehaviour
     // Use this for initialization
     protected void Start()
     {
+		gameManager = GameObject.Find ("GameManager").GetComponent<GameManager> ();
         m_agent = this.GetComponent<NavMeshAgent>();
         
         if (m_agent != null)
@@ -122,6 +124,9 @@ public class Entity : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
+		gameManager.healthCurrent = m_currHealth;
+		gameManager.healthMax = m_maxHealth;
+		
         HealthUpdate();
 
         ////Check for RamboMode
@@ -252,9 +257,9 @@ public class Entity : MonoBehaviour
         
         if (m_currHealth != m_maxHealth)
         {
-            Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
-            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 40, m_healthBarWidth, 10), m_emptyBarTexture);
-            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 40, m_healthBarWidth * ((float)m_currHealth / (float)m_maxHealth), 10), m_healthBarTexture);
+//            Vector2 screenPoint = Camera.main.WorldToScreenPoint(this.transform.position);
+//            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 40, m_healthBarWidth, 10), m_emptyBarTexture);
+//            GUI.DrawTexture(new Rect(screenPoint.x - 0.5f * m_healthBarWidth, Screen.height - screenPoint.y - 40, m_healthBarWidth * ((float)m_currHealth / (float)m_maxHealth), 10), m_healthBarTexture);
 
         }
 

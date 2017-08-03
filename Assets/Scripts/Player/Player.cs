@@ -216,6 +216,7 @@ public class Player : Entity
         {
             if (m_dashTrail != null)
             {
+				GameObject.Find ("AudioManager").GetComponent<AudioManager> ().DashSound ();
                 m_dashTrail.enabled = true;
 
             }
