@@ -124,8 +124,7 @@ public class Entity : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
-		gameManager.healthCurrent = m_currHealth;
-		gameManager.healthMax = m_maxHealth;
+		
 		
         HealthUpdate();
 

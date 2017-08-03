@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -126,7 +126,8 @@ public class Player : Entity
 
     protected new void Update()
     {
-        
+		GameObject.Find ("GameManager").GetComponent<GameManager> ().healthBar.GetComponent<Slider> ().maxValue = m_maxHealth;
+		GameObject.Find ("GameManager").GetComponent<GameManager> ().healthBar.GetComponent<Slider> ().value = m_currHealth;
         if (m_camera != null && m_currHealth < m_oldHealth)
         {
 
