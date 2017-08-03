@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
+	AudioManager audioManager;
     Player m_playerRef;
     Mana m_playerMana;
     public enum CollectableType
@@ -22,6 +23,7 @@ public class Collectable : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		audioManager = GameObject.Find ("AudioManager").GetComponent<AudioManager>();
         m_playerRef = GameObject.FindObjectOfType<Player>();
         if(m_playerRef != null)
         {
@@ -48,7 +50,7 @@ public class Collectable : MonoBehaviour
                         {
 							//GameObject.Find ("OrbCollected").GetComponent<Animator> ().SetTrigger ("orbCollected");
                             m_playerRef.m_orbsCollected++;
-							
+							audioManager.OrbPickUp ();
 
                         }
                         
@@ -61,6 +63,8 @@ public class Collectable : MonoBehaviour
                         if (m_playerRef)
                         {
                             m_playerRef.m_currHealth += m_healAmount;
+							audioManager.OrbPickUp ();
+
                         }
                         break;
                     }
@@ -68,7 +72,9 @@ public class Collectable : MonoBehaviour
                 case CollectableType.BlueOrb:
                     {
                         m_playerMana.m_currentMana += m_manaAmount;
+					audioManager.OrbPickUp ();
                         break;
+
                     }
 
                 default:
