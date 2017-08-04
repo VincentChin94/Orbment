@@ -126,6 +126,10 @@ public class Player : Entity
 
     protected new void Update()
     {
+		if (m_currHealth <= 1) {
+			
+			GameObject.Find ("GameManager").GetComponent<GameManager> ().paused = true;
+		}
 		GameObject.Find ("GameManager").GetComponent<GameManager> ().healthBar.GetComponent<Slider> ().maxValue = m_maxHealth;
 		GameObject.Find ("GameManager").GetComponent<GameManager> ().healthBar.GetComponent<Slider> ().value = m_currHealth;
         if (m_camera != null && m_currHealth < m_oldHealth)

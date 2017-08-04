@@ -32,7 +32,7 @@ public class ExpManager : MonoBehaviour
 		Xpfiller.GetComponent<Slider> ().value = m_playerExperience;
 		Xpfiller.GetComponent<Slider> ().maxValue = m_playerMaxXP;
 		if (XPSlider.GetComponent<Slider> ().value < m_playerExperience) {
-			XPSlider.GetComponent<Slider> ().value += 3 * Time.deltaTime;
+			XPSlider.GetComponent<Slider> ().value += 2.5f * Time.deltaTime;
 		}
 
         if(m_playerExperience >= m_playerMaxXP)

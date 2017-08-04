@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	public bool gameStart = false;
-	bool paused = false;
+	public bool paused = false;
 
 	public GameObject healthBar;
 	public GameObject pauseMenu;
