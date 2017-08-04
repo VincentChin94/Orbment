@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ExpManager : MonoBehaviour
 {
+	public GameObject Xpfiller;
 	public GameObject perkUpgradeUI;
 	public GameObject XPSlider;
     public Texture2D m_expBarTexture;
@@ -28,7 +29,12 @@ public class ExpManager : MonoBehaviour
     void Update()
     {
 		XPSlider.GetComponent<Slider> ().maxValue = m_playerMaxXP;
-		XPSlider.GetComponent<Slider> ().value = m_playerExperience;
+		Xpfiller.GetComponent<Slider> ().value = m_playerExperience;
+		Xpfiller.GetComponent<Slider> ().maxValue = m_playerMaxXP;
+		if (XPSlider.GetComponent<Slider> ().value < m_playerExperience) {
+			XPSlider.GetComponent<Slider> ().value += 3 * Time.deltaTime;
+		}
+
         if(m_playerExperience >= m_playerMaxXP)
         {
             LevelUp();
