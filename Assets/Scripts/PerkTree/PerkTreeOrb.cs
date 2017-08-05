@@ -25,11 +25,24 @@ public class PerkTreeOrb : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+
+	//Lines for Perks to make editing them a tad easier
+	void OnDrawGizmos(){
+		if (branchLength [1].gameObject != this.gameObject) {
+			Gizmos.color = Color.red;
+			Gizmos.DrawLine (transform.position, branchLength [1].transform.position);
+			//Finding all Orbs, Change this later to individual Orb Types. 
+			perkOrbs = GameObject.FindGameObjectsWithTag ("perkOrb");
+		} else {
+			Gizmos.color = Color.red;
+			Gizmos.DrawLine (transform.position, branchLength [2].transform.position);
+			//Finding all Orbs, Change this later to individual Orb Types. 
+			perkOrbs = GameObject.FindGameObjectsWithTag ("perkOrb");
+		}
+	}
 	void Update () 
 	{
 		
-		//Finding all Orbs, Change this later to individual Orb Types. 
-		perkOrbs = GameObject.FindGameObjectsWithTag ("perkOrb");
 
 		//If an orb has been clicked on, create a link down the branch. 
 		if (perkActivated) 
@@ -62,13 +75,15 @@ public class PerkTreeOrb : MonoBehaviour {
 	{
 		//buying perk
 		if (boughtPerk == false) {
-			if (branchLength [1].GetComponent <PerkTreeOrb> ().boughtPerk == true) {
-				perkTreeSystem.GetComponent <PerkTreeManager> ().perkToActivate = this.gameObject;
-				GameObject.Find ("CanvasUIOver").transform.GetChild (0).gameObject.SetActive (true);
-			} else {
-				if (branchLength [1].gameObject == this.gameObject) {
+			if (GameObject.Find ("PerkTreeSystem").GetComponent<PerkTreeManager> ().perkPoints >= 1) {
+				if (branchLength [1].GetComponent <PerkTreeOrb> ().boughtPerk == true) {
 					perkTreeSystem.GetComponent <PerkTreeManager> ().perkToActivate = this.gameObject;
 					GameObject.Find ("CanvasUIOver").transform.GetChild (0).gameObject.SetActive (true);
+				} else {
+					if (branchLength [1].gameObject == this.gameObject) {
+						perkTreeSystem.GetComponent <PerkTreeManager> ().perkToActivate = this.gameObject;
+						GameObject.Find ("CanvasUIOver").transform.GetChild (0).gameObject.SetActive (true);
+					}
 				}
 			}
 
