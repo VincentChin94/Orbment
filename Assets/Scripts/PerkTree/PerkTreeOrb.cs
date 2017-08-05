@@ -61,8 +61,15 @@ public class PerkTreeOrb : MonoBehaviour {
 	{
 		//buying perk
 		if (boughtPerk == false) {
-			perkTreeSystem.GetComponent <PerkTreeManager> ().perkToActivate = this.gameObject;
-			GameObject.Find ("CanvasUIOver").transform.GetChild (0).gameObject.SetActive (true);
+			if (branchLength [1].GetComponent <PerkTreeOrb> ().boughtPerk == true) {
+				perkTreeSystem.GetComponent <PerkTreeManager> ().perkToActivate = this.gameObject;
+				GameObject.Find ("CanvasUIOver").transform.GetChild (0).gameObject.SetActive (true);
+			} else {
+				if (branchLength [1].gameObject == this.gameObject) {
+					perkTreeSystem.GetComponent <PerkTreeManager> ().perkToActivate = this.gameObject;
+					GameObject.Find ("CanvasUIOver").transform.GetChild (0).gameObject.SetActive (true);
+				}
+			}
 
 		} else {
 			unClickOrbs ();
