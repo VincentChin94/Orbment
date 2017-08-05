@@ -9,14 +9,19 @@ public class PerkTreeOrb : MonoBehaviour {
 	private GameObject[] perkOrbs;
 	public GameObject perkChild;
 
-	int positionAmount;
-	bool perkActivated = false;
+	private int positionAmount;
+	public bool perkActivated = false;
 
-	LineRenderer lineRend;
+
+	private LineRenderer lineRend;
+	private GameObject perkTreeSystem;
+
+	public bool boughtPerk = false;
 
 	void Start () 
 	{
 		lineRend = GetComponent<LineRenderer> ();
+		perkTreeSystem = GameObject.Find ("PerkTreeSystem");
 	}
 	
 	// Update is called once per frame
@@ -54,13 +59,22 @@ public class PerkTreeOrb : MonoBehaviour {
 	//Enables new branch
 	void OnMouseDown()
 	{
+		//buying perk
+		if (boughtPerk == false) {
+			perkTreeSystem.GetComponent <PerkTreeManager> ().perkToActivate = this.gameObject;
+			GameObject.Find ("CanvasUIOver").transform.GetChild (0).gameObject.SetActive (true);
+
+		} else {
+			unClickOrbs ();
+			perkActivated = true;		
+		}
 		//Disables all orbs before enabling the next requested branch
-		unClickOrbs ();
-		perkActivated = true;
+
+		//perkActivated = true;
 	}
 
 	//Disables All Perk Tree's 
-	void unClickOrbs()
+	public void unClickOrbs()
 	{
 		foreach (GameObject orb in perkOrbs) 
 		{
