@@ -38,6 +38,7 @@ public class PerkTreeOrb : MonoBehaviour {
 			foreach (GameObject perkchildren in branchLength) 
 			{
 				perkchildren.transform.GetChild(0).gameObject.SetActive(true);
+				perkchildren.transform.GetChild(1).gameObject.SetActive(true);
 			}
 			lineRend.enabled = true;
 			lineRend.numPositions = branchLength.Length;

@@ -20,6 +20,7 @@ public class PerkTreeManager : MonoBehaviour {
 		perkToActivate.GetComponent<PerkTreeOrb>().unClickOrbs ();
 		perkToActivate.GetComponent<PerkTreeOrb>().perkActivated = true;
 		perkToActivate.GetComponent <PerkTreeOrb> ().boughtPerk = true;
+		perkPoints -= 1;
 	
 	}
 }
