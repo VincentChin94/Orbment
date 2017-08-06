@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PerkTreeOrb : MonoBehaviour {
 	private Vector3[] linePosition;
 
@@ -37,13 +37,13 @@ public class PerkTreeOrb : MonoBehaviour {
 			Gizmos.color = Color.red;
 			Gizmos.DrawLine (transform.position, branchLength [2].transform.position);
 			//Finding all Orbs, Change this later to individual Orb Types. 
-			perkOrbs = GameObject.FindGameObjectsWithTag ("perkOrb");
+		
 		}
 	}
 	void Update () 
 	{
 		
-
+		perkOrbs = GameObject.FindGameObjectsWithTag ("perkOrb");
 		//If an orb has been clicked on, create a link down the branch. 
 		if (perkActivated) 
 		{
@@ -94,6 +94,10 @@ public class PerkTreeOrb : MonoBehaviour {
 		//Disables all orbs before enabling the next requested branch
 
 		//perkActivated = true;
+	}
+	//Shows Discription for this perk
+	void OnMouseOver(){
+		GameObject.Find ("CanvasUIOver").transform.GetChild (1).GetComponentInChildren<Text>().GetComponent<Text>().text = transform.GetChild (0).GetComponent<Text>().text;
 	}
 
 	//Disables All Perk Tree's 
