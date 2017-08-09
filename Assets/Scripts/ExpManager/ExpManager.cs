@@ -11,7 +11,7 @@ public class ExpManager : MonoBehaviour
     public Texture2D m_emptyBarTexture;
     public int m_expBarWidth = 500;
     public float m_playerExperience = 0.0f;
-    public float m_playerMaxXP = 100.0f;
+    public float m_playerMaxXP = 50.0f;
     public int m_playerLevel = 1;
     public float m_percentageAddedXPPerLvl = 0.25f;
 
